@@ -1,4 +1,4 @@
-# Duke
+# CuddleCare
 
 {Give product intro here}
 
