@@ -37,7 +37,7 @@ public class CuddleCare {
      * Starts the application by initializing commands,
      * greeting the user, and entering the main loop.
      */
-    private void run() {
+    void run() {
         initialiseCommands();
         greet();
         startApplicationLoop();
@@ -46,7 +46,7 @@ public class CuddleCare {
     /**
      * Prints a greeting message to the user.
      */
-    private void greet() {
+    void greet() {
         System.out.println("Hello! Welcome to CuddleCare.");
     }
 
@@ -55,7 +55,7 @@ public class CuddleCare {
      * Continuously reads user input, parses it into commands,
      * and executes them until the application is terminated.
      */
-    private void startApplicationLoop() {
+    void startApplicationLoop() {
         Scanner sc = new Scanner(System.in);
         printInputPrompt();
         while (sc.hasNextLine()) {
@@ -73,18 +73,22 @@ public class CuddleCare {
     /**
      * Prints the input prompt to the user.
      */
-    private void printInputPrompt() {
+    void printInputPrompt() {
         System.out.print(PROMPT_SYMBOL);
     }
 
     /**
      * Initializes the available commands and registers them with the parser.
      */
-    private void initialiseCommands() {
+    void initialiseCommands() {
         commands = Map.ofEntries(
             Map.entry("bye", new ByeCommand())
         );
         parser.setCommands(commands);
+    }
+
+    Map<String, Command> getCommandsForTesting() {
+        return commands;
     }
 
     /**
