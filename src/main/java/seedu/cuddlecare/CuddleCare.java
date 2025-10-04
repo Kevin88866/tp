@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class CuddleCare {
 
     /** Symbol used to prompt user input. */
-    private final String PROMPT_SYMBOL = "> ";
+    private static final String PROMPT_SYMBOL = "> ";
 
     /** Parser used to convert user input into commands. */
     private final Parser parser;
