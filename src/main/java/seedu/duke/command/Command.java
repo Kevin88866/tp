@@ -1,4 +1,4 @@
-package seedu.duke.commands;
+package seedu.duke.command;
 
 /**
  * Represents a command that can be executed with optional arguments.
@@ -6,7 +6,7 @@ package seedu.duke.commands;
  * All commands in the application implements this interface
  * to define their execution behavior.
  */
-public interface Commands {
+public interface Command {
 
     /**
      * Executes the command with the given arguments.
