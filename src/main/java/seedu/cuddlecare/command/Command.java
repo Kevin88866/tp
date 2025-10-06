@@ -1,4 +1,4 @@
-package seedu.duke.command;
+package seedu.cuddlecare.command;
 
 /**
  * Represents a command that can be executed with optional arguments.
