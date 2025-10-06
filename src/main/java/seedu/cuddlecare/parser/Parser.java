@@ -50,7 +50,7 @@ public class Parser {
             }
         }
 
-        System.out.println("Invalid command: " + input);
+        System.out.println("Invalid Command: " + input);
         return null;
     }
 }
