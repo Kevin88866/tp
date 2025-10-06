@@ -46,4 +46,18 @@ public class PetList {
         }
         return false;
     }
+
+    /**
+     * Retrieves a pet by its index in the list.
+     *
+     * @param index the index number of pet
+     * @return pet if found, null if index is invalid
+     */
+    public Pet getPetByIndex(int index) {
+        if (index < 0 || index >= pets.size()) {
+            return null;
+        }
+        return pets.get(index);
+    }
+
 }
