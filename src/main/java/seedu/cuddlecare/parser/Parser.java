@@ -43,17 +43,14 @@ public class Parser {
             return null;
         }
 
-        String[] commandParts = input.split(" ", 2);
-        String commandName = commandParts[0];
-        String commandArguments = commandParts.length > 1 ? commandParts[1] : "";
-
-        Command command = commands.get(commandName.toLowerCase());
-
-        if (command == null) {
-            System.out.println("Invalid Command: " + commandName);
-            return null;
+        for (String cmd : commands.keySet()) {
+            if (input.toLowerCase().startsWith(cmd.toLowerCase())) {
+                String args = input.substring(cmd.length()).trim();
+                return new CommandWithArguments(commands.get(cmd), args);
+            }
         }
 
-        return new CommandWithArguments(command, commandArguments);
+        System.out.println("Invalid command: " + input);
+        return null;
     }
 }
