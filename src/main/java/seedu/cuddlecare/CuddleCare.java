@@ -5,7 +5,6 @@ import seedu.cuddlecare.command.impl.AddPetCommand;
 import seedu.cuddlecare.command.impl.ByeCommand;
 import seedu.cuddlecare.parser.Parser;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -27,7 +26,8 @@ public class CuddleCare {
     /** Map of available commands keyed by their string representation. */
     private Map<String, Command> commands;
 
-    private ArrayList<Pet> pets = new ArrayList<>();
+    /** List of all pets. */
+    private final PetList pets = new PetList();
 
     /**
      * Constructs a new CuddleCare application.
