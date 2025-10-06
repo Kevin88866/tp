@@ -1,8 +1,7 @@
 package seedu.cuddlecare.command.impl;
 
-import java.util.ArrayList;
-
 import seedu.cuddlecare.Pet;
+import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
 
 /**
@@ -14,7 +13,7 @@ import seedu.cuddlecare.command.Command;
 public class AddPetCommand implements Command {
     
     /** A list of all pets. */
-    private final ArrayList<Pet> pets;
+    private final PetList pets;
     
     /**
      * Initializes the AddPetCommand with the
@@ -22,7 +21,7 @@ public class AddPetCommand implements Command {
      * 
      * @param pets the list of all pets
      */
-    public AddPetCommand(ArrayList<Pet> pets) {
+    public AddPetCommand(PetList pets) {
         this.pets = pets;
     }
 
@@ -58,15 +57,11 @@ public class AddPetCommand implements Command {
                 return;
             }
 
-            for (Pet pet : pets) {
-                if (pet.getName().equalsIgnoreCase(name)) {
-                    System.out.println("A pet with that name already exists.");
-                    return;
-                }
-            }
-
             Pet newPet = new Pet(name, species, age);
-            pets.add(newPet);
+            if (!pets.add(newPet)) {
+                System.out.println("A pet with that name already exists.");
+                return;
+            }
             System.out.println(name + " has been successfully added.");
         } catch (NumberFormatException e) {
             System.out.println("Age must be a valid number.");
