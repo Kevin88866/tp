@@ -14,58 +14,72 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Tests for {@link AddTreatmentCommand}.
  *
- * <p>These tests validate that treatment records are added correctly for pets,
- * and that invalid input cases are handled gracefully.
+ * These tests validate that treatment records are added correctly for pets.
  */
 class AddTreatmentCommandTest {
 
-    private PetList pets;
-    private AddTreatmentCommand command;
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
+    private PetList petList;
+    private ByteArrayOutputStream outContent;
 
     @BeforeEach
     void setUp() {
-        pets = new PetList();
-        pets.add(new Pet("Peanut", "Dog", 2));
-        pets.add(new Pet("Milo", "Cat", 3));
-        command = new AddTreatmentCommand(pets);
-        System.setOut(new PrintStream(outContent)); // capture console output
+        petList = new PetList();
+        petList.add(new Pet("Fluffy", "Cat", 3));
+        petList.add(new Pet("Buddy", "Dog", 5));
+
+        outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
     }
 
     @Test
-    void execute_validInput_addsTreatmentSuccessfully() {
-        command.exec("p/1 n/Rabies d/2025-10-06 t/Vaccination");
-        String output = outContent.toString().trim();
+    void exec_validInput_addsTreatment() {
+        AddTreatmentCommand command = new AddTreatmentCommand(petList);
 
-        assertTrue(output.contains("Treatment \"Rabies\" added for Peanut."));
+        String input = "n/Fluffy t/Vaccination d/2025-10-06";
+        command.exec(input);
 
-        Pet pet = pets.getPetByIndex(0);
+        Pet pet = petList.getPetByName("Fluffy");
         assertEquals(1, pet.getTreatments().size());
-        Treatment treatment = pet.getTreatments().get(0);
-        assertEquals("Rabies", treatment.getName());
-        assertEquals(LocalDate.of(2025, 10, 6), treatment.getDate());
-        assertEquals("Vaccination", treatment.getType());
+        assertEquals("Vaccination", pet.getTreatments().get(0).getName());
+        assertEquals(LocalDate.of(2025, 10, 6), pet.getTreatments().get(0).getDate());
+
+        assertTrue(outContent.toString().contains("Treatment added to Fluffy: Vaccination on 2025-10-06"));
     }
 
     @Test
-    void execute_invalidPetIndex_showsErrorMessage() {
-        command.exec("p/10 n/Rabies d/2025-10-06 t/Vaccination");
-        String output = outContent.toString().trim();
-        assertTrue(output.contains("No pet found with that index."));
+    void exec_inputWithExtraSpaces_stillParses() {
+        AddTreatmentCommand command = new AddTreatmentCommand(petList);
+
+        String input = "  n/Fluffy   t/Annual Checkup   d/2025-11-01  ";
+        command.exec(input);
+
+        Pet pet = petList.getPetByName("Fluffy");
+        assertEquals(1, pet.getTreatments().size());
+        assertEquals("Annual Checkup", pet.getTreatments().get(0).getName());
+        assertEquals(LocalDate.of(2025, 11, 1), pet.getTreatments().get(0).getDate());
     }
 
     @Test
-    void execute_invalidDateFormat_showsErrorMessage() {
-        command.exec("p/1 n/Rabies d/10-06-2025 t/Vaccination");
-        String output = outContent.toString().trim();
-        assertTrue(output.contains("Error: Invalid date format"));
+    void exec_nonExistentPet_showsError() {
+        AddTreatmentCommand command = new AddTreatmentCommand(petList);
+
+        command.exec("n/Unknown t/Checkup d/2025-12-01");
+        assertTrue(outContent.toString().contains("Pet not found: Unknown"));
     }
 
     @Test
-    void execute_missingFields_showsUsageMessage() {
-        command.exec("p/1 n/Rabies");
-        String output = outContent.toString().trim();
-        assertTrue(output.contains("Invalid input. Usage"));
+    void exec_invalidDate_showsError() {
+        AddTreatmentCommand command = new AddTreatmentCommand(petList);
+
+        command.exec("n/Fluffy t/Checkup d/2025-13-01");
+        assertTrue(outContent.toString().contains("Invalid date format"));
+    }
+
+    @Test
+    void exec_missingArgument_showsError() {
+        AddTreatmentCommand command = new AddTreatmentCommand(petList);
+
+        command.exec("n/Fluffy t/Checkup");
+        assertTrue(outContent.toString().contains("Invalid input. Usage: add-treatment"));
     }
 }

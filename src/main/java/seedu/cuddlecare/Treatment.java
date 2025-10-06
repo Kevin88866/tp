@@ -8,19 +8,16 @@ import java.time.LocalDate;
 public class Treatment {
     private final String name;
     private final LocalDate date;
-    private final String type;
 
     /**
-     * Creates a Treatment with a name, date, and type.
+     * Creates a Treatment with a treatment name, date.
      *
      * @param name name of the treatment
      * @param date date of the treatment
-     * @param type type/category of the treatment
      */
-    public Treatment(String name, LocalDate date, String type) {
+    public Treatment(String name, LocalDate date) {
         this.name = name;
         this.date = date;
-        this.type = type;
     }
 
     public String getName() {
@@ -31,12 +28,8 @@ public class Treatment {
         return date;
     }
 
-    public String getType() {
-        return type;
-    }
-
     @Override
     public String toString() {
-        return String.format("%s (%s) on %s", name, type, date);
+        return name + " on " + date;
     }
 }

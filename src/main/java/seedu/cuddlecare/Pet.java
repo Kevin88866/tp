@@ -8,7 +8,7 @@ public class Pet {
     private String name;
     private String species;
     private int age;
-    private final List<Treatment> treatments;
+    private final ArrayList<Treatment> treatments;
 
     /**
      * Initializes a pet with a specified name, species, and age.

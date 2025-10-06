@@ -34,50 +34,49 @@ public class AddTreatmentCommand implements Command {
      * Parses user input, finds the corresponding pet by index,
      * creates a new Treatment object, and adds it to the pet.
      *
-     * @param args arguments that contain p/, n/, dt/, t/
+     * @param args arguments that contain name of pet, treatment name and date.
      */
     @Override
     public void exec(String args) {
-        try {
-            int petIndex = -1;
-            String name = null;
-            LocalDate date = null;
-            String type = null;
+        args = args.trim().replaceAll("\\s+", " ");
 
-            String[] parts = args.split(" ");
+        String petName = null;
+        String treatmentName = null;
+        LocalDate date = null;
 
-            for (String part : parts) {
-                if (part.startsWith("p/")) {
-                    petIndex = Integer.parseInt(part.substring(2)) - 1;
-                } else if (part.startsWith("n/")) {
-                    name = part.substring(2);
-                } else if (part.startsWith("d/")) {
-                    date = LocalDate.parse(part.substring(2));
-                } else if (part.startsWith("t/")) {
-                    type = part.substring(2);
+        String[] parts = args.split(" (?=[ptd]/)");
+
+        for (String part : parts) {
+            part = part.trim();
+            if (part.startsWith("n/")) {
+                petName = part.substring(2).trim();
+            } else if (part.startsWith("t/")) {
+                treatmentName = part.substring(2).trim();
+            } else if (part.startsWith("d/")) {
+                try {
+                    date = LocalDate.parse(part.substring(2).trim());
+                } catch (DateTimeParseException e) {
+                    System.out.println("Invalid date format. Use YYYY-MM-DD.");
+                    return;
                 }
             }
-
-            if (petIndex < 0 || name == null || date == null || type == null) {
-                System.out.println("Invalid input. Usage: add-treatment p/1 n/Rabies d/2025-10-06 t/Vaccination");
-                return;
-            }
-
-            Pet pet = pets.getPetByIndex(petIndex);
-            if (pet == null) {
-                System.out.println("No pet found with that index.");
-                return;
-            }
-
-            pet.addTreatment(new Treatment(name, date, type));
-            System.out.println("Treatment \"" + name + "\" added for " + pet.getName() + ".");
-
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Invalid pet index. Please enter a valid number.");
-        } catch (DateTimeParseException e) {
-            System.out.println("Error: Invalid date format. Use YYYY-MM-DD.");
-        } catch (Exception e) {
-            System.out.println("An unexpected error occurred while adding the treatment.");
         }
+
+        if (petName == null || petName.isEmpty() ||
+                treatmentName == null || treatmentName.isEmpty() ||
+                date == null) {
+            System.out.println("Invalid input. Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE");
+            return;
+        }
+
+        Pet pet = pets.getPetByName(petName);
+        if (pet == null) {
+            System.out.println("Pet not found: " + petName);
+            return;
+        }
+
+        Treatment newTreatment = new Treatment(treatmentName, date);
+        pet.addTreatment(newTreatment);
+        System.out.println("Treatment added to " + petName + ": " + treatmentName + " on " + date);
     }
 }

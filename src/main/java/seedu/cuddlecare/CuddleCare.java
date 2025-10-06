@@ -87,7 +87,6 @@ public class CuddleCare {
      * Initializes the available commands and registers them with the parser.
      */
     void initialiseCommands() {
-        PetList pets = new PetList();
 
         commands = Map.ofEntries(
             Map.entry("bye", new ByeCommand()),

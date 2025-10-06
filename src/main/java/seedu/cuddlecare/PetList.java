@@ -48,16 +48,17 @@ public class PetList {
     }
 
     /**
-     * Retrieves a pet by its index in the list.
+     * Retrieves a pet by its name in the list.
      *
-     * @param index the index number of pet
+     * @param name the index number of pet
      * @return pet if found, null if index is invalid
      */
-    public Pet getPetByIndex(int index) {
-        if (index < 0 || index >= pets.size()) {
-            return null;
+    public Pet getPetByName(String name) {
+        for (Pet pet : pets) {
+            if (pet.getName().equalsIgnoreCase(name)) {
+                return pet;
+            }
         }
-        return pets.get(index);
+        return null;
     }
-
 }
