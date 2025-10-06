@@ -88,7 +88,7 @@ public class CuddleCare {
     void initialiseCommands() {
         commands = Map.ofEntries(
             Map.entry("bye", new ByeCommand()),
-            Map.entry("add pet", new AddPetCommand(pets))
+            Map.entry("add-pet", new AddPetCommand(pets))
         );
         parser.setCommands(commands);
     }
