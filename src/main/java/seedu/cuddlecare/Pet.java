@@ -1,10 +1,14 @@
 package seedu.cuddlecare;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Pet {
 
     private String name;
     private String species;
     private int age;
+    private final ArrayList<Treatment> treatments;
 
     /**
      * Initializes a pet with a specified name, species, and age.
@@ -17,6 +21,7 @@ public class Pet {
         this.name = name;
         this.species = species;
         this.age = age;
+        this.treatments = new ArrayList<>();
     }
 
     /**
@@ -24,6 +29,14 @@ public class Pet {
      */
     public String getName() {
         return name;
+    }
+
+    public void addTreatment(Treatment treatment) {
+        treatments.add(treatment);
+    }
+
+    public List<Treatment> getTreatments() {
+        return treatments;
     }
 
     /**
