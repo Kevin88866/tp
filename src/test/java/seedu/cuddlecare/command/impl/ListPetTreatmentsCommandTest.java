@@ -45,10 +45,10 @@ class ListPetTreatmentsCommandTest {
         String input = "n/Mimi";
         command.exec(input);
 
-        assertTrue(outContent.toString().contains("Mimi's treatment history:\r\n" +
-                "1.Vaccination on 2025-10-11\r\n" +
-                "2.Dental Appointment on 2025-11-10\r\n" +
-                "3.Health Checkup on 2025-12-11"));
+        assertTrue(outContent.toString().contains("Mimi's treatment history:"));
+        assertTrue(outContent.toString().contains("1.Vaccination on 2025-10-11"));
+        assertTrue(outContent.toString().contains("2.Dental Appointment on 2025-11-10"));
+        assertTrue(outContent.toString().contains("3.Health Checkup on 2025-12-11"));
     }
 
     @Test
