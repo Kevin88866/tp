@@ -64,18 +64,27 @@ public class MarkTreatmentCommand implements Command {
             return p;
         }
         String[] tokens = args.trim().split("\\s+");
+        boolean sawName = false;
+        boolean sawIndex = false;
+        boolean badIndexFormat = false;
+        int idx = -1;
+
         for (String tok : tokens) {
             if (tok.startsWith("n/")) {
                 p.petName = tok.substring(2);
+                sawName = !p.petName.isEmpty();
             } else if (tok.startsWith("i/")) {
+                sawIndex = true;
+                String num = tok.substring(2);
                 try {
-                    p.index = Integer.parseInt(tok.substring(2));
+                    idx = Integer.parseInt(num);
                 } catch (NumberFormatException e) {
-                    p.index = -1;
+                    badIndexFormat = true;
                 }
             }
         }
-        p.valid = p.petName != null && !p.petName.isEmpty() && p.index != 0;
+        p.index = idx;
+        p.valid = sawName && sawIndex && !badIndexFormat && idx > 0;
         return p;
     }
 
