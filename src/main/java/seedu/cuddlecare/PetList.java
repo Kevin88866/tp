@@ -61,4 +61,22 @@ public class PetList {
         }
         return null;
     }
+
+    /**
+     * get list size
+     */
+    public int size() {
+        return pets.size();
+    }
+
+    /**
+     * return a pet by its index in the list.
+     *
+     * @param index the index of pet in PetList
+     * @return pet
+     */
+    public Pet get(int index) {
+        return pets.get(index);
+    }
+
 }

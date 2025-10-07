@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class Treatment {
     private final String name;
     private final LocalDate date;
-
+    private boolean completed = false;
     /**
      * Creates a Treatment with a treatment name, date.
      *
@@ -30,6 +30,19 @@ public class Treatment {
 
     @Override
     public String toString() {
-        return name + " on " + date;
+        String status = completed ? "[X] " : "[ ] ";
+        return status + name + " on " + date;
     }
+
+    /** Marks this treatment's completion state. */
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    /** Returns true if this treatment is completed. */
+    public boolean isCompleted() {
+        return completed;
+    }
+
+
 }
