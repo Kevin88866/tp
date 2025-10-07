@@ -1,11 +1,8 @@
 package seedu.cuddlecare;
 
 import seedu.cuddlecare.command.Command;
-import seedu.cuddlecare.command.impl.AddPetCommand;
-import seedu.cuddlecare.command.impl.AddTreatmentCommand;
-import seedu.cuddlecare.command.impl.ByeCommand;
+import seedu.cuddlecare.command.impl.*;
 import seedu.cuddlecare.parser.Parser;
-import seedu.cuddlecare.command.impl.ListPetsCommand;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -93,7 +90,9 @@ public class CuddleCare {
             Map.entry("bye", new ByeCommand()),
             Map.entry("add-pet", new AddPetCommand(pets)),
             Map.entry("add-treatment", new AddTreatmentCommand(pets)),
-            Map.entry("list-pets", new ListPetsCommand(pets))
+            Map.entry("list-pets", new ListPetsCommand(pets)),
+                Map.entry("mark", new MarkTreatmentCommand(pets)),
+                Map.entry("unmark", new UnmarkTreatmentCommand(pets))
         );
 
         parser.setCommands(commands);
