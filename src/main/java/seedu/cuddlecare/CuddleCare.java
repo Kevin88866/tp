@@ -1,7 +1,12 @@
 package seedu.cuddlecare;
 
 import seedu.cuddlecare.command.Command;
-import seedu.cuddlecare.command.impl.*;
+import seedu.cuddlecare.command.impl.AddPetCommand;
+import seedu.cuddlecare.command.impl.AddTreatmentCommand;
+import seedu.cuddlecare.command.impl.ByeCommand;
+import seedu.cuddlecare.command.impl.ListPetsCommand;
+import seedu.cuddlecare.command.impl.MarkTreatmentCommand;
+import seedu.cuddlecare.command.impl.UnmarkTreatmentCommand;
 import seedu.cuddlecare.parser.Parser;
 
 import java.util.Map;

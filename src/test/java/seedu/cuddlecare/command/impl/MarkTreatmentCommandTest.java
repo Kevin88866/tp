@@ -98,11 +98,13 @@ public class MarkTreatmentCommandTest {
 
         cmd.exec("abc");
         String s1 = out.toString();
-        Assertions.assertTrue(s1.contains("Usage: mark n/PET_NAME i/INDEX"), "Expected usage line for malformed args.\n" + s1);
+        Assertions.assertTrue(s1.contains("Usage: mark n/PET_NAME i/INDEX"),
+                "Expected usage line for malformed args.\n" + s1);
 
         out.reset();
         cmd.exec("n/Milo i/x");
         String s2 = out.toString();
-        Assertions.assertTrue(s2.contains("Usage: mark n/PET_NAME i/INDEX"), "Expected usage line for non-integer index.\n" + s2);
+        Assertions.assertTrue(s2.contains("Usage: mark n/PET_NAME i/INDEX"),
+                "Expected usage line for non-integer index.\n" + s2);
     }
 }

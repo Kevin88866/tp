@@ -93,11 +93,13 @@ public class UnmarkTreatmentCommandTest {
 
         cmd.exec("i/1");
         String s1 = out.toString();
-        Assertions.assertTrue(s1.contains("Usage: unmark n/PET_NAME i/INDEX"), "Expected usage line when missing name.\n" + s1);
+        Assertions.assertTrue(s1.contains("Usage: unmark n/PET_NAME i/INDEX"),
+                "Expected usage line when missing name.\n" + s1);
 
         out.reset();
         cmd.exec("n/Milo");
         String s2 = out.toString();
-        Assertions.assertTrue(s2.contains("Usage: unmark n/PET_NAME i/INDEX"), "Expected usage line when missing index.\n" + s2);
+        Assertions.assertTrue(s2.contains("Usage: unmark n/PET_NAME i/INDEX"),
+                "Expected usage line when missing index.\n" + s2);
     }
 }
