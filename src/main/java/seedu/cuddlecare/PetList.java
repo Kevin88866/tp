@@ -46,4 +46,19 @@ public class PetList {
         }
         return false;
     }
+
+    /**
+     * Retrieves a pet by its name in the list.
+     *
+     * @param name the index number of pet
+     * @return pet if found, null if index is invalid
+     */
+    public Pet getPetByName(String name) {
+        for (Pet pet : pets) {
+            if (pet.getName().equalsIgnoreCase(name)) {
+                return pet;
+            }
+        }
+        return null;
+    }
 }

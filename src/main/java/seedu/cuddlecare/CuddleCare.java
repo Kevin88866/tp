@@ -2,6 +2,7 @@ package seedu.cuddlecare;
 
 import seedu.cuddlecare.command.Command;
 import seedu.cuddlecare.command.impl.AddPetCommand;
+import seedu.cuddlecare.command.impl.AddTreatmentCommand;
 import seedu.cuddlecare.command.impl.ByeCommand;
 import seedu.cuddlecare.parser.Parser;
 
@@ -86,10 +87,13 @@ public class CuddleCare {
      * Initializes the available commands and registers them with the parser.
      */
     void initialiseCommands() {
+
         commands = Map.ofEntries(
             Map.entry("bye", new ByeCommand()),
-            Map.entry("add-pet", new AddPetCommand(pets))
+            Map.entry("add-pet", new AddPetCommand(pets)),
+            Map.entry("add-treatment", new AddTreatmentCommand(pets))
         );
+
         parser.setCommands(commands);
     }
 
