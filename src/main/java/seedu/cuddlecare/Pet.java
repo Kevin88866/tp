@@ -35,7 +35,7 @@ public class Pet {
         treatments.add(treatment);
     }
 
-    public List<Treatment> getTreatments() {
+    public ArrayList<Treatment> getTreatments() {
         return treatments;
     }
 
