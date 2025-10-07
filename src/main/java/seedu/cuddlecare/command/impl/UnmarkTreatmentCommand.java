@@ -64,7 +64,7 @@ public class UnmarkTreatmentCommand implements Command {
         if (args == null) {
             return p;
         }
-        String[] tokens = args.trim().split("\\s+");
+        String[] tokens = args.trim().split("(?=[ni]/)");
         boolean sawName = false;
         boolean sawIndex = false;
         boolean badIndexFormat = false;
@@ -72,11 +72,11 @@ public class UnmarkTreatmentCommand implements Command {
 
         for (String tok : tokens) {
             if (tok.startsWith("n/")) {
-                p.petName = tok.substring(2);
+                p.petName = tok.substring(2).trim();
                 sawName = !p.petName.isEmpty();
             } else if (tok.startsWith("i/")) {
                 sawIndex = true;
-                String num = tok.substring(2);
+                String num = tok.substring(2).trim();
                 try {
                     idx = Integer.parseInt(num);
                 } catch (NumberFormatException e) {
