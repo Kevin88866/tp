@@ -1,7 +1,6 @@
 package seedu.cuddlecare;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Pet {
 
