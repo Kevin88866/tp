@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  */
 public class PetList {
-    
+
     /** Underlying data structure to hold all pets */
     private final ArrayList<Pet> pets;
 
@@ -20,7 +20,7 @@ public class PetList {
 
     /**
      * Adds the unique pet to the user's pet list.
-     * 
+     *
      * @param pet the newly to-be-added pet
      * @return success
      */
@@ -34,7 +34,7 @@ public class PetList {
 
     /**
      * Checks if pet already exists within the pet list.
-     * 
+     *
      * @param name the name of the pet
      * @return boolean whether pet exists or not
      */
