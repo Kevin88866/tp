@@ -55,6 +55,7 @@ public class DeletePetCommand implements Command {
                 System.out.printf("Incorrect Syntax: %s%n", SYNTAX);
                 return;
             }
+
             if (!isValidIndex(index)) {
                 System.out.printf("Invalid pet index: %d. Total pets: %d%n", index, pets.size());
                 return;
@@ -98,7 +99,7 @@ public class DeletePetCommand implements Command {
      * @param index the 1-based index of the pet to delete
      */
     private void deletePet(int index) {
-        Pet deleted = pets.deleteByIndex(index);
+        Pet deleted = pets.deleteByIndex(index - 1);
         System.out.printf("Successfully removed %s (%s, %d) from the list.%n",
                 deleted.getName(), deleted.getSpecies(), deleted.getAge());
     }

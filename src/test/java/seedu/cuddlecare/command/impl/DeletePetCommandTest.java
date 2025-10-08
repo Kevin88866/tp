@@ -24,7 +24,7 @@ class DeletePetCommandTest {
     void exec_validIndex_deletesPet() {
         deleteCommand.exec("i/1");
         assertEquals(1, pets.size());
-        assertEquals("Buddy", pets.get(0).getName());
+        assertEquals("Milo", pets.get(0).getName());
     }
 
     @Test
