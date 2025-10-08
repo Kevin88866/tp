@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  */
 public class PetList {
-    
+
     /** Underlying data structure to hold all pets */
     private final ArrayList<Pet> pets;
 
@@ -20,7 +20,7 @@ public class PetList {
 
     /**
      * Adds the unique pet to the user's pet list.
-     * 
+     *
      * @param pet the newly to-be-added pet
      * @return success
      */
@@ -34,7 +34,7 @@ public class PetList {
 
     /**
      * Checks if pet already exists within the pet list.
-     * 
+     *
      * @param name the name of the pet
      * @return boolean whether pet exists or not
      */
@@ -46,4 +46,37 @@ public class PetList {
         }
         return false;
     }
+
+    /**
+     * Retrieves a pet by its name in the list.
+     *
+     * @param name the index number of pet
+     * @return pet if found, null if index is invalid
+     */
+    public Pet getPetByName(String name) {
+        for (Pet pet : pets) {
+            if (pet.getName().equalsIgnoreCase(name)) {
+                return pet;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * get list size
+     */
+    public int size() {
+        return pets.size();
+    }
+
+    /**
+     * return a pet by its index in the list.
+     *
+     * @param index the index of pet in PetList
+     * @return pet
+     */
+    public Pet get(int index) {
+        return pets.get(index);
+    }
+
 }
