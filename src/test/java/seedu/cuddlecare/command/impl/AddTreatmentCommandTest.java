@@ -1,8 +1,9 @@
-package seedu.cuddlecare;
+package seedu.cuddlecare.command.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import seedu.cuddlecare.command.impl.AddTreatmentCommand;
+import seedu.cuddlecare.Pet;
+import seedu.cuddlecare.PetList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

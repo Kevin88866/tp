@@ -112,7 +112,8 @@ public class CuddleCare {
                 Map.entry("unmark", new UnmarkTreatmentCommand(pets)),
                 Map.entry("list-all-treatments", new ListAllTreatmentsCommand(pets)),
                 Map.entry("list-treatments", new ListPetTreatmentsCommand(pets)),
-                Map.entry("delete-pet", new DeletePetCommand(pets))
+                Map.entry("delete-pet", new DeletePetCommand(pets)),
+                Map.entry("delete-treatment", new ListPetTreatmentsCommand(pets))
         );
 
         parser.setCommands(commands);
