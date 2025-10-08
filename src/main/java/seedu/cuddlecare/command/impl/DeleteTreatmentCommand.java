@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * A command that deletes a treatment record for a specified pet.
  *
- * Command format: delete-treatment n/PET_NAME i/INDEX
+ * Format: delete-treatment n/PET_NAME i/INDEX
  */
 public class DeleteTreatmentCommand implements Command {
 
@@ -28,17 +28,16 @@ public class DeleteTreatmentCommand implements Command {
     /**
      * Executes the delete-treatment command.
      *
-     * Finds the specified pet by name, removes the treatment at the given index
+     * Finds the specified pet by name, removes treatment at the given index
      * from that pet’s treatment list, and confirms deletion.
      *
-     * @param args the command arguments (expected format: n/PET_NAME i/INDEX)
+     * @param args the command arguments
      */
     @Override
     public void exec(String args) {
         String petName = null;
         int index = -1;
 
-        // Defensive parsing: handles extra spaces gracefully
         String[] parts = args.trim().split("\\s+");
         for (String part : parts) {
             if (part.startsWith("n/")) {
@@ -76,7 +75,7 @@ public class DeleteTreatmentCommand implements Command {
         }
 
         Treatment removed = treatments.remove(index);
-        System.out.println("Deleted treatment \"" + removed + "\" for " + petName + ".");
+        System.out.println("Deleted treatment \"" + removed.getName() + "\" for " + petName + ".");
     }
 }
 
