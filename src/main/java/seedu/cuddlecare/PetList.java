@@ -89,6 +89,12 @@ public class PetList {
         return pets.stream();
     }
 
+    /**
+     * Removes and returns the pet at the specified index in the list.
+     *
+     * @param index the zero-based index of the pet to remove
+     * @return the {@link Pet} object that was removed from the list
+     */
     public Pet deleteByIndex(int index) {
         return pets.remove(index);
     }
