@@ -30,6 +30,20 @@ public class Pet {
         return name;
     }
 
+    /**
+     * Returns the species of the pet.
+     */
+    public String getSpecies() {
+        return species;
+    }
+
+    /**
+     * Returns the age of the pet.
+     */
+    public int getAge() {
+        return age;
+    }
+
     public void addTreatment(Treatment treatment) {
         treatments.add(treatment);
     }

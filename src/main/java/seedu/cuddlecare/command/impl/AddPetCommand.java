@@ -36,7 +36,7 @@ public class AddPetCommand implements Command {
     @Override
     public void exec(String args) {
         try {
-            String[] parts = args.split(" ");
+            String[] parts = args.trim().split("(?=\\bn/|\\bs/|\\ba/)");
 
             String name = null;
             String species = null;
@@ -44,9 +44,9 @@ public class AddPetCommand implements Command {
 
             for (String part : parts) {
                 if (part.startsWith("n/")) {
-                    name = part.substring(2);
+                    name = part.substring(2).trim();
                 } else if (part.startsWith("s/")) {
-                    species = part.substring(2);
+                    species = part.substring(2).trim();
                 } else if (part.startsWith("a/")) {
                     age = Integer.parseInt(part.substring(2));
                 }
