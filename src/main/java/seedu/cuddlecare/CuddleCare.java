@@ -4,6 +4,7 @@ import seedu.cuddlecare.command.Command;
 import seedu.cuddlecare.command.impl.AddPetCommand;
 import seedu.cuddlecare.command.impl.AddTreatmentCommand;
 import seedu.cuddlecare.command.impl.ByeCommand;
+import seedu.cuddlecare.command.impl.ListAllTreatmentsCommand;
 import seedu.cuddlecare.command.impl.ListPetTreatmentsCommand;
 import seedu.cuddlecare.command.impl.ListPetsCommand;
 import seedu.cuddlecare.command.impl.MarkTreatmentCommand;
@@ -108,6 +109,7 @@ public class CuddleCare {
                 Map.entry("list-pets", new ListPetsCommand(pets)),
                 Map.entry("mark", new MarkTreatmentCommand(pets)),
                 Map.entry("unmark", new UnmarkTreatmentCommand(pets)),
+                Map.entry("list-all-treatments", new ListAllTreatmentsCommand(pets)),
                 Map.entry("list-treatments", new ListPetTreatmentsCommand(pets))
         );
 

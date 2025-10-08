@@ -1,6 +1,7 @@
 package seedu.cuddlecare;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 /**
  * A list that contains all the user's pets.
@@ -63,20 +64,29 @@ public class PetList {
     }
 
     /**
-     * get list size
+     * gets list size
      */
     public int size() {
         return pets.size();
     }
 
     /**
-     * return a pet by its index in the list.
+     * returns a pet by its index in the list.
      *
      * @param index the index of pet in PetList
      * @return pet
      */
     public Pet get(int index) {
         return pets.get(index);
+    }
+
+    /**
+     * returns a stream of pets in the list
+     *
+     * @return a stream of all pets in the list
+     */
+    public Stream<Pet> stream() {
+        return pets.stream();
     }
 
 }
