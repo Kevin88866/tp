@@ -1,14 +1,7 @@
 package seedu.cuddlecare;
 
 import seedu.cuddlecare.command.Command;
-import seedu.cuddlecare.command.impl.AddPetCommand;
-import seedu.cuddlecare.command.impl.AddTreatmentCommand;
-import seedu.cuddlecare.command.impl.ByeCommand;
-import seedu.cuddlecare.command.impl.ListAllTreatmentsCommand;
-import seedu.cuddlecare.command.impl.ListPetTreatmentsCommand;
-import seedu.cuddlecare.command.impl.ListPetsCommand;
-import seedu.cuddlecare.command.impl.MarkTreatmentCommand;
-import seedu.cuddlecare.command.impl.UnmarkTreatmentCommand;
+import seedu.cuddlecare.command.impl.*;
 import seedu.cuddlecare.parser.Parser;
 
 
@@ -110,7 +103,8 @@ public class CuddleCare {
                 Map.entry("mark", new MarkTreatmentCommand(pets)),
                 Map.entry("unmark", new UnmarkTreatmentCommand(pets)),
                 Map.entry("list-all-treatments", new ListAllTreatmentsCommand(pets)),
-                Map.entry("list-treatments", new ListPetTreatmentsCommand(pets))
+                Map.entry("list-treatments", new ListPetTreatmentsCommand(pets)),
+                Map.entry("delete-treatment", new DeleteTreatmentCommand(pets))
         );
 
         parser.setCommands(commands);
