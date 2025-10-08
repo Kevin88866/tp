@@ -12,6 +12,9 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test for {@link ListAllTreatmentsCommand}
+ */
 class ListAllTreatmentsCommandTest {
 
     private ByteArrayOutputStream outContent;
