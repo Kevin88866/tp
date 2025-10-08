@@ -4,6 +4,7 @@ import seedu.cuddlecare.command.Command;
 import seedu.cuddlecare.command.impl.AddPetCommand;
 import seedu.cuddlecare.command.impl.AddTreatmentCommand;
 import seedu.cuddlecare.command.impl.ByeCommand;
+import seedu.cuddlecare.command.impl.ListAllTreatmentsCommand;
 import seedu.cuddlecare.command.impl.ListPetsCommand;
 import seedu.cuddlecare.command.impl.MarkTreatmentCommand;
 import seedu.cuddlecare.command.impl.UnmarkTreatmentCommand;
@@ -14,23 +15,31 @@ import java.util.Scanner;
 
 /**
  * The main class for the CuddleCare application.
- *
+ * <p>
  * This class is responsible for initializing the application,
  * setting up the parser and commands, greeting the user,
  * and running the main application loop.
  */
 public class CuddleCare {
 
-    /** Symbol used to prompt user input. */
+    /**
+     * Symbol used to prompt user input.
+     */
     private static final String PROMPT_SYMBOL = "> ";
 
-    /** Parser used to convert user input into commands. */
+    /**
+     * Parser used to convert user input into commands.
+     */
     private final Parser parser;
 
-    /** Map of available commands keyed by their string representation. */
+    /**
+     * Map of available commands keyed by their string representation.
+     */
     private Map<String, Command> commands;
 
-    /** List of all pets. */
+    /**
+     * List of all pets.
+     */
     private final PetList pets = new PetList();
 
     /**
@@ -92,12 +101,13 @@ public class CuddleCare {
     void initialiseCommands() {
 
         commands = Map.ofEntries(
-            Map.entry("bye", new ByeCommand()),
-            Map.entry("add-pet", new AddPetCommand(pets)),
-            Map.entry("add-treatment", new AddTreatmentCommand(pets)),
-            Map.entry("list-pets", new ListPetsCommand(pets)),
-            Map.entry("mark", new MarkTreatmentCommand(pets)),
-            Map.entry("unmark", new UnmarkTreatmentCommand(pets))
+                Map.entry("bye", new ByeCommand()),
+                Map.entry("add-pet", new AddPetCommand(pets)),
+                Map.entry("add-treatment", new AddTreatmentCommand(pets)),
+                Map.entry("list-pets", new ListPetsCommand(pets)),
+                Map.entry("mark", new MarkTreatmentCommand(pets)),
+                Map.entry("unmark", new UnmarkTreatmentCommand(pets)),
+                Map.entry("list-all-treatments", new ListAllTreatmentsCommand(pets))
         );
 
         parser.setCommands(commands);
