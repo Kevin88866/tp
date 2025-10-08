@@ -76,3 +76,4 @@ class DeleteTreatmentCommandTest {
         assertTrue(output.contains("Invalid input. Usage: delete-treatment n/PET_NAME i/INDEX"));
     }
 }
+
