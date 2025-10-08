@@ -1,7 +1,6 @@
 package seedu.cuddlecare;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Pet {
 
@@ -35,7 +34,7 @@ public class Pet {
         treatments.add(treatment);
     }
 
-    public List<Treatment> getTreatments() {
+    public ArrayList<Treatment> getTreatments() {
         return treatments;
     }
 
