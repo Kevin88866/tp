@@ -89,4 +89,8 @@ public class PetList {
         return pets.stream();
     }
 
+    public Pet deleteByIndex(int index) {
+        return pets.remove(index);
+    }
+
 }
