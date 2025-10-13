@@ -1,9 +1,15 @@
 package seedu.cuddlecare.command.impl;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
@@ -23,8 +29,6 @@ public class MarkTreatmentCommandTest {
     private ByteArrayOutputStream out;
 
     private PetList pets;
-    private Pet milo;
-    private Pet luna;
 
     @BeforeEach
     void setUp() {
@@ -33,15 +37,28 @@ public class MarkTreatmentCommandTest {
 
         pets = new PetList();
 
-        milo = new Pet("Milo", "Dog", 2);
+        Pet milo = new Pet("Milo", "Dog", 2);
         milo.addTreatment(new Treatment("Vaccine", LocalDate.parse("2025-10-01")));
         milo.addTreatment(new Treatment("Checkup", LocalDate.parse("2025-10-02")));
 
-        luna = new Pet("Luna", "Cat", 3);
+        Pet luna = new Pet("Luna", "Cat", 3);
         luna.addTreatment(new Treatment("Dental", LocalDate.parse("2025-10-03")));
 
         pets.add(milo);
         pets.add(luna);
+    }
+
+    @BeforeAll
+    static void muteLogs() {
+        LogManager.getLogManager().reset();
+        Logger root = Logger.getLogger("");
+        root.setLevel(Level.OFF);
+    }
+
+    private static boolean assertionsEnabled() {
+        boolean enabled = false;
+        assert enabled = true;
+        return enabled;
     }
 
     @AfterEach
@@ -106,5 +123,13 @@ public class MarkTreatmentCommandTest {
         String s2 = out.toString();
         Assertions.assertTrue(s2.contains("Usage: mark n/PET_NAME i/INDEX"),
                 "Expected usage line for non-integer index.\n" + s2);
+    }
+
+    @Test
+    void exec_withNullPetList_triggersAssertionWhenEnabled() {
+        Assumptions.assumeTrue(assertionsEnabled(), "Assertions not enabled (-ea); skipping.");
+        Command cmd = new MarkTreatmentCommand(null);
+        Assertions.assertThrows(AssertionError.class, () -> cmd.exec("n/Milo i/1"),
+                "With -ea, exec should assert on null PetList");
     }
 }
