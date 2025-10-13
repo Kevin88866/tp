@@ -10,8 +10,8 @@ import seedu.cuddlecare.command.impl.ListPetsCommand;
 import seedu.cuddlecare.command.impl.MarkTreatmentCommand;
 import seedu.cuddlecare.command.impl.UnmarkTreatmentCommand;
 import seedu.cuddlecare.command.impl.DeletePetCommand;
+import seedu.cuddlecare.command.impl.DeleteTreatmentCommand;
 import seedu.cuddlecare.parser.Parser;
-
 
 import java.util.Map;
 import java.util.Scanner;
@@ -113,7 +113,7 @@ public class CuddleCare {
                 Map.entry("list-all-treatments", new ListAllTreatmentsCommand(pets)),
                 Map.entry("list-treatments", new ListPetTreatmentsCommand(pets)),
                 Map.entry("delete-pet", new DeletePetCommand(pets)),
-                Map.entry("delete-treatment", new ListPetTreatmentsCommand(pets))
+                Map.entry("delete-treatment", new DeleteTreatmentCommand(pets))
         );
 
         parser.setCommands(commands);
