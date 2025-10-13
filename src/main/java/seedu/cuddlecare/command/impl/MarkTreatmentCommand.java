@@ -45,7 +45,7 @@ public record MarkTreatmentCommand(PetList pets) implements Command {
 
         Pet pet = pets.getPetByName(petName);
         if (pet == null) {
-            System.out.println("Pet not found: " + petName);
+            System.out.println("No such pet: " + petName);
             LOGGER.warning("Mark: pet not found: " + petName);
             return;
         }
@@ -59,16 +59,20 @@ public record MarkTreatmentCommand(PetList pets) implements Command {
 
         int idx = index1Based - 1; // convert to 0-based
         if (idx < 0 || idx >= treatments.size()) {
-            System.out.println("Invalid treatment index. Use 'list treatments n/" + petName + "' to check indexes.");
-            LOGGER.warning("Mark: invalid index " + index1Based + " for " + petName);
+            System.out.println("No such treatment");
+            System.out.println("Pet: " + petName);
+            System.out.println("Index: " + index1Based);
+            LOGGER.warning(() -> "Mark: invalid index " + index1Based + " for " + petName
+                    + " (size=" + treatments.size() + ")");
             return;
         }
 
         Treatment t = treatments.get(idx);
         t.setCompleted(true);
-        System.out.println("Marked treatment #" + index1Based + " for " + petName
-                + " as completed: \"" + t.getName() + "\".");
-        LOGGER.info("Marked: " + petName + " i/" + index1Based);
+        System.out.println("Marked as done");
+        System.out.println("Pet: " + petName);
+        System.out.println("Index: " + index1Based);
+        LOGGER.info(() -> "Marked: " + petName + " i/" + index1Based + " \"" + t.getName() + "\"");
     }
 
     private void printUsage() {
@@ -101,10 +105,10 @@ public record MarkTreatmentCommand(PetList pets) implements Command {
 
         for (String tok : tokens) {
             if (tok.startsWith("n/")) {
-                name = tok.substring(2);
+                name = tok.substring(2).trim();
                 sawName = true;
             } else if (tok.startsWith("i/")) {
-                String num = tok.substring(2);
+                String num = tok.substring(2).trim();
                 try {
                     idx = Integer.parseInt(num);
                     sawIndex = true;
