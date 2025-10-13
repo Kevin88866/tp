@@ -47,8 +47,8 @@ public class UnmarkTreatmentCommand implements Command {
 
         Pet pet = pets.getPetByName(petName);
         if (pet == null) {
-            System.out.println("Pet not found: " + petName);
-            LOGGER.warning("Unmark: pet not found: " + petName);
+            System.out.println("No such pet: " + petName);
+            LOGGER.warning("Mark: pet not found: " + petName);
             return;
         }
 
@@ -61,16 +61,20 @@ public class UnmarkTreatmentCommand implements Command {
 
         int idx = index1Based - 1; // convert to 0-based
         if (idx < 0 || idx >= treatments.size()) {
-            System.out.println("Invalid treatment index. Use 'list treatments n/" + petName + "' to check indexes.");
-            LOGGER.warning("Unmark: invalid index " + index1Based + " for " + petName);
+            System.out.println("No such treatment");
+            System.out.println("Pet: " + petName);
+            System.out.println("Index: " + index1Based);
+            LOGGER.warning(() -> "Mark: invalid index " + index1Based + " for " + petName
+                    + " (size=" + treatments.size() + ")");
             return;
         }
 
         Treatment t = treatments.get(idx);
         t.setCompleted(false);
-        System.out.println("Unmarked treatment #" + index1Based + " for " + petName
-                + " (now set as NOT completed): \"" + t.getName() + "\".");
-        LOGGER.info("Unmarked: " + petName + " i/" + index1Based);
+        System.out.println("Unmarked");
+        System.out.println("Pet: " + petName);
+        System.out.println("Index: " + index1Based);
+        LOGGER.info(() -> "Marked: " + petName + " i/" + index1Based + " \"" + t.getName() + "\"");
     }
 
     private void printUsage() {
@@ -103,10 +107,10 @@ public class UnmarkTreatmentCommand implements Command {
 
         for (String token : tokens) {
             if (token.startsWith("n/")) {
-                name = token.substring(2);
+                name = token.substring(2).trim();
                 sawName = true;
             } else if (token.startsWith("i/")) {
-                String num = token.substring(2);
+                String num = token.substring(2).trim();
                 try {
                     idx = Integer.parseInt(num);
                     sawIndex = true;
