@@ -19,20 +19,20 @@ class ListPetTreatmentsCommandTest {
 
     @BeforeEach
     void setUp() {
-        Pet Mimi = new Pet("Mimi", "Cat", 1);
-        Pet Dawg = new Pet("Dawg", "Dog", 2);
+        Pet mimi = new Pet("Mimi", "Cat", 1);
+        Pet dawg = new Pet("Dawg", "Dog", 2);
 
         petList = new PetList();
-        petList.add(Mimi);
-        petList.add(Dawg);
+        petList.add(mimi);
+        petList.add(dawg);
 
-        Treatment T1 = new Treatment("Vaccination", LocalDate.parse("2025-10-11"));
-        Treatment T2 = new Treatment("Dental Appointment", LocalDate.parse("2025-11-10"));
-        Treatment T3 = new Treatment("Health Checkup", LocalDate.parse("2025-12-11"));
+        Treatment t1 = new Treatment("Vaccination", LocalDate.parse("2025-10-11"));
+        Treatment t2 = new Treatment("Dental Appointment", LocalDate.parse("2025-11-10"));
+        Treatment t3 = new Treatment("Health Checkup", LocalDate.parse("2025-12-11"));
 
-        Mimi.addTreatment(T1);
-        Mimi.addTreatment(T2);
-        Mimi.addTreatment(T3);
+        mimi.addTreatment(t1);
+        mimi.addTreatment(t2);
+        mimi.addTreatment(t3);
 
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
