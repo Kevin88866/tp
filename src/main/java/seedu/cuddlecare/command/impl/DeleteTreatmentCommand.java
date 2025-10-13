@@ -38,7 +38,7 @@ public class DeleteTreatmentCommand implements Command {
         String petName = null;
         int index = -1;
 
-        String[] parts = args.trim().split("\\s+");
+        String[] parts = args.split("(?=n/|i/)");
         for (String part : parts) {
             if (part.startsWith("n/")) {
                 petName = part.substring(2).trim();
