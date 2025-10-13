@@ -1,6 +1,7 @@
 package seedu.cuddlecare.command.impl;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
@@ -11,16 +12,17 @@ import seedu.cuddlecare.command.Command;
  * Marks a treatment as completed for a specific pet by local index.
  * <p>Usage: {@code mark n/PET_NAME i/INDEX}</p>
  * Example: {@code mark n/Milo i/2}
+ *
+ * @param pets Repository of pets.
  */
-public class MarkTreatmentCommand implements Command {
+public record MarkTreatmentCommand(PetList pets) implements Command {
 
-    private final PetList pets;
+    private static final Logger LOGGER = Logger.getLogger(MarkTreatmentCommand.class.getName());
 
     /**
      * @param pets repository of pets
      */
-    public MarkTreatmentCommand(PetList pets) {
-        this.pets = pets;
+    public MarkTreatmentCommand {
     }
 
     /**
@@ -31,60 +33,90 @@ public class MarkTreatmentCommand implements Command {
      */
     @Override
     public void exec(String args) {
+        assert pets != null : "Pet list must not be null";
         Parsed parsed = parseArgs(args);
         if (!parsed.valid) {
             printUsage();
             return;
         }
 
-        Pet pet = pets.getPetByName(parsed.petName);
+        String petName = parsed.petName;
+        int index1Based = parsed.index;
+
+        Pet pet = pets.getPetByName(petName);
         if (pet == null) {
-            System.out.println("No such pet: " + parsed.petName);
+            System.out.println("Pet not found: " + petName);
+            LOGGER.warning("Mark: pet not found: " + petName);
             return;
         }
 
-        List<Treatment> list = pet.getTreatments();
-        if (parsed.index <= 0 || parsed.index > list.size()) {
-            System.out.println("No such treatment for pet " + pet.getName() + ": " + parsed.index);
+        ArrayList<Treatment> treatments = pet.getTreatments();
+        if (treatments.isEmpty()) {
+            System.out.println(petName + " has no treatments to mark.");
+            LOGGER.fine("Mark: empty treatment list for " + petName);
             return;
         }
 
-        Treatment t = list.get(parsed.index - 1);
+        int idx = index1Based - 1; // convert to 0-based
+        if (idx < 0 || idx >= treatments.size()) {
+            System.out.println("Invalid treatment index. Use 'list treatments n/" + petName + "' to check indexes.");
+            LOGGER.warning("Mark: invalid index " + index1Based + " for " + petName);
+            return;
+        }
+
+        Treatment t = treatments.get(idx);
         t.setCompleted(true);
-        System.out.println("Marked as done: [" + t + "] (Pet: " + pet.getName() + ", i/" + parsed.index + ")");
+        System.out.println("Marked treatment #" + index1Based + " for " + petName
+                + " as completed: \"" + t.getName() + "\".");
+        LOGGER.info("Marked: " + petName + " i/" + index1Based);
     }
 
     private void printUsage() {
         System.out.println("Usage: mark n/PET_NAME i/INDEX");
+        System.out.println("Example: mark n/Milo i/2");
     }
 
+    /**
+     * Parses arguments of the form "n/NAME i/INDEX" (order-insensitive).
+     * NAME is taken as the token immediately after 'n/' (no spaces).
+     */
     private Parsed parseArgs(String args) {
         Parsed p = new Parsed();
         if (args == null) {
+            p.valid = false;
             return p;
         }
-        String[] tokens = args.trim().split("(?=[ni]/)");
+        String trimmed = args.trim();
+        if (trimmed.isEmpty()) {
+            p.valid = false;
+            return p;
+        }
+
+        String[] tokens = trimmed.split("(?=[ni]/)");
+        String name = null;
+        Integer idx = null;
+        boolean badIndexFormat = false;
         boolean sawName = false;
         boolean sawIndex = false;
-        boolean badIndexFormat = false;
-        int idx = -1;
 
         for (String tok : tokens) {
             if (tok.startsWith("n/")) {
-                p.petName = tok.substring(2).trim();
-                sawName = !p.petName.isEmpty();
+                name = tok.substring(2);
+                sawName = true;
             } else if (tok.startsWith("i/")) {
-                sawIndex = true;
-                String num = tok.substring(2).trim();
+                String num = tok.substring(2);
                 try {
                     idx = Integer.parseInt(num);
+                    sawIndex = true;
                 } catch (NumberFormatException e) {
                     badIndexFormat = true;
                 }
             }
         }
-        p.index = idx;
-        p.valid = sawName && sawIndex && !badIndexFormat && idx > 0;
+
+        p.petName = name;
+        p.index = (idx == null) ? -1 : idx;
+        p.valid = sawName && sawIndex && !badIndexFormat && p.index > 0 && !p.petName.isEmpty();
         return p;
     }
 
