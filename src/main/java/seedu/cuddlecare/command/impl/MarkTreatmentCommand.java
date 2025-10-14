@@ -99,28 +99,28 @@ public record MarkTreatmentCommand(PetList pets) implements Command {
         String[] tokens = trimmed.split("(?=[ni]/)");
         String name = null;
         Integer idx = null;
-        boolean badIndexFormat = false;
-        boolean sawName = false;
-        boolean sawIndex = false;
+        boolean isBadIndex = false;
+        boolean hasName = false;
+        boolean hasIndex = false;
 
         for (String tok : tokens) {
             if (tok.startsWith("n/")) {
                 name = tok.substring(2).trim();
-                sawName = true;
+                hasName = true;
             } else if (tok.startsWith("i/")) {
                 String num = tok.substring(2).trim();
                 try {
                     idx = Integer.parseInt(num);
-                    sawIndex = true;
+                    hasIndex = true;
                 } catch (NumberFormatException e) {
-                    badIndexFormat = true;
+                    isBadIndex = true;
                 }
             }
         }
 
         p.petName = name;
         p.index = (idx == null) ? -1 : idx;
-        p.valid = sawName && sawIndex && !badIndexFormat && p.index > 0 && !p.petName.isEmpty();
+        p.valid = hasName && hasIndex && !isBadIndex && p.index > 0 && !p.petName.isEmpty();
         return p;
     }
 
