@@ -56,13 +56,22 @@ public class AddTreatmentCommand implements Command {
             for (String part : parts) {
                 if (part.startsWith("n/")) {
                     petName = part.substring(2).trim();
-                    assert !petName.isEmpty() : "Pet name should not be empty";
+                    if (petName.isEmpty()) {
+                        System.out.println("Error: Pet name cannot be empty.");
+                        return;
+                    }
                 } else if (part.startsWith("t/")) {
                     treatmentName = part.substring(2).trim();
-                    assert !treatmentName.isEmpty() : "Treatment name should not be empty";
+                    if (treatmentName.isEmpty()) {
+                        System.out.println("Error: Treatment name cannot be empty.");
+                        return;
+                    }
                 } else if (part.startsWith("d/")) {
                     String dateString = part.substring(2).trim();
-                    assert !dateString.isEmpty() : "Date string should not be empty";
+                    if (dateString.isEmpty()) {
+                        System.out.println("Error: Date cannot be empty.");
+                        return;
+                    }
 
                     try {
                         date = LocalDate.parse(dateString);
