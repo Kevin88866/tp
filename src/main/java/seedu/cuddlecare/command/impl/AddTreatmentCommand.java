@@ -29,6 +29,7 @@ public class AddTreatmentCommand implements Command {
      * @param pets the list of all pets
      */
     public AddTreatmentCommand(PetList pets) {
+        assert pets != null : "PetList cannot be null";
         this.pets = pets;
     }
 
@@ -42,6 +43,7 @@ public class AddTreatmentCommand implements Command {
      */
     @Override
     public void exec(String args) {
+        assert args != null : "Command arguments cannot be null";
         logger.log(Level.INFO, "Executing add-treatment: {0}", args);
 
         String petName = null;
@@ -53,10 +55,13 @@ public class AddTreatmentCommand implements Command {
             for (String part : parts) {
                 if (part.startsWith("n/")) {
                     petName = part.substring(2).trim();
+                    assert !petName.isEmpty() : "Pet name should not be empty";
                 } else if (part.startsWith("t/")) {
                     treatmentName = part.substring(2).trim();
+                    assert !treatmentName.isEmpty() : "Treatment name should not be empty";
                 } else if (part.startsWith("d/")) {
                     String dateString = part.substring(2).trim();
+                    assert !dateString.isEmpty() : "Date string should not be empty";
 
                     try {
                         date = LocalDate.parse(dateString);
