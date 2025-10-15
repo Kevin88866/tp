@@ -37,6 +37,8 @@ public class CommandWithArguments implements Command {
      * @param args    the arguments to pass to the command when executed
      */
     public CommandWithArguments(Command command, String args) {
+        assert command != null : "Command cannot be null";
+        assert args != null : "Arguments cannot be null";
         this.command = command;
         this.args = args;
     }
