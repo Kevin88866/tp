@@ -14,10 +14,10 @@ public class CommandWithArguments implements Command {
     /**
      * Logger instance for this class.
      */
-    private static final Logger logger = Logger.getLogger(CommandWithArguments.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CommandWithArguments.class.getName());
 
     static {
-        logger.setLevel(Level.WARNING);
+        LOGGER.setLevel(Level.WARNING);
     }
 
     /**
@@ -53,7 +53,7 @@ public class CommandWithArguments implements Command {
      */
     @Override
     public void exec(String ignored) {
-        logger.fine(() -> "Executing CommandWithArguments: " + command.getClass().getSimpleName() +
+        LOGGER.fine(() -> "Executing CommandWithArguments: " + command.getClass().getSimpleName() +
                 " with args: \"" + args + "\"");
 
         command.exec(args);
