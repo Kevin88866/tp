@@ -7,9 +7,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static java.util.stream.Collectors.toList;
 
 public class ListAllTreatmentsCommand implements Command {
+
+    private static final Logger logger = Logger.getLogger(ListAllTreatmentsCommand.class.getName());
 
     /**
      * A list of all pets.
@@ -23,6 +28,8 @@ public class ListAllTreatmentsCommand implements Command {
      */
     public ListAllTreatmentsCommand(PetList pets) {
         this.pets = pets;
+        assert pets != null : "pets cannot be null.";
+        logger.setLevel(Level.WARNING);
     }
 
     /**
@@ -36,6 +43,11 @@ public class ListAllTreatmentsCommand implements Command {
      */
     @Override
     public void exec(String args) {
+        if (!args.isEmpty()) {
+            logger.log(Level.FINE, "Invalid format.");
+            System.out.println("Invalid format. There should be no extra details after the command.");
+            return;
+        }
         ArrayList<String> sortedTreatments = (ArrayList<String>) pets.stream()
                 .flatMap(pet -> pet.getTreatments().stream()
                         .map(treatment -> pet.getName() + ": " + treatment))
@@ -43,7 +55,9 @@ public class ListAllTreatmentsCommand implements Command {
                 .collect(toList());
 
         if (sortedTreatments.isEmpty()) {
+            logger.log(Level.FINE, "No treatments logged.");
             System.out.println("No treatments logged.");
+            return;
         }
 
         sortedTreatments.stream()
