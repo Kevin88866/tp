@@ -4,6 +4,7 @@ import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -15,6 +16,10 @@ import java.util.logging.Logger;
 public class ListPetsCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(ListPetsCommand.class.getName());
+
+    static {
+        LOGGER.setLevel(Level.OFF);
+    }
 
     /** Repository of pets. */
     private final PetList pets;
