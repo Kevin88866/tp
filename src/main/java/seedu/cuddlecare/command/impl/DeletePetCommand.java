@@ -61,25 +61,25 @@ public class DeletePetCommand implements Command {
      * @param args the command arguments in the form <code>i/&lt;index&gt;</code>
      */
     public void exec(String args) {
-        logger.info(() -> "Executing DeletePetCommand with args: " + args);
+        logger.finest(() -> "Executing DeletePetCommand with args: " + args);
 
         try {
             int index = parseIndex(args);
             if (index == -1) {
                 System.out.printf("Incorrect Syntax: %s%n", SYNTAX);
-                logger.warning(() -> "Failed to parse index from args: " + args);
+                logger.fine(() -> "Failed to parse index from args: " + args);
                 return;
             }
 
             if (!isValidIndex(index)) {
                 System.out.printf("Invalid pet index: %d. Total pets: %d%n", index, pets.size());
-                logger.warning(() -> "Invalid index provided: " + index);
+                logger.fine(() -> "Invalid index provided: " + index);
                 return;
             }
             deletePet(index);
         } catch (NumberFormatException e) {
             System.out.printf("Incorrect syntax: %s%n", SYNTAX);
-            logger.severe(() -> "NumberFormatException while parsing index: " + e.getMessage());
+            logger.fine(() -> "NumberFormatException while parsing index: " + e.getMessage());
         }
     }
 
