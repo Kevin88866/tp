@@ -1,16 +1,29 @@
 package seedu.cuddlecare.command.impl;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DeletePetCommandTest {
 
     private PetList pets;
     private DeletePetCommand deleteCommand;
+
+    @BeforeAll
+    static void muteLogs() {
+        LogManager.getLogManager().reset();
+        Logger root = Logger.getLogger("");
+        root.setLevel(Level.OFF);
+    }
 
     @BeforeEach
     void setUp() {
@@ -43,5 +56,10 @@ class DeletePetCommandTest {
     void exec_invalidNumberFormat_printsError() {
         deleteCommand.exec("i/abc");
         assertEquals(2, pets.size());
+    }
+
+    @Test
+    void constructor_nullPetList_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new DeletePetCommand(null));
     }
 }
