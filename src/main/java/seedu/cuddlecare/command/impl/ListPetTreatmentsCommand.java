@@ -34,7 +34,7 @@ public class ListPetTreatmentsCommand implements Command {
     public ListPetTreatmentsCommand(PetList pets) {
         this.pets = pets;
         assert pets != null : "pets cannot be null.";
-        logger.setLevel(Level.WARNING);
+        logger.setLevel(Level.OFF);
     }
 
     /**
@@ -54,14 +54,14 @@ public class ListPetTreatmentsCommand implements Command {
         if (args.startsWith("n/")) {
             petName = args.substring(2).trim();
         } else {
-            logger.log(Level.FINE, "Invalid format input.");
+            logger.log(Level.WARNING, "Invalid format input.");
             System.out.println("Invalid input. Usage: list-treatments n/PET_NAME");
             return;
         }
 
         Pet pet = pets.getPetByName(petName);
         if (pet == null) {
-            logger.log(Level.FINE, "No pet named " + petName);
+            logger.log(Level.WARNING, "No pet named " + petName);
             System.out.println("Pet not found: " + petName);
             return;
         }

@@ -29,7 +29,7 @@ public class ListAllTreatmentsCommand implements Command {
     public ListAllTreatmentsCommand(PetList pets) {
         this.pets = pets;
         assert pets != null : "pets cannot be null.";
-        logger.setLevel(Level.WARNING);
+        logger.setLevel(Level.OFF);
     }
 
     /**
@@ -44,7 +44,7 @@ public class ListAllTreatmentsCommand implements Command {
     @Override
     public void exec(String args) {
         if (!args.isEmpty()) {
-            logger.log(Level.FINE, "Invalid format.");
+            logger.log(Level.WARNING, "Invalid format.");
             System.out.println("Invalid format. There should be no extra details after the command.");
             return;
         }
@@ -55,7 +55,7 @@ public class ListAllTreatmentsCommand implements Command {
                 .collect(toList());
 
         if (sortedTreatments.isEmpty()) {
-            logger.log(Level.FINE, "No treatments logged.");
+            logger.log(Level.WARNING, "No treatments logged.");
             System.out.println("No treatments logged.");
             return;
         }
