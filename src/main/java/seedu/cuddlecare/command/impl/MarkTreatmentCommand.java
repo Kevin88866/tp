@@ -12,17 +12,19 @@ import seedu.cuddlecare.command.Command;
  * Marks a treatment as completed for a specific pet by local index.
  * <p>Usage: {@code mark n/PET_NAME i/INDEX}</p>
  * Example: {@code mark n/Milo i/2}
- *
- * @param pets Repository of pets.
  */
-public record MarkTreatmentCommand(PetList pets) implements Command {
+public class MarkTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(MarkTreatmentCommand.class.getName());
+
+    /** Repository of pets. */
+    private final PetList pets;
 
     /**
      * @param pets repository of pets
      */
-    public MarkTreatmentCommand {
+    public MarkTreatmentCommand(PetList pets) {
+        this.pets = pets;
     }
 
     /**
