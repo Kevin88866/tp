@@ -24,7 +24,7 @@ public class DeletePetCommand implements Command {
      */
     private static final Logger LOGGER = Logger.getLogger(DeletePetCommand.class.getName());
     static {
-        LOGGER.setLevel(Level.WARNING);
+        LOGGER.setLevel(Level.OFF);
     }
 
     /**
@@ -61,25 +61,25 @@ public class DeletePetCommand implements Command {
      * @param args the command arguments in the form <code>i/&lt;index&gt;</code>
      */
     public void exec(String args) {
-        LOGGER.finest(() -> "Executing DeletePetCommand with args: " + args);
+        LOGGER.log(Level.FINEST, "Executing DeletePetCommand with args: " + args);
 
         try {
             int index = parseIndex(args);
             if (index == -1) {
                 System.out.printf("Incorrect Syntax: %s%n", SYNTAX);
-                LOGGER.fine(() -> "Failed to parse index from args: " + args);
+                LOGGER.log(Level.FINE, "Failed to parse index from args: " + args);
                 return;
             }
 
             if (!isValidIndex(index)) {
                 System.out.printf("Invalid pet index: %d. Total pets: %d%n", index, pets.size());
-                LOGGER.fine(() -> "Invalid index provided: " + index);
+                LOGGER.log(Level.FINE, "Invalid index provided: " + index);
                 return;
             }
             deletePet(index);
         } catch (NumberFormatException e) {
             System.out.printf("Incorrect syntax: %s%n", SYNTAX);
-            LOGGER.fine(() -> "NumberFormatException while parsing index: " + e.getMessage());
+            LOGGER.log(Level.FINE, "NumberFormatException while parsing index: " + e.getMessage());
         }
     }
 
@@ -122,7 +122,7 @@ public class DeletePetCommand implements Command {
         System.out.printf("Successfully removed %s (%s, %d) from the list.%n",
                 deleted.getName(), deleted.getSpecies(), deleted.getAge());
 
-        LOGGER.info(() -> String.format("Deleted pet at index %d: %s (%s, %d)",
+        LOGGER.log(Level.INFO, String.format("Deleted pet at index %d: %s (%s, %d)",
                 index, deleted.getName(), deleted.getSpecies(), deleted.getAge()));
     }
 }
