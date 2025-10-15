@@ -11,6 +11,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DeletePetCommandTest {
 
@@ -55,5 +56,10 @@ class DeletePetCommandTest {
     void exec_invalidNumberFormat_printsError() {
         deleteCommand.exec("i/abc");
         assertEquals(2, pets.size());
+    }
+
+    @Test
+    void constructor_nullPetList_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new DeletePetCommand(null));
     }
 }
