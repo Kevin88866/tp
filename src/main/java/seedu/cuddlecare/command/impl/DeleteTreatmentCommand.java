@@ -15,7 +15,7 @@ import java.util.logging.Level;
  */
 public class DeleteTreatmentCommand implements Command {
 
-    private static final Logger logger = Logger.getLogger(DeleteTreatmentCommand.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DeleteTreatmentCommand.class.getName());
     private final PetList pets;
 
     /**
@@ -39,7 +39,7 @@ public class DeleteTreatmentCommand implements Command {
     @Override
     public void exec(String args) {
         assert args != null : "Command arguments cannot be null";
-        logger.log(Level.FINE, "Executing delete-treatment: {0}", args);
+        LOGGER.log(Level.INFO, "Executing delete-treatment: {0}", args);
 
         String petName = null;
         int index = -1;
@@ -65,7 +65,7 @@ public class DeleteTreatmentCommand implements Command {
                     try {
                         index = Integer.parseInt(indexString) - 1;
                     } catch (NumberFormatException e) {
-                        logger.log(Level.WARNING, "Invalid index format: {0}", indexString);
+                        LOGGER.log(Level.WARNING, "Invalid index format: {0}", indexString);
                         System.out.println("Invalid index format. Must be an integer.");
                         return;
                     }
@@ -79,7 +79,7 @@ public class DeleteTreatmentCommand implements Command {
 
             Pet pet = pets.getPetByName(petName);
             if (pet == null) {
-                logger.log(Level.WARNING, "Pet not found: {0}", petName);
+                LOGGER.log(Level.INFO, "Pet not found: {0}", petName);
                 System.out.println("Pet not found: " + petName);
                 return;
             }
@@ -98,11 +98,11 @@ public class DeleteTreatmentCommand implements Command {
             }
 
             Treatment removed = treatments.remove(index);
-            logger.log(Level.FINE, "Deleted treatment '{0}' from {1}", new Object[]{removed.getName(), petName});
+            LOGGER.log(Level.INFO, "Deleted treatment '{0}' from {1}", new Object[]{removed.getName(), petName});
             System.out.println("Deleted treatment \"" + removed.getName() + "\" for " + petName + ".");
 
         } catch (Exception e) {
-            logger.log(Level.WARNING, "Unable to delete treatment", e);
+            LOGGER.log(Level.WARNING, "Unable to delete treatment", e);
             System.out.println("Unable to delete the treatment. Please try again.");
         }
     }
