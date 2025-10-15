@@ -62,7 +62,7 @@ public class AddPetCommand implements Command {
                 } else if (part.startsWith("s/")) {
                     species = part.substring(2).trim();
                 } else if (part.startsWith("a/")) {
-                    age = Integer.parseInt(part.substring(2));
+                    age = Integer.parseInt(part.substring(2).trim());
                 }
             }
 
