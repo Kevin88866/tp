@@ -43,6 +43,7 @@ public class DeletePetCommand implements Command {
      * @param pets the PetList from which a pet will be deleted
      */
     public DeletePetCommand(PetList pets) {
+        assert pets != null : "PetList cannot be null";
         this.pets = pets;
     }
 
@@ -116,8 +117,11 @@ public class DeletePetCommand implements Command {
      */
     private void deletePet(int index) {
         Pet deleted = pets.deleteByIndex(index - 1);
+        assert deleted != null : "Deleted pet should never be null";
+
         System.out.printf("Successfully removed %s (%s, %d) from the list.%n",
                 deleted.getName(), deleted.getSpecies(), deleted.getAge());
+
         logger.info(() -> String.format("Deleted pet at index %d: %s (%s, %d)",
                 index, deleted.getName(), deleted.getSpecies(), deleted.getAge()));
     }
