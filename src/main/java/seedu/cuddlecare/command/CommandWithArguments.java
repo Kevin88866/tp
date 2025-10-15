@@ -53,8 +53,8 @@ public class CommandWithArguments implements Command {
      */
     @Override
     public void exec(String ignored) {
-        LOGGER.fine(() -> "Executing CommandWithArguments: " + command.getClass().getSimpleName() +
-                " with args: \"" + args + "\"");
+        LOGGER.log(Level.FINE, "Executing CommandWithArguments: "
+                + command.getClass().getSimpleName() + " with args: \"" + args + "\"");
 
         command.exec(args);
     }
