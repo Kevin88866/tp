@@ -17,7 +17,7 @@ public class CommandWithArguments implements Command {
     private static final Logger logger = Logger.getLogger(CommandWithArguments.class.getName());
 
     static {
-        logger.setLevel(Level.FINE); // Only log detailed info for debugging
+        logger.setLevel(Level.WARNING);
     }
 
     /**
