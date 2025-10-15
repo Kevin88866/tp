@@ -15,6 +15,8 @@ import seedu.cuddlecare.parser.Parser;
 
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The main class for the CuddleCare application.
@@ -24,6 +26,14 @@ import java.util.Scanner;
  * and running the main application loop.
  */
 public class CuddleCare {
+
+    /**
+     * Logger instance for this class.
+     */
+    private static final Logger LOGGER = Logger.getLogger(CuddleCare.class.getName());
+    static {
+        LOGGER.setLevel(Level.OFF);
+    }
 
     /**
      * Symbol used to prompt user input.
@@ -51,6 +61,7 @@ public class CuddleCare {
      */
     CuddleCare() {
         parser = new Parser();
+        assert parser != null : "Parser cannot be null";
     }
 
     /**
@@ -68,6 +79,7 @@ public class CuddleCare {
      */
     void greet() {
         System.out.println("Hello! Welcome to CuddleCare.");
+        LOGGER.log(Level.INFO, "Greeted the user");
     }
 
     /**
@@ -80,15 +92,19 @@ public class CuddleCare {
         printInputPrompt();
         while (sc.hasNextLine()) {
             String input = sc.nextLine();
+            assert input != null : "Input cannot be null";
             Command command = parser.parse(input);
             if (command == null) {
+                LOGGER.log(Level.WARNING, "Received invalid or empty input");
                 printInputPrompt();
                 continue;
             }
+            LOGGER.log(Level.INFO, "Executing command: " + command.getClass().getSimpleName());
             command.exec("");
             printInputPrompt();
         }
         sc.close();
+        LOGGER.log(Level.INFO, "Scanner closed, application loop ended");
     }
 
     /**
@@ -115,8 +131,9 @@ public class CuddleCare {
                 Map.entry("delete-pet", new DeletePetCommand(pets)),
                 Map.entry("delete-treatment", new DeleteTreatmentCommand(pets))
         );
-
+        assert commands != null : "Commands map cannot be null";
         parser.setCommands(commands);
+        LOGGER.log(Level.INFO, "Commands initialized with " + commands.size() + " entries");
     }
 
     Map<String, Command> getCommandsForTesting() {
@@ -130,6 +147,7 @@ public class CuddleCare {
      */
     public static void main(String[] args) {
         CuddleCare application = new CuddleCare();
+        LOGGER.log(Level.INFO, "CuddleCare application created");
         application.run();
     }
 }
