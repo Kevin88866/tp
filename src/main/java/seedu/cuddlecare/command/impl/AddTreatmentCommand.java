@@ -45,7 +45,7 @@ public class AddTreatmentCommand implements Command {
     @Override
     public void exec(String args) {
         assert args != null : "Command arguments cannot be null";
-        logger.log(Level.INFO, "Executing add-treatment: {0}", args);
+        logger.log(Level.FINE, "Executing add-treatment: {0}", args);
 
         String petName = null;
         String treatmentName = null;
@@ -99,13 +99,13 @@ public class AddTreatmentCommand implements Command {
             ArrayList<Treatment> treatments = pet.getTreatments();
             treatments.add(newTreatment);
 
-            logger.log(Level.INFO, "Added treatment '{0}' for {1} on {2}",
+            logger.log(Level.FINE, "Added treatment '{0}' for {1} on {2}",
                     new Object[]{treatmentName, petName, date});
             System.out.println("Added treatment \"" + treatmentName + "\" on " + date +
                     " for " + petName + ".");
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Unable to add treatment", e);
+            logger.log(Level.WARNING, "Unable to add treatment", e);
             System.out.println("Unable to add the treatment. Please try again.");
         }
     }
