@@ -115,14 +115,15 @@ public class UnmarkTreatmentCommand implements Command {
                     idx = Integer.parseInt(num);
                     hasIndex = true;
                 } catch (NumberFormatException e) {
-                    isBadIndex = true;
+                    p.valid = false;
+                    return p;
                 }
             }
         }
 
         p.petName = name;
         p.index = (idx == null) ? -1 : idx;
-        p.valid = hasName && hasIndex && !isBadIndex && p.index > 0 && !p.petName.isEmpty();
+        p.valid = hasName && hasIndex && p.index > 0 && !p.petName.isEmpty();
         return p;
     }
 
