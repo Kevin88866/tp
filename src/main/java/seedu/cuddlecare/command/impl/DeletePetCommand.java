@@ -22,9 +22,9 @@ public class DeletePetCommand implements Command {
     /**
      * Logger instance for the {@code DeletePetCommand} class.
      */
-    private static final Logger logger = Logger.getLogger(DeletePetCommand.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DeletePetCommand.class.getName());
     static {
-        logger.setLevel(Level.WARNING);
+        LOGGER.setLevel(Level.WARNING);
     }
 
     /**
@@ -61,25 +61,25 @@ public class DeletePetCommand implements Command {
      * @param args the command arguments in the form <code>i/&lt;index&gt;</code>
      */
     public void exec(String args) {
-        logger.finest(() -> "Executing DeletePetCommand with args: " + args);
+        LOGGER.finest(() -> "Executing DeletePetCommand with args: " + args);
 
         try {
             int index = parseIndex(args);
             if (index == -1) {
                 System.out.printf("Incorrect Syntax: %s%n", SYNTAX);
-                logger.fine(() -> "Failed to parse index from args: " + args);
+                LOGGER.fine(() -> "Failed to parse index from args: " + args);
                 return;
             }
 
             if (!isValidIndex(index)) {
                 System.out.printf("Invalid pet index: %d. Total pets: %d%n", index, pets.size());
-                logger.fine(() -> "Invalid index provided: " + index);
+                LOGGER.fine(() -> "Invalid index provided: " + index);
                 return;
             }
             deletePet(index);
         } catch (NumberFormatException e) {
             System.out.printf("Incorrect syntax: %s%n", SYNTAX);
-            logger.fine(() -> "NumberFormatException while parsing index: " + e.getMessage());
+            LOGGER.fine(() -> "NumberFormatException while parsing index: " + e.getMessage());
         }
     }
 
@@ -122,7 +122,7 @@ public class DeletePetCommand implements Command {
         System.out.printf("Successfully removed %s (%s, %d) from the list.%n",
                 deleted.getName(), deleted.getSpecies(), deleted.getAge());
 
-        logger.info(() -> String.format("Deleted pet at index %d: %s (%s, %d)",
+        LOGGER.info(() -> String.format("Deleted pet at index %d: %s (%s, %d)",
                 index, deleted.getName(), deleted.getSpecies(), deleted.getAge()));
     }
 }
