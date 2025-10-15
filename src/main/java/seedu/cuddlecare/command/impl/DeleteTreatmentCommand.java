@@ -6,7 +6,8 @@ import seedu.cuddlecare.Treatment;
 import seedu.cuddlecare.command.Command;
 
 import java.util.ArrayList;
-
+import java.util.logging.Logger;
+import java.util.logging.Level;
 /**
  * A command that deletes a treatment record for a specified pet.
  *
@@ -14,6 +15,7 @@ import java.util.ArrayList;
  */
 public class DeleteTreatmentCommand implements Command {
 
+    private static final Logger logger = Logger.getLogger(DeleteTreatmentCommand.class.getName());
     private final PetList pets;
 
     /**
@@ -35,6 +37,8 @@ public class DeleteTreatmentCommand implements Command {
      */
     @Override
     public void exec(String args) {
+        logger.log(Level.INFO, "Executing delete-treatment: {0}", args);
+
         String petName = null;
         int index = -1;
 
@@ -46,6 +50,7 @@ public class DeleteTreatmentCommand implements Command {
                 try {
                     index = Integer.parseInt(part.substring(2).trim()) - 1;
                 } catch (NumberFormatException e) {
+                    logger.log(Level.WARNING, "Invalid index format: {0}", part.substring(2).trim());
                     System.out.println("Invalid index format. Must be an integer.");
                     return;
                 }
@@ -59,6 +64,7 @@ public class DeleteTreatmentCommand implements Command {
 
         Pet pet = pets.getPetByName(petName);
         if (pet == null) {
+            logger.log(Level.WARNING, "Pet not found: {0}", petName);
             System.out.println("Pet not found: " + petName);
             return;
         }
@@ -75,6 +81,7 @@ public class DeleteTreatmentCommand implements Command {
         }
 
         Treatment removed = treatments.remove(index);
+        logger.log(Level.INFO, "Deleted treatment '{0}' from {1}", new Object[]{removed.getName(), petName});
         System.out.println("Deleted treatment \"" + removed.getName() + "\" for " + petName + ".");
     }
 }
