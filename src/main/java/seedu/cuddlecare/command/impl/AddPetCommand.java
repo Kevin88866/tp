@@ -19,7 +19,7 @@ public class AddPetCommand implements Command {
     private static final Logger LOGGER = Logger.getLogger(AddPetCommand.class.getName());
 
     static {
-        LOGGER.setLevel(Level.WARNING);
+        LOGGER.setLevel(Level.OFF);
     }
 
     /** A list of all pets. */
@@ -90,7 +90,7 @@ public class AddPetCommand implements Command {
             LOGGER.log(Level.SEVERE, "Unexpected error when executing add-pet command", e);
             System.out.println("An error occurred.");
         } finally {
-            LOGGER.log(Level.FINE, "Add-pet command execution completed.");
+            LOGGER.log(Level.INFO, "Add-pet command execution completed.");
         }
     } 
 }
