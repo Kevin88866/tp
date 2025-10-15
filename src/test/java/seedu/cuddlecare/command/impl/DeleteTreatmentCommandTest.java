@@ -42,10 +42,22 @@ class DeleteTreatmentCommandTest {
     @Test
     void exec_validDelete_removesTreatmentSuccessfully() {
         DeleteTreatmentCommand command = new DeleteTreatmentCommand(petList);
-        command.exec("n/Peanut i/1");
+        command.exec("n/Peanut i/1"); // This deletes first treatment (Rabies Vaccine)
 
         String output = outContent.toString().trim();
-        assertTrue(output.contains("Deleted treatment \"Rabies Vaccine\" for Peanut."));
+        assertTrue(output.contains("Deleted treatment \"Rabies Vaccine\" for Peanut."),
+                "Expected to delete 'Rabies Vaccine' but got: " + output);
+        assertEquals(1, petList.getPetByName("Peanut").getTreatments().size());
+    }
+
+    @Test
+    void exec_deleteSecondTreatment_removesGrooming() {
+        DeleteTreatmentCommand command = new DeleteTreatmentCommand(petList);
+        command.exec("n/Peanut i/2"); // This deletes second treatment (Grooming)
+
+        String output = outContent.toString().trim();
+        assertTrue(output.contains("Deleted treatment \"Grooming\" for Peanut."),
+                "Expected to delete 'Grooming' but got: " + output);
         assertEquals(1, petList.getPetByName("Peanut").getTreatments().size());
     }
 

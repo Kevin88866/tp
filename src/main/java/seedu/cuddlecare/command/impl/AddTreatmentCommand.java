@@ -7,7 +7,6 @@ import seedu.cuddlecare.command.Command;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -99,8 +98,7 @@ public class AddTreatmentCommand implements Command {
             }
 
             Treatment newTreatment = new Treatment(treatmentName, date);
-            ArrayList<Treatment> treatments = pet.getTreatments();
-            treatments.add(newTreatment);
+            pet.addTreatment(newTreatment);
 
             LOGGER.log(Level.INFO, "Added treatment '{0}' for {1} on {2}",
                     new Object[]{treatmentName, petName, date});
