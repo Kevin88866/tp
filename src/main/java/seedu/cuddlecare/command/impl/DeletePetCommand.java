@@ -3,6 +3,8 @@ package seedu.cuddlecare.command.impl;
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
+
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -21,6 +23,9 @@ public class DeletePetCommand implements Command {
      * Logger instance for the {@code DeletePetCommand} class.
      */
     private static final Logger logger = Logger.getLogger(DeletePetCommand.class.getName());
+    static {
+        logger.setLevel(Level.WARNING);
+    }
 
     /**
      * Syntax help message displayed on incorrect usage.
