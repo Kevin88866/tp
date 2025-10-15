@@ -4,6 +4,9 @@ import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Command to delete a pet from the {@link PetList} based on its index.
  * <p>
@@ -15,6 +18,14 @@ import seedu.cuddlecare.command.Command;
  * Example: <code>delete-pet i/2</code> will remove the second pet in the list.
  */
 public class DeletePetCommand implements Command {
+
+    /**
+     * Logger instance for the {@code DeletePetCommand} class.
+     */
+    private static final Logger LOGGER = Logger.getLogger(DeletePetCommand.class.getName());
+    static {
+        LOGGER.setLevel(Level.OFF);
+    }
 
     /**
      * Syntax help message displayed on incorrect usage.
@@ -32,6 +43,7 @@ public class DeletePetCommand implements Command {
      * @param pets the PetList from which a pet will be deleted
      */
     public DeletePetCommand(PetList pets) {
+        assert pets != null : "PetList cannot be null";
         this.pets = pets;
     }
 
@@ -49,20 +61,25 @@ public class DeletePetCommand implements Command {
      * @param args the command arguments in the form <code>i/&lt;index&gt;</code>
      */
     public void exec(String args) {
+        LOGGER.log(Level.INFO, "Executing DeletePetCommand with args: " + args);
+
         try {
             int index = parseIndex(args);
             if (index == -1) {
                 System.out.printf("Incorrect Syntax: %s%n", SYNTAX);
+                LOGGER.log(Level.WARNING, "Failed to parse index from args: " + args);
                 return;
             }
 
             if (!isValidIndex(index)) {
                 System.out.printf("Invalid pet index: %d. Total pets: %d%n", index, pets.size());
+                LOGGER.log(Level.WARNING, "Invalid index provided: " + index);
                 return;
             }
             deletePet(index);
         } catch (NumberFormatException e) {
             System.out.printf("Incorrect syntax: %s%n", SYNTAX);
+            LOGGER.log(Level.SEVERE, "NumberFormatException while parsing index: " + e.getMessage());
         }
     }
 
@@ -100,7 +117,12 @@ public class DeletePetCommand implements Command {
      */
     private void deletePet(int index) {
         Pet deleted = pets.deleteByIndex(index - 1);
+        assert deleted != null : "Deleted pet should never be null";
+
         System.out.printf("Successfully removed %s (%s, %d) from the list.%n",
                 deleted.getName(), deleted.getSpecies(), deleted.getAge());
+
+        LOGGER.log(Level.INFO, String.format("Deleted pet at index %d: %s (%s, %d)",
+                index, deleted.getName(), deleted.getSpecies(), deleted.getAge()));
     }
 }

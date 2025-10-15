@@ -6,15 +6,23 @@ import seedu.cuddlecare.Treatment;
 import seedu.cuddlecare.command.Command;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A command that lists all treatment records for a specified pet.
- *
+ * <p>
  * When executed, this command finds the specified {@link Pet} in the
  * {@link PetList}, gets the pet's treatment list and prints the
  * treatment records.
  */
 public class ListPetTreatmentsCommand implements Command {
+
+    private static final Logger LOGGER = Logger.getLogger(ListPetTreatmentsCommand.class.getName());
+
+    static {
+        LOGGER.setLevel(Level.OFF);
+    }
 
     /**
      * A list of all pets.
@@ -29,11 +37,12 @@ public class ListPetTreatmentsCommand implements Command {
      */
     public ListPetTreatmentsCommand(PetList pets) {
         this.pets = pets;
+        assert pets != null : "pets cannot be null.";
     }
 
     /**
      * Executes the List Pet Treatment command.
-     *
+     * <p>
      * Parses user input, finds the corresponding pet by name,
      * gets the pet's treatment list, and prints out all treatment
      * records in the treatment list.
@@ -48,12 +57,14 @@ public class ListPetTreatmentsCommand implements Command {
         if (args.startsWith("n/")) {
             petName = args.substring(2).trim();
         } else {
+            LOGGER.log(Level.WARNING, "Invalid format input.");
             System.out.println("Invalid input. Usage: list-treatments n/PET_NAME");
             return;
         }
 
         Pet pet = pets.getPetByName(petName);
         if (pet == null) {
+            LOGGER.log(Level.WARNING, "No pet named " + petName);
             System.out.println("Pet not found: " + petName);
             return;
         }

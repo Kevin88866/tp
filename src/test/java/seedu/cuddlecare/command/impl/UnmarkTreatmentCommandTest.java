@@ -1,9 +1,15 @@
 package seedu.cuddlecare.command.impl;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
@@ -37,6 +43,19 @@ public class UnmarkTreatmentCommandTest {
         milo.addTreatment(new Treatment("Stitches Removal", LocalDate.parse("2025-10-10")));
 
         pets.add(milo);
+    }
+
+    @BeforeAll
+    static void muteLogs() {
+        LogManager.getLogManager().reset();
+        Logger root = Logger.getLogger("");
+        root.setLevel(Level.OFF);
+    }
+
+    private static boolean assertionsEnabled() {
+        boolean enabled = false;
+        assert enabled = true;
+        return enabled;
     }
 
     @AfterEach
@@ -102,4 +121,13 @@ public class UnmarkTreatmentCommandTest {
         Assertions.assertTrue(s2.contains("Usage: unmark n/PET_NAME i/INDEX"),
                 "Expected usage line when missing index.\n" + s2);
     }
+
+    @Test
+    void exec_withNullPetList_triggersAssertionWhenEnabled() {
+        Assumptions.assumeTrue(assertionsEnabled(), "Assertions not enabled (-ea); skipping.");
+        Command cmd = new UnmarkTreatmentCommand(null);
+        Assertions.assertThrows(AssertionError.class, () -> cmd.exec("n/Milo i/1"),
+                "With -ea, exec should assert on null PetList");
+    }
+
 }

@@ -1,9 +1,15 @@
 package seedu.cuddlecare.command.impl;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
@@ -24,6 +30,19 @@ public class ListPetsCommandTest {
     void setUp() {
         out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
+    }
+
+    @BeforeAll
+    static void muteLogs() {
+        LogManager.getLogManager().reset();
+        Logger root = Logger.getLogger("");
+        root.setLevel(Level.OFF);
+    }
+
+    private static boolean assertionsEnabled() {
+        boolean enabled = false;
+        assert enabled = true;
+        return enabled;
     }
 
     @AfterEach
@@ -58,5 +77,13 @@ public class ListPetsCommandTest {
         Assertions.assertTrue(s.contains("Here are your pets:"), "Missing header.\n" + s);
         Assertions.assertTrue(s.contains("1. " + milo.toString()), "Missing/incorrect 1st line.\n" + s);
         Assertions.assertTrue(s.contains("2. " + luna.toString()), "Missing/incorrect 2nd line.\n" + s);
+    }
+
+    @Test
+    void exec_withNullPetList_triggersAssertionWhenEnabled() {
+        Assumptions.assumeTrue(assertionsEnabled(), "Assertions not enabled (-ea); skipping.");
+        Command cmd = new ListPetsCommand(null);
+        Assertions.assertThrows(AssertionError.class, () -> cmd.exec(""),
+                "With -ea, exec(null) should trigger an AssertionError");
     }
 }

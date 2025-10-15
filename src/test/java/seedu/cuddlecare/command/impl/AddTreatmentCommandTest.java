@@ -44,8 +44,7 @@ class AddTreatmentCommandTest {
         assertEquals("Vaccination", pet.getTreatments().get(0).getName());
         assertEquals(LocalDate.of(2025, 10, 6), pet.getTreatments().get(0).getDate());
 
-        assertTrue(outContent.toString().contains("Treatment added to Fluffy: Vaccination on 2025-10-06"));
-    }
+        assertTrue(outContent.toString().contains("Added treatment \"Vaccination\" on 2025-10-06 for Fluffy."));    }
 
     @Test
     void exec_inputWithExtraSpaces_stillParses() {
