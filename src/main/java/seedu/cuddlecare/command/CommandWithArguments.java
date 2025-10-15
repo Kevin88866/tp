@@ -1,17 +1,33 @@
 package seedu.cuddlecare.command;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Wraps a {@link Command} along with its arguments.
- *
+ * <p>
  * This class allows the parser to separate command execution
  * from parsing input, storing the arguments for execution later.
  */
-public class CommandWithArguments implements Command{
+public class CommandWithArguments implements Command {
 
-    /** The underlying command to execute. */
+    /**
+     * Logger instance for this class.
+     */
+    private static final Logger logger = Logger.getLogger(CommandWithArguments.class.getName());
+
+    static {
+        logger.setLevel(Level.FINE); // Only log detailed info for debugging
+    }
+
+    /**
+     * The underlying command to execute.
+     */
     private final Command command;
 
-    /** The arguments associated with the command. */
+    /**
+     * The arguments associated with the command.
+     */
     private final String args;
 
     /**
@@ -27,7 +43,7 @@ public class CommandWithArguments implements Command{
 
     /**
      * Executes the underlying command using the stored arguments.
-     * 
+     * <p>
      * The {@code exec} parameter is ignored because arguments
      * are already stored in this object.
      *
@@ -35,6 +51,9 @@ public class CommandWithArguments implements Command{
      */
     @Override
     public void exec(String ignored) {
+        logger.fine(() -> "Executing CommandWithArguments: " + command.getClass().getSimpleName() +
+                " with args: \"" + args + "\"");
+
         command.exec(args);
     }
 }
