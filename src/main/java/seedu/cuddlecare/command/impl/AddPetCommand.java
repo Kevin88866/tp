@@ -15,11 +15,11 @@ import java.util.logging.Logger;
  */
 public class AddPetCommand implements Command {
     
-    /** A list of all pets. */
-    private final PetList pets;
-
     /** Logger for this class. */
     private static final Logger LOGGER = Logger.getLogger(AddPetCommand.class.getName());
+
+    /** A list of all pets. */
+    private final PetList pets;
     
     /**
      * Initializes the AddPetCommand with the
