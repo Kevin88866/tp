@@ -39,7 +39,7 @@ public class DeleteTreatmentCommand implements Command {
     @Override
     public void exec(String args) {
         assert args != null : "Command arguments cannot be null";
-        logger.log(Level.INFO, "Executing delete-treatment: {0}", args);
+        logger.log(Level.FINE, "Executing delete-treatment: {0}", args);
 
         String petName = null;
         int index = -1;
@@ -98,11 +98,11 @@ public class DeleteTreatmentCommand implements Command {
             }
 
             Treatment removed = treatments.remove(index);
-            logger.log(Level.INFO, "Deleted treatment '{0}' from {1}", new Object[]{removed.getName(), petName});
+            logger.log(Level.FINE, "Deleted treatment '{0}' from {1}", new Object[]{removed.getName(), petName});
             System.out.println("Deleted treatment \"" + removed.getName() + "\" for " + petName + ".");
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Unable to delete treatment", e);
+            logger.log(Level.WARNING, "Unable to delete treatment", e);
             System.out.println("Unable to delete the treatment. Please try again.");
         }
     }
