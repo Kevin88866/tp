@@ -19,7 +19,7 @@ import java.util.logging.Level;
  */
 public class AddTreatmentCommand implements Command {
 
-    private static final Logger logger = Logger.getLogger(AddTreatmentCommand.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AddTreatmentCommand.class.getName());
 
     /** A list of all pets. */
     private final PetList pets;
@@ -45,7 +45,7 @@ public class AddTreatmentCommand implements Command {
     @Override
     public void exec(String args) {
         assert args != null : "Command arguments cannot be null";
-        logger.log(Level.FINE, "Executing add-treatment: {0}", args);
+        LOGGER.log(Level.INFO, "Executing add-treatment: {0}", args);
 
         String petName = null;
         String treatmentName = null;
@@ -76,7 +76,7 @@ public class AddTreatmentCommand implements Command {
                     try {
                         date = LocalDate.parse(dateString);
                     } catch (DateTimeParseException e) {
-                        logger.log(Level.WARNING, "Invalid date format: {0}", dateString);
+                        LOGGER.log(Level.WARNING, "Invalid date format: {0}", dateString);
                         System.out.println("Invalid date format. Please use yyyy-MM-dd format (e.g., 2024-12-25).");
                         return;
                     }
@@ -84,6 +84,9 @@ public class AddTreatmentCommand implements Command {
             }
 
             if (petName == null || treatmentName == null || date == null) {
+                LOGGER.log(Level.INFO, "Missing required parameters - petName: {0}, treatmentName: {1}, date: {2}",
+                        new Object[]{petName, treatmentName, date});
+
                 System.out.println("Invalid input. Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE");
                 return;
             }
@@ -99,13 +102,13 @@ public class AddTreatmentCommand implements Command {
             ArrayList<Treatment> treatments = pet.getTreatments();
             treatments.add(newTreatment);
 
-            logger.log(Level.FINE, "Added treatment '{0}' for {1} on {2}",
+            LOGGER.log(Level.INFO, "Added treatment '{0}' for {1} on {2}",
                     new Object[]{treatmentName, petName, date});
             System.out.println("Added treatment \"" + treatmentName + "\" on " + date +
                     " for " + petName + ".");
 
         } catch (Exception e) {
-            logger.log(Level.WARNING, "Unable to add treatment", e);
+            LOGGER.log(Level.WARNING, "Unable to add treatment", e);
             System.out.println("Unable to add the treatment. Please try again.");
         }
     }
