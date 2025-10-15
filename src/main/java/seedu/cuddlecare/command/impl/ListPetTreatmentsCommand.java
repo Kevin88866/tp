@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class ListPetTreatmentsCommand implements Command {
 
-    private static final Logger logger = Logger.getLogger(ListPetTreatmentsCommand.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ListPetTreatmentsCommand.class.getName());
 
     /**
      * A list of all pets.
@@ -34,7 +34,7 @@ public class ListPetTreatmentsCommand implements Command {
     public ListPetTreatmentsCommand(PetList pets) {
         this.pets = pets;
         assert pets != null : "pets cannot be null.";
-        logger.setLevel(Level.OFF);
+        LOGGER.setLevel(Level.OFF);
     }
 
     /**
@@ -54,14 +54,14 @@ public class ListPetTreatmentsCommand implements Command {
         if (args.startsWith("n/")) {
             petName = args.substring(2).trim();
         } else {
-            logger.log(Level.WARNING, "Invalid format input.");
+            LOGGER.log(Level.WARNING, "Invalid format input.");
             System.out.println("Invalid input. Usage: list-treatments n/PET_NAME");
             return;
         }
 
         Pet pet = pets.getPetByName(petName);
         if (pet == null) {
-            logger.log(Level.WARNING, "No pet named " + petName);
+            LOGGER.log(Level.WARNING, "No pet named " + petName);
             System.out.println("Pet not found: " + petName);
             return;
         }
