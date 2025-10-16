@@ -31,6 +31,7 @@ test {
 
 application {
     mainClass.set("seedu.cuddlecare.CuddleCare")
+    applicationDefaultJvmArgs = ["-ea"]
 }
 
 shadowJar {
@@ -44,4 +45,5 @@ checkstyle {
 
 run{
     standardInput = System.in
+    jvmArgs = ["-ea"]
 }
