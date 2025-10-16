@@ -108,7 +108,7 @@ public class DeletePetCommand implements Command {
 
         for (String part: parts) {
             if (part.startsWith("n/")) {
-                return part.substring(2);
+                return part.substring(2).trim();
             }
         }
 
