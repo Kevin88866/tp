@@ -16,10 +16,6 @@ public class CommandWithArguments implements Command {
      */
     private static final Logger LOGGER = Logger.getLogger(CommandWithArguments.class.getName());
 
-    static {
-        LOGGER.setLevel(Level.OFF);
-    }
-
     /**
      * The underlying command to execute.
      */
@@ -53,7 +49,7 @@ public class CommandWithArguments implements Command {
      */
     @Override
     public void exec(String ignored) {
-        LOGGER.log(Level.FINE, "Executing CommandWithArguments: "
+        LOGGER.log(Level.INFO, "Executing CommandWithArguments: "
                 + command.getClass().getSimpleName() + " with args: \"" + args + "\"");
 
         command.exec(args);

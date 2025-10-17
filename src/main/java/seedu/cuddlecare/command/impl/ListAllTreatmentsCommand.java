@@ -16,10 +16,6 @@ public class ListAllTreatmentsCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(ListAllTreatmentsCommand.class.getName());
 
-    static {
-        LOGGER.setLevel(Level.OFF);
-    }
-
     /**
      * A list of all pets.
      */

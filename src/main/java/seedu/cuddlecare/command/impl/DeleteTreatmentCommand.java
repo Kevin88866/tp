@@ -16,9 +16,6 @@ import java.util.logging.Level;
 public class DeleteTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(DeleteTreatmentCommand.class.getName());
-    static {
-        LOGGER.setLevel(Level.OFF);
-    }
     
     private final PetList pets;
 
