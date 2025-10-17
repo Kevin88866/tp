@@ -18,10 +18,6 @@ public class AddPetCommand implements Command {
     /** Logger for this class. */
     private static final Logger LOGGER = Logger.getLogger(AddPetCommand.class.getName());
 
-    static {
-        LOGGER.setLevel(Level.OFF);
-    }
-
     /** A list of all pets. */
     private final PetList pets;
     

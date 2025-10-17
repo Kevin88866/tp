@@ -11,6 +11,7 @@ import seedu.cuddlecare.command.impl.MarkTreatmentCommand;
 import seedu.cuddlecare.command.impl.UnmarkTreatmentCommand;
 import seedu.cuddlecare.command.impl.DeletePetCommand;
 import seedu.cuddlecare.command.impl.DeleteTreatmentCommand;
+import seedu.cuddlecare.config.LoggingConfigurator;
 import seedu.cuddlecare.parser.Parser;
 
 import java.util.Map;
@@ -31,9 +32,6 @@ public class CuddleCare {
      * Logger instance for this class.
      */
     private static final Logger LOGGER = Logger.getLogger(CuddleCare.class.getName());
-    static {
-        LOGGER.setLevel(Level.OFF);
-    }
 
     /**
      * Symbol used to prompt user input.
@@ -65,10 +63,13 @@ public class CuddleCare {
     }
 
     /**
-     * Starts the application by initializing commands,
-     * greeting the user, and entering the main loop.
+     * Starts the application by configuring the root logger,
+     * initializing commands, greeting the user,
+     * and entering the main loop.
      */
     void run() {
+        LoggingConfigurator.setup();
+        LOGGER.log(Level.INFO, "CuddleCare application started");
         initialiseCommands();
         greet();
         startApplicationLoop();
@@ -147,7 +148,6 @@ public class CuddleCare {
      */
     public static void main(String[] args) {
         CuddleCare application = new CuddleCare();
-        LOGGER.log(Level.INFO, "CuddleCare application created");
         application.run();
     }
 }

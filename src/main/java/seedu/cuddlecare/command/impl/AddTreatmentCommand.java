@@ -19,9 +19,6 @@ import java.util.logging.Level;
 public class AddTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(AddTreatmentCommand.class.getName());
-    static {
-        LOGGER.setLevel(Level.OFF);
-    }
 
     /** A list of all pets. */
     private final PetList pets;
