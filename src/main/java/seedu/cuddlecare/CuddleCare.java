@@ -13,6 +13,7 @@ import seedu.cuddlecare.command.impl.DeletePetCommand;
 import seedu.cuddlecare.command.impl.DeleteTreatmentCommand;
 import seedu.cuddlecare.config.LoggingConfigurator;
 import seedu.cuddlecare.parser.Parser;
+import seedu.cuddlecare.command.impl.FindCommand;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -130,7 +131,8 @@ public class CuddleCare {
                 Map.entry("list-all-treatments", new ListAllTreatmentsCommand(pets)),
                 Map.entry("list-treatments", new ListPetTreatmentsCommand(pets)),
                 Map.entry("delete-pet", new DeletePetCommand(pets)),
-                Map.entry("delete-treatment", new DeleteTreatmentCommand(pets))
+                Map.entry("delete-treatment", new DeleteTreatmentCommand(pets)),
+                Map.entry("find", new FindCommand(pets))
         );
         assert commands != null : "Commands map cannot be null";
         parser.setCommands(commands);
