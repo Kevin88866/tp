@@ -28,7 +28,6 @@ public class LoggingConfigurator {
 
             if (Files.notExists(LOG_DIR_PATH)) {
                 Files.createDirectories(LOG_DIR_PATH);
-                System.out.println("INFO: Created logging directory: " + LOG_DIR_PATH.toAbsolutePath());
             }
 
             FileHandler fileHandler = new FileHandler(LOG_FILE_PATH, 0, 1, true);
