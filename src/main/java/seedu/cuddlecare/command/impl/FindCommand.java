@@ -17,7 +17,10 @@ import java.util.logging.Level;
  */
 public class FindCommand implements Command {
 
-    private static final Logger logger = Logger.getLogger(FindCommand.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FindCommand.class.getName());
+    static {
+        LOGGER.setLevel(Level.OFF);
+    }
 
     /** A list of all pets. */
     private final PetList pets;
@@ -44,13 +47,13 @@ public class FindCommand implements Command {
     @Override
     public void exec(String args) {
         assert args != null : "Command arguments cannot be null";
-        logger.log(Level.INFO, "Starting find treatment command execution");
+        LOGGER.log(Level.INFO, "Starting find treatment command execution");
 
         try {
             String keyword = args.trim();
 
             if (keyword.isEmpty()) {
-                logger.log(Level.WARNING, "Empty keyword provided");
+                LOGGER.log(Level.WARNING, "Empty keyword provided");
                 System.out.println("Error: Please provide a keyword to search for.");
                 return;
             }
@@ -67,7 +70,7 @@ public class FindCommand implements Command {
             }
 
             if (matchingTreatments.isEmpty()) {
-                logger.log(Level.INFO, "No treatments found containing keyword: {0}", keyword);
+                LOGGER.log(Level.INFO, "No treatments found containing keyword: {0}", keyword);
                 System.out.println("No treatments found containing: \"" + keyword + "\"");
                 return;
             }
@@ -77,7 +80,7 @@ public class FindCommand implements Command {
             matchingTreatments.forEach(System.out::println);
 
         } catch (Exception e) {
-            logger.log(Level.WARNING, "Unexpected error during find treatment execution", e);
+            LOGGER.log(Level.WARNING, "Unexpected error during find treatment execution", e);
             System.out.println("Unable to search for treatments. Please try again.");
         }
     }
