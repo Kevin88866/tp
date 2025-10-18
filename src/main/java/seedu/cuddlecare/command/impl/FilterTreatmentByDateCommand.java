@@ -14,8 +14,8 @@ import java.util.logging.Level;
 /**
  * A command that filters treatments by date range across all pets.
  *
- * <p>When executed, this command searches through all treatments of all pets
- * and returns those that fall within the specified date range (inclusive).</p>
+ * When executed, this command searches through all treatments of all pets
+ * and returns those that fall within the specified date range (inclusive).
  */
 public class FilterTreatmentByDateCommand implements Command {
 
@@ -37,8 +37,8 @@ public class FilterTreatmentByDateCommand implements Command {
     /**
      * Executes the filter treatment by date command.
      *
-     * <p>Filters treatments across all pets and displays those that fall
-     * within the specified date range (inclusive of start and end dates).</p>
+     * Filters treatments across all pets and displays those that fall
+     * within the specified date range (inclusive of start and end dates).
      *
      * @param args the date range in format: from/DATE to/DATE
      */
