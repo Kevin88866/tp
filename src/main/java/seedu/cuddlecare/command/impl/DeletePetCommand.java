@@ -23,9 +23,6 @@ public class DeletePetCommand implements Command {
      * Logger instance for the {@code DeletePetCommand} class.
      */
     private static final Logger LOGGER = Logger.getLogger(DeletePetCommand.class.getName());
-    static {
-        LOGGER.setLevel(Level.OFF);
-    }
 
     /**
      * Syntax help message displayed on incorrect usage.

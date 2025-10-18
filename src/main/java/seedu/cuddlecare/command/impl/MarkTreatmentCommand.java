@@ -1,7 +1,6 @@
 package seedu.cuddlecare.command.impl;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import seedu.cuddlecare.Pet;
@@ -17,10 +16,6 @@ import seedu.cuddlecare.command.Command;
 public class MarkTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(MarkTreatmentCommand.class.getName());
-
-    static {
-        LOGGER.setLevel(Level.OFF);
-    }
 
     /** Repository of pets. */
     private final PetList pets;

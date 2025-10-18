@@ -1,5 +1,6 @@
 package seedu.cuddlecare.command.impl;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.cuddlecare.Pet;
@@ -9,6 +10,9 @@ import seedu.cuddlecare.Treatment;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,6 +20,13 @@ class ListPetTreatmentsCommandTest {
 
     private PetList petList;
     private ByteArrayOutputStream outContent;
+
+    @BeforeAll
+    static void muteLogs() {
+        LogManager.getLogManager().reset();
+        Logger root = Logger.getLogger("");
+        root.setLevel(Level.OFF);
+    }
 
     @BeforeEach
     void setUp() {
