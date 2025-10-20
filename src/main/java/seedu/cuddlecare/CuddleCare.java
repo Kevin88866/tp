@@ -8,7 +8,6 @@ import seedu.cuddlecare.command.impl.DeletePetCommand;
 import seedu.cuddlecare.command.impl.DeleteTreatmentCommand;
 import seedu.cuddlecare.command.impl.EditPetCommand;
 import seedu.cuddlecare.command.impl.FindCommand;
-import seedu.cuddlecare.command.impl.FilterTreatmentsByDateCommand;
 import seedu.cuddlecare.command.impl.ListAllTreatmentsCommand;
 import seedu.cuddlecare.command.impl.ListPetTreatmentsCommand;
 import seedu.cuddlecare.command.impl.ListPetsCommand;
