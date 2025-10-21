@@ -1,0 +1,52 @@
+@startuml
+skinparam classAttributeIconSize 0
+title ListAllTreatmentsCommand Class Diagram
+
+' =====================
+' Classes
+' =====================
+
+class Command {
+    + exec(args : String) : void
+}
+
+class ListAllTreatmentsCommand {
+    - LOGGER : Logger
+    - pets : PetList
+    + ListAllTreatmentsCommand(pets : PetList)
+    + exec(args : String) : void
+}
+
+class PetList {
+    + stream() : Stream<Pet>
+    + size() : int
+    + get(index : int) : Pet
+}
+
+class Pet {
+    - name : String
+    - treatments : List<Treatment>
+    + getName() : String
+    + getTreatments() : List<Treatment>
+}
+
+class Treatment {
+    - type : String
+    - date : LocalDate
+    - note : String
+    - isCompleted : boolean
+    + getType() : String
+    + getDate() : LocalDate
+    + isCompleted() : boolean
+    + toString() : String
+}
+
+' =====================
+' Relationships
+' =====================
+
+ListAllTreatmentsCommand -|> Command
+ListAllTreatmentsCommand --> PetList
+PetList "1" -> "*" Pet : contains
+Pet "1" --> "*" Treatment : has
+@enduml
