@@ -37,9 +37,9 @@ class ListPetTreatmentsCommandTest {
         petList.add(mimi);
         petList.add(dawg);
 
-        Treatment t1 = new Treatment("Vaccination", LocalDate.parse("2025-10-11"));
-        Treatment t2 = new Treatment("Dental Appointment", LocalDate.parse("2025-11-10"));
-        Treatment t3 = new Treatment("Health Checkup", LocalDate.parse("2025-12-11"));
+        Treatment t1 = new Treatment("Vaccination", null, LocalDate.parse("2025-10-11"));
+        Treatment t2 = new Treatment("Dental Appointment", null, LocalDate.parse("2025-11-10"));
+        Treatment t3 = new Treatment("Health Checkup", null, LocalDate.parse("2025-12-11"));
 
         mimi.addTreatment(t1);
         mimi.addTreatment(t2);

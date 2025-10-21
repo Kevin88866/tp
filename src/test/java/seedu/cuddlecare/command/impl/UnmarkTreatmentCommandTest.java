@@ -39,8 +39,8 @@ public class UnmarkTreatmentCommandTest {
         pets = new PetList();
 
         milo = new Pet("Milo", "Dog", 2);
-        milo.addTreatment(new Treatment("Surgery", LocalDate.parse("2025-10-01")));
-        milo.addTreatment(new Treatment("Stitches Removal", LocalDate.parse("2025-10-10")));
+        milo.addTreatment(new Treatment("Surgery", null, LocalDate.parse("2025-10-01")));
+        milo.addTreatment(new Treatment("Stitches Removal", null, LocalDate.parse("2025-10-10")));
 
         pets.add(milo);
     }
