@@ -73,7 +73,7 @@ public class SummaryCommand extends FilterTreatmentByDateCommand {
      * @param fromDate the start date of the filter range
      * @param toDate   the end date of the filter range
      * @return an {@link ArrayList} of formatted strings representing completed treatments
-     * within the specified date range
+     *     within the specified date range
      */
     @Override
     protected ArrayList<String> filterTreatments(LocalDate fromDate, LocalDate toDate) {

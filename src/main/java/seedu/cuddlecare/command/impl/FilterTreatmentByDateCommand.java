@@ -121,7 +121,7 @@ public class FilterTreatmentByDateCommand implements Command {
      *
      * @param args the date range in format: from/DATE to/DATE
      * @return a {@link Map} contianing two entries: {@code "from"} and {@code "to"}
-     * mapped to their respective {@link LocalDate} values, or {@code null} if parsing fails
+     *     mapped to their respective {@link LocalDate} values, or {@code null} if parsing fails
      */
     protected Map<String, LocalDate> parseDateRange(String args) {
         LocalDate fromDate = null;
