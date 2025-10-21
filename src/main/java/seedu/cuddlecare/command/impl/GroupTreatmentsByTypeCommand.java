@@ -58,7 +58,7 @@ public class GroupTreatmentsByTypeCommand implements Command {
                 }
                 groupForSinglePet(pet);
             } else {
-                groupAcrossAllPets();
+                hasAnyTreatments();
             }
 
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public class GroupTreatmentsByTypeCommand implements Command {
         printGroups(groups, pet.getName() + "'s treatments grouped by type:");
     }
 
-    private void groupAcrossAllPets() {
+    private void hasAnyTreatments() {
         boolean hasAny = false;
         for (int i = 0; i < pets.size(); i++) {
             if (!pets.get(i).getTreatments().isEmpty()) {
@@ -133,14 +133,6 @@ public class GroupTreatmentsByTypeCommand implements Command {
         LOGGER.log(Level.INFO, "Printed {0} group(s) by type", groups.size());
     }
 
-    private List<Pet> allPetsAsList() {
-        List<Pet> list = new ArrayList<>();
-        for (int i = 0; i < pets.size(); i++) {
-            list.add(pets.get(i));
-        }
-        return list;
-    }
-
     // GroupTreatmentsByTypeCommand.java
     private static String extractType(Treatment t) {
         String name = t.getName();
@@ -162,7 +154,7 @@ public class GroupTreatmentsByTypeCommand implements Command {
             return p;
         }
 
-        String[] tokens = args.trim().split("(?=[n]/)");
+        String[] tokens = args.trim().split("(?=n/)");
         for (String tok : tokens) {
             if (tok.startsWith("n/")) {
                 p.petName = tok.substring(2).trim();
