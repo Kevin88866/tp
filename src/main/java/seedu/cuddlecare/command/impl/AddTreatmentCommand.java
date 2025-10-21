@@ -93,7 +93,8 @@ public class AddTreatmentCommand implements Command {
                 LOGGER.log(Level.INFO, "Missing required parameters - petName: {0}, treatmentName: {1}, date: {2}",
                         new Object[]{petName, treatmentName, date});
 
-                System.out.println("Invalid input. Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE note/{NOTE}");
+                System.out.println("Invalid input. " +
+                        "Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE note/{NOTE}");
                 return;
             }
 
