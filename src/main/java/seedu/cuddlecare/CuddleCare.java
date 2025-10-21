@@ -15,6 +15,7 @@ import seedu.cuddlecare.command.impl.MarkTreatmentCommand;
 import seedu.cuddlecare.command.impl.UnmarkTreatmentCommand;
 import seedu.cuddlecare.config.LoggingConfigurator;
 import seedu.cuddlecare.parser.Parser;
+import seedu.cuddlecare.command.impl.FilterTreatmentByDateCommand;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -134,8 +135,9 @@ public class CuddleCare {
                 Map.entry("delete-pet", new DeletePetCommand(pets)),
                 Map.entry("delete-treatment", new DeleteTreatmentCommand(pets)),
                 Map.entry("find", new FindCommand(pets)),
-                Map.entry("edit-pet", new EditPetCommand(pets))
-                );
+                Map.entry("edit-pet", new EditPetCommand(pets)),
+                Map.entry("treatment-date", new FilterTreatmentByDateCommand(pets))
+        );
         assert commands != null : "Commands map cannot be null";
         parser.setCommands(commands);
         LOGGER.log(Level.INFO, "Commands initialized with " + commands.size() + " entries");
