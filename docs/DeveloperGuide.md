@@ -7,7 +7,58 @@ original source as well}
 
 ## Design & implementation
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+### Feature: Add Pet
+{add details here}
+
+### Feature: Delete Pet
+{add details here}
+
+### Feature: Edit Pet
+{add details here}
+
+### Feature: List Pets
+{add details here}
+
+### Feature: Find Pet
+{add details here}
+
+### Feature: Add Treatment
+{add details here}
+
+### Feature: Delete Treatment
+{add details here}
+
+### Feature: Mark a treatment as done
+{add details here}
+
+### Feature: Mark a treatment as not done
+{add details here}
+
+### Feature: Filter Treatment by Date
+{add details here}
+
+### Feature: List All Treatments across all pets
+{add details here}
+
+### Feature: List All Treatments of a pet
+{add details here}
+
+### Feature: Add Treatment Note
+{add details here}
+
+### Feature: Group Treatments by type
+{add details here}
+
+### Feature: View overdue treatments for all pets
+{add details here}
+
+### Feature: Summary
+{add details here}
+
+### Feature: Help to view all commands
+
+### Feature: Exit
+{add details here}
 
 ### List All Treatments feature
 
