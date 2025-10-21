@@ -37,8 +37,8 @@
 {add details here}
 
 ### Feature: List All Treatments across all pets
-
 {add details here}
+
 ### Feature: List All Treatments of a pet
 {add details here}
 
