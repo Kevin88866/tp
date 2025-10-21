@@ -5,7 +5,6 @@ import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
 import seedu.cuddlecare.command.Command;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -94,7 +93,7 @@ public class GroupTreatmentsByTypeCommand implements Command {
             return;
         }
 
-        Map<String, List<Row>> groups = buildGroups(allPetsAsList());
+        Map<String, List<Row>> groups = buildGroups(pets.toList());
         printGroups(groups, "Treatments grouped by type:");
     }
 
@@ -142,22 +141,20 @@ public class GroupTreatmentsByTypeCommand implements Command {
         return list;
     }
 
+    // GroupTreatmentsByTypeCommand.java
     private static String extractType(Treatment t) {
-        String s = t.toString();
-        String left = s.split(" on ")[0];
-        left = left.replaceFirst("^\\[[ X]]\\s*", "");
-        String[] parts = left.split("\\s+", 2);
-        return parts.length == 0 ? "Unknown" : parts[0];
+        String name = t.getName();
+        if (name == null || name.isBlank()) {
+            return "Unknown";
+        }
+        String[] parts = name.trim().split("\\s+", 2);
+        return parts[0];
     }
 
-    private static LocalDate extractDate(Treatment t) {
-        String s = t.toString();
-        String[] parts = s.split(" on ");
-        if (parts.length < 2) {
-            return LocalDate.MIN;
-        }
-        return LocalDate.parse(parts[1].trim());
+    private static java.time.LocalDate extractDate(Treatment t) {
+        return t.getDate();
     }
+
 
     private Parsed parseArgs(String args) {
         Parsed p = new Parsed();
