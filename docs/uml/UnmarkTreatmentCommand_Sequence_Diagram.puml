@@ -1,0 +1,39 @@
+@startuml
+title UnmarkTreatmentCommand Sequence Diagram
+actor User
+participant CuddleCare
+participant Parser
+participant CommandWithArguments as CWA
+participant UnmarkTreatmentCommand as UTC
+participant PetList
+participant Pet
+
+User -> CuddleCare : unmark n/Milo i/2
+activate CuddleCare
+CuddleCare -> Parser : parse(...)
+activate Parser
+Parser --> CuddleCare : CWA(UTC,"n/Milo i/2")
+deactivate Parser
+
+CuddleCare -> CWA : exec()
+activate CWA
+CWA -> UTC : exec(...)
+activate UTC
+UTC -> PetList : getPetByName("Milo")
+activate PetList
+PetList --> UTC : Pet/null
+deactivate PetList
+
+alt not found
+  UTC --> CWA : "No such pet"
+else found
+  UTC -> Pet : getTreatments()[index-1].setCompleted(false)
+  Pet --> UTC : ok
+  UTC --> CWA : "Unmarked."
+end
+deactivate UTC
+CWA --> CuddleCare : return
+deactivate CWA
+CuddleCare --> User : prints
+deactivate CuddleCare
+@enduml

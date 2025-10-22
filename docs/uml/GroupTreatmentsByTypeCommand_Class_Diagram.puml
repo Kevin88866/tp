@@ -1,0 +1,46 @@
+@startuml
+skinparam classAttributeIconSize 0
+title GroupTreatmentsByTypeCommand Class Diagram
+
+interface Command {
+  +exec(args : String) : void
+}
+
+class GroupTreatmentsByTypeCommand {
+  -LOGGER : Logger
+  +GroupTreatmentsByTypeCommand(pets : PetList)
+  +exec(args : String) : void
+  -parseArgs(args : String) : Parsed
+  -extractType(t : Treatment) : String
+}
+
+class PetList {
+  +toList() : ArrayList<Pet>
+  +getPetByName(name : String) : Pet
+}
+
+class Pet {
+  -name : String
+  +getName() : String
+  +getTreatments() : ArrayList<Treatment>
+}
+
+class Treatment {
+  -name : String
+  -date : LocalDate
+  -completed : boolean
+  +getName() : String
+  +isCompleted() : boolean
+}
+
+class Parsed {
+  +petName : String
+}
+
+GroupTreatmentsByTypeCommand ..|> Command
+GroupTreatmentsByTypeCommand --> PetList : uses
+PetList "1" *-- "*" Pet : contains
+Pet "1" *-- "*" Treatment : treatments
+GroupTreatmentsByTypeCommand --> Parsed : parses
+
+@enduml

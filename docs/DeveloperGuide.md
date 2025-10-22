@@ -35,10 +35,68 @@ PetList during execution is illustrated in the sequence diagram below.
 ![DeletePetCommand Class Diagram](diagrams/DeletePetCommand_Sequence_Diagram.png)
 
 ### Feature: Edit Pet
-{add details here}
+![EditPetCommand Class Diagram](diagrams/EditPetCommand_Class_Diagram.png)
+![EditPetCommand Sequence Diagram](diagrams/EditPetCommand_Sequence_Diagram.png)
+
+**Purpose**: Edit an existing pet’s properties. Only provided fields are changed.
+
+**Command word**: `edit-pet`
+
+**Format**
+```
+edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]
+```
+
+**Arguments**
+- `n/OLD_NAME` *(required)* – name of the pet to edit.
+- `nn/NEW_NAME` *(optional)* – new name to assign.
+- `s/SPECIES` *(optional)* – new species.
+- `a/AGE` *(optional)* – integer age (non-negative).
+
+**Examples**
+```
+edit-pet n/Milo nn/Millie a/4
+edit-pet n/Lucky s/Dog
+edit-pet n/Tama a/12
+```
+
+**Success behaviour**
+- Finds the pet by `OLD_NAME`. Updates only the tokens present. Prints a success line with the edited pet.
+
+**Failure cases & messages**
+- Missing `n/`: prints usage line.
+- Pet not found: `Pet not found.`
+- No editable tokens provided (`nn/`, `s/`, `a/` all absent): `Nothing to edit.`
+- `a/` not an integer: `Age must be a valid number.`
+
+**Logging**
+- INFO: start/end; edited fields.
+- WARNING: invalid tokens/number format; pet missing.
 
 ### Feature: List Pets
-{add details here}
+![ListPetsCommand Class Diagram](diagrams/ListPetsCommand_Class_Diagram.png)
+![ListPetsCommand Sequence Diagram](diagrams/ListPetsCommand_Sequence_Diagram.png)
+
+**Purpose**: Display all pets maintained in memory.
+
+**Command word**: `list pets`
+
+**Format**
+```
+list-pets
+```
+
+- Prints an enumerated list (1-based) of all pets, each rendered via `Pet#toString()`.
+- If empty, prints `No pets found.`
+
+**Behaviour**
+- Iterates `PetList` from index `0..size-1` and prints `(i+1) + ". " + pet.toString()`.
+
+**Failure cases & messages**
+- None (arguments are ignored). If the list is empty, shows the friendly message above.
+
+**Logging**
+- INFO on command entry/exit; FINE for iteration count.
 
 ### Feature: Find Pet
 {add details here}
@@ -102,10 +160,64 @@ Cons:
 * Requires additional confirmation steps.
 
 ### Feature: Mark a treatment as done
-{add details here}
+![MarkTreatmentCommand Class Diagram](diagrams/MarkTreatmentCommand_Class_Diagram.png)
+![MarkTreatmentCommand Sequence Diagram](diagrams/MarkTreatmentCommand_Sequence_Diagram.png)
+
+**Purpose**: Mark a specific treatment (by per‑pet local index) as completed.
+
+**Command word**: `mark`
+
+**Format**
+```
+mark n/PET_NAME i/INDEX
+```
+- `n/PET_NAME` *(required)* – the pet to operate on.
+- `i/INDEX` *(required)* – 1‑based index into that pet’s treatment list.
+
+**Examples**
+```
+mark n/Milo i/2
+```
+
+**Success behaviour**
+- Sets `Treatment#setCompleted(true)` for the selected treatment. Prints a confirmation containing pet name and treatment info.
+
+**Failure cases & messages**
+- Missing `n/` or `i/`: prints usage line.
+- Pet not found: `No such pet.`
+- `i/` not an integer: `Invalid index.`
+- Index out of bounds: `Invalid treatment index.`
+
+**Logging**
+- INFO on success with (petName, index).
+- WARNING for invalid input or lookups.
 
 ### Feature: Mark a treatment as not done
-{add details here}
+![UnmarkTreatmentCommand Class Diagram](diagrams/UnmarkTreatmentCommand_Class_Diagram.png)
+![UnmarkTreatmentCommand Sequence Diagram](diagrams/UnmarkTreatmentCommand_Sequence_Diagram.png)
+
+**Purpose**: Unmark a specific treatment (by per‑pet local index) as not completed.
+
+**Command word**: `unmark`
+
+**Format**
+```
+unmark n/PET_NAME i/INDEX
+```
+
+**Examples**
+```
+unmark n/Milo i/2
+```
+
+**Success behaviour**
+- Sets `Treatment#setCompleted(false)` for the selected treatment.
+
+**Failure cases & messages**
+- Same validation and messages as `mark`.
+
+**Logging**
+- Same as `mark`.
 
 ### Feature: Filter Treatment by Date
 {add details here}
@@ -147,7 +259,37 @@ When the command is executed:
 {add details here}
 
 ### Feature: Group Treatments by type
-{add details here}
+![GroupTreatmentsByTypeCommand Class Diagram](diagrams/GroupTreatmentsByTypeCommand_Class_Diagram.png)
+![GroupTreatmentsByTypeCommand Sequence Diagram](diagrams/GroupTreatmentsByTypeCommand_Sequence_Diagram.png)
+
+**Purpose**: Group treatments by **type** across the dataset, then print each group with its members.
+
+**Command word**: `group-treatments-by-type`
+
+**Format**
+```
+group-treatments-by-type
+```
+*(If your parser supports `n/PET_NAME`, the command may accept `group-treatments-by-type n/NAME` to scope by a single pet; otherwise it groups across all pets.)*
+
+**Examples**
+```
+group-treatments-by-type
+```
+
+**Success behaviour**
+- Flattens `(pet, treatment)` rows across `PetList`, then buckets by type using `extractType(treatment)`.
+- Prints each type header followed by entries: `(petName, treatmentName, date, completed)`.
+
+**Failure cases & messages**
+- No treatments anywhere: `No treatments logged.`
+
+**Notes**
+- A simple default for `extractType` is to use `Treatment#getName()` as the key, or the first token before a colon/space if you want coarse types.
+- Sorting of buckets/rows is cosmetic and optional.
+
+**Logging**
+- INFO summarising bucket counts; FINE for per‑bucket sizes.
 
 ### Feature: View overdue treatments for all pets
 {add details here}

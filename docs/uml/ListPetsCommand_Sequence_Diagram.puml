@@ -1,0 +1,35 @@
+@startuml
+title ListPetsCommand Sequence Diagram
+actor User
+participant CuddleCare
+participant Parser
+participant CommandWithArguments as CWA
+participant ListPetsCommand as LPC
+participant PetList
+
+User -> CuddleCare : "list pets"
+activate CuddleCare
+CuddleCare -> Parser : parse("list pets")
+activate Parser
+Parser --> CuddleCare : CWA(LPC,"")
+deactivate Parser
+
+CuddleCare -> CWA : exec()
+activate CWA
+CWA -> LPC : exec("")
+activate LPC
+LPC -> PetList : size()
+activate PetList
+PetList --> LPC : n
+deactivate PetList
+alt empty
+  LPC --> CWA : "No pets found."
+else non-empty
+  LPC --> CWA : "Here are your pets..."
+end
+deactivate LPC
+CWA --> CuddleCare : return
+deactivate CWA
+CuddleCare --> User : prints
+deactivate CuddleCare
+@enduml

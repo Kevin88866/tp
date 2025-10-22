@@ -1,0 +1,42 @@
+@startuml
+skinparam classAttributeIconSize 0
+title EditPetCommand Class Diagram
+
+interface Command {
+  +exec(args : String) : void
+}
+
+class EditPetCommand {
+  -LOGGER : Logger
+  +EditPetCommand(pets : PetList)
+  +exec(args : String) : void
+  -parseArgs(args : String) : Parsed
+  -printUsage() : void
+}
+
+class PetList {
+  +getPetByName(name : String) : Pet
+}
+
+class Pet {
+  -name : String
+  -species : String
+  -age : int
+  +setName(name : String) : void
+  +setSpecies(species : String) : void
+  +setAge(age : int) : void
+}
+
+class Parsed {
+  +oldName : String
+  +newName : String
+  +species : String
+  +ageStr : String
+}
+
+EditPetCommand ..|> Command
+EditPetCommand --> PetList : uses
+PetList "1" *-- "*" Pet : contains
+EditPetCommand --> Parsed : parses
+
+@enduml
