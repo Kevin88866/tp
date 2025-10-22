@@ -11,7 +11,28 @@ original source as well}
 {add details here}
 
 ### Feature: Delete Pet
-{add details here}
+This feature is built using the Command Pattern. This design decouples the invoker 
+(main app logic) from the operation itself by using a Command interface. 
+The DeletePetCommand is a concrete implementation of this interface that contains 
+all the logic for parsing and execution.
+
+![DeletePetCommand Class Diagram](diagrams/DeletePetCommand_Class_Diagram.png)
+
+As shown in the class diagram above, the DeletePetCommand does not manage the list directly. 
+Instead, it holds a reference to a PetList instance (a "has-a" relationship, 
+or Aggregation) that is provided to its constructor. This use of Dependency 
+Injection makes the command highly testable, as the PetList can be easily mocked.
+
+The execution flow starts when the exec method is called with the user's input. 
+The command parses the string to find the pet's name, then validates the input by 
+querying the PetList. If the syntax is correct and the pet exists, the 
+command instructs the PetList to perform the actual deletion. The DeletePetCommand 
+is also responsible for printing all relevant success or error messages to the user.
+
+The detailed interaction between the main app (CuddleCare), DeletePetCommand, and 
+PetList during execution is illustrated in the sequence diagram below.
+
+![DeletePetCommand Class Diagram](diagrams/DeletePetCommand_Sequence_Diagram.png)
 
 ### Feature: Edit Pet
 {add details here}
