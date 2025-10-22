@@ -1,6 +1,8 @@
 package seedu.cuddlecare.command.impl;
 
 import seedu.cuddlecare.PetList;
+import seedu.cuddlecare.command.Command;
+import seedu.cuddlecare.command.utils.DateUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,9 +12,14 @@ import java.util.logging.Level;
 
 import static java.util.stream.Collectors.toList;
 
-public class SummaryCommand extends FilterTreatmentByDateCommand {
+public class SummaryCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(SummaryCommand.class.getName());
+
+    /**
+     * A list of all pets.
+     */
+    private final PetList pets;
 
     /**
      * Initializes the SummaryCommand with the list of pets.
@@ -20,7 +27,8 @@ public class SummaryCommand extends FilterTreatmentByDateCommand {
      * @param pets the list of all pets
      */
     public SummaryCommand(PetList pets) {
-        super(pets);
+        this.pets = pets;
+        assert pets != null : "pets cannot be null.";
     }
 
     /**
@@ -34,7 +42,7 @@ public class SummaryCommand extends FilterTreatmentByDateCommand {
     public void exec(String args) {
         assert args != null : "Command arguments cannot be null";
 
-        Map<String, LocalDate> dateRange = parseDateRange(args);
+        Map<String, LocalDate> dateRange = DateUtils.parseDateRange(args);
         if (dateRange == null) {
             return;
         }
@@ -42,7 +50,7 @@ public class SummaryCommand extends FilterTreatmentByDateCommand {
         LocalDate fromDate = dateRange.get("from");
         LocalDate toDate = dateRange.get("to");
 
-        if (!isDateValid(fromDate, toDate)) {
+        if (!DateUtils.isDateValid(fromDate, toDate, getSyntax())) {
             return;
         }
 
@@ -56,6 +64,11 @@ public class SummaryCommand extends FilterTreatmentByDateCommand {
         }
 
         printFilteredList(filteredList, fromDate, toDate);
+    }
+
+    private void printFilteredList(ArrayList<String> filteredList, LocalDate fromDate, LocalDate toDate) {
+        System.out.println("Treatment Summary from: " + fromDate + " to: " + toDate);
+        filteredList.forEach(System.out::println);
     }
 
     /**
@@ -75,7 +88,6 @@ public class SummaryCommand extends FilterTreatmentByDateCommand {
      * @return an {@link ArrayList} of formatted strings representing completed treatments
      *     within the specified date range
      */
-    @Override
     protected ArrayList<String> filterTreatments(LocalDate fromDate, LocalDate toDate) {
         ArrayList<String> filteredList = (ArrayList<String>) pets.stream()
                 .flatMap(pet -> pet.getTreatments().stream()
@@ -91,7 +103,6 @@ public class SummaryCommand extends FilterTreatmentByDateCommand {
         return filteredList;
     }
 
-    @Override
     protected String getSyntax() {
         return "summary from/DATE to/DATE";
     }
