@@ -1,0 +1,39 @@
+@startuml
+title MarkTreatmentCommand Sequence Diagram
+actor User
+participant CuddleCare
+participant Parser
+participant CommandWithArguments as CWA
+participant MarkTreatmentCommand as MTC
+participant PetList
+participant Pet
+
+User -> CuddleCare : mark n/Milo i/2
+activate CuddleCare
+CuddleCare -> Parser : parse(...)
+activate Parser
+Parser --> CuddleCare : CWA(MTC,"n/Milo i/2")
+deactivate Parser
+
+CuddleCare -> CWA : exec()
+activate CWA
+CWA -> MTC : exec(...)
+activate MTC
+MTC -> PetList : getPetByName("Milo")
+activate PetList
+PetList --> MTC : Pet/null
+deactivate PetList
+
+alt not found
+  MTC --> CWA : "No such pet"
+else found
+  MTC -> Pet : getTreatments()[index-1].setCompleted(true)
+  Pet --> MTC : ok
+  MTC --> CWA : "Marked."
+end
+deactivate MTC
+CWA --> CuddleCare : return
+deactivate CWA
+CuddleCare --> User : prints
+deactivate CuddleCare
+@enduml

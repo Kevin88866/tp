@@ -1,0 +1,31 @@
+@startuml
+skinparam classAttributeIconSize 0
+title ListPetsCommand Class Diagram
+
+interface Command {
+  +exec(args : String) : void
+}
+
+class ListPetsCommand {
+  -LOGGER : Logger
+  +ListPetsCommand(pets : PetList)
+  +exec(args : String) : void
+}
+
+class PetList {
+  +size() : int
+  +get(index : int) : Pet
+}
+
+class Pet {
+  -name : String
+  -species : String
+  -age : int
+  +toString() : String
+}
+
+ListPetsCommand ..|> Command
+ListPetsCommand --> PetList : uses
+PetList "1" *-- "*" Pet : contains
+
+@enduml
