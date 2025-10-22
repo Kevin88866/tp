@@ -1,0 +1,35 @@
+@startuml
+skinparam classAttributeIconSize 0
+title AddPetCommand Class Diagram
+
+interface Command {
+    ~ exec(String args) : void
+}
+
+class AddPetCommand {
+    - {static} LOGGER : Logger
+    - pets : PetList
+    + AddPetCommand(PetList pets)
+    + exec(String args) : void
+}
+
+class PetList {
+    + add(Pet newPet) : boolean
+}
+
+class Pet {
+    - name : String
+    - species : String
+    - age : int
+    + Pet(String name, String species, int age)
+}
+
+Command <|.. AddPetCommand
+
+AddPetCommand --o "1" PetList : -pets >
+
+PetList --> "*" Pet : has ArrayList >
+
+AddPetCommand -right[hidden]- PetList
+
+@enduml
