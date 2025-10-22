@@ -52,6 +52,21 @@ public class Pet {
         return treatments;
     }
 
+    /** Updates the pet's name. */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /** Updates the pet's species. */
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
+    /** Updates the pet's age. */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     /**
      * Returns a String composition that contains the pet's
      * name, species, and age in an organized format.
