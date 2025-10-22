@@ -39,9 +39,9 @@ class SummaryCommandTest {
         pets.add(p1);
         pets.add(p2);
 
-        Treatment t1 = new Treatment("Vaccination", LocalDate.parse("2025-11-11"));
-        Treatment t2 = new Treatment("Dental Appointment", LocalDate.parse("2025-12-20"));
-        Treatment t3 = new Treatment("Health Checkup", LocalDate.parse("2025-10-09"));
+        Treatment t1 = new Treatment("Vaccination", null, LocalDate.parse("2025-11-11"));
+        Treatment t2 = new Treatment("Dental Appointment", null, LocalDate.parse("2025-12-20"));
+        Treatment t3 = new Treatment("Health Checkup", null, LocalDate.parse("2025-10-09"));
 
         t2.setCompleted(true);
         t3.setCompleted(true);

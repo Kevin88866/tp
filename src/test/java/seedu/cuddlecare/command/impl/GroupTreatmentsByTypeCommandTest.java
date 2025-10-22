@@ -35,6 +35,7 @@ public class GroupTreatmentsByTypeCommandTest {
         root.setLevel(Level.SEVERE);
     }
 
+    //@@author Kevin88866
     @BeforeEach
     void setUp() {
         out = new ByteArrayOutputStream();
@@ -43,12 +44,12 @@ public class GroupTreatmentsByTypeCommandTest {
         pets = new PetList();
 
         Pet milo = new Pet("Milo", "Cat", 3);
-        milo.addTreatment(new Treatment("Vaccine A", LocalDate.of(2024, 1, 10)));
-        milo.addTreatment(new Treatment("Checkup", LocalDate.of(2024, 2, 5)));
+        milo.addTreatment(new Treatment("Vaccine A", null, LocalDate.of(2024, 1, 10)));
+        milo.addTreatment(new Treatment("Checkup", null, LocalDate.of(2024, 2, 5)));
 
         Pet luna = new Pet("Luna", "Dog", 2);
-        luna.addTreatment(new Treatment("Vaccine B", LocalDate.of(2024, 1, 15)));
-        luna.addTreatment(new Treatment("Deworm", LocalDate.of(2024, 3, 1)));
+        luna.addTreatment(new Treatment("Vaccine B", null, LocalDate.of(2024, 1, 15)));
+        luna.addTreatment(new Treatment("Deworm", null, LocalDate.of(2024, 3, 1)));
 
         pets.add(milo);
         pets.add(luna);
