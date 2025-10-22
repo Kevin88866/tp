@@ -45,6 +45,7 @@ PetList during execution is illustrated in the sequence diagram below.
 
 ### Feature: Add Treatment
 The diagram below shows how the AddTreatmentCommand class interacts with other components in the system.
+
 ![AddTreatmentCommand-AddTreatmentCommand_Class_Diagram.png](Diagrams/AddTreatmentCommand-AddTreatmentCommand_Class_Diagram.png)
 
 The design follows a command-based architecture, where each command is encapsulated in its own class implementing the 
@@ -65,6 +66,7 @@ is invalid, appropriate error messages are displayed.
 
 ### Feature: Delete Treatment
 The figure below shows how the DeleteTreatmentCommand interacts with other key classes in the system.
+
 ![DeleteTreatmentCommand-DeleteTreatmentCommand_Class_Diagram.png](Diagrams/DeleteTreatmentCommand-DeleteTreatmentCommand_Class_Diagram.png)
 
 The DeleteTreatmentCommand follows a command-based architecture, where each command is encapsulated in its own class 
