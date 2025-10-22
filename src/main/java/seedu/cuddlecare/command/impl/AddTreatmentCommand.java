@@ -12,7 +12,7 @@ import java.util.logging.Level;
 
 /**
  * A command that adds a treatment record for a specified pet.
- *
+ * <p>
  * When executed, this command adds a treatment to specified pet with
  * name of treatment, date of treatment and type of treatment.
  */
@@ -20,7 +20,9 @@ public class AddTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(AddTreatmentCommand.class.getName());
 
-    /** A list of all pets. */
+    /**
+     * A list of all pets.
+     */
     private final PetList pets;
 
     /**
@@ -35,11 +37,11 @@ public class AddTreatmentCommand implements Command {
 
     /**
      * Executes the Add Treatment command.
-     *
+     * <p>
      * Parses user input, finds the corresponding pet by index,
      * creates a new Treatment object, and adds it to the pet.
      *
-     * @param args arguments that contain name of pet, treatment name and date.
+     * @param args arguments that contain name of pet, treatment name, date, and note (if any).
      */
     @Override
     public void exec(String args) {
@@ -48,10 +50,12 @@ public class AddTreatmentCommand implements Command {
 
         String petName = null;
         String treatmentName = null;
+        String note = null;
         LocalDate date = null;
+        boolean hasNote = false;
 
         try {
-            String[] parts = args.split("(?=n/|t/|d/)");
+            String[] parts = args.split("(?=n/|t/|d/|note/)");
             for (String part : parts) {
                 if (part.startsWith("n/")) {
                     petName = part.substring(2).trim();
@@ -79,6 +83,9 @@ public class AddTreatmentCommand implements Command {
                         System.out.println("Invalid date format. Please use yyyy-MM-dd format (e.g., 2024-12-25).");
                         return;
                     }
+                } else if (part.startsWith("note/")) {
+                    note = part.substring(5).trim();
+                    hasNote = !note.isEmpty();
                 }
             }
 
@@ -86,7 +93,8 @@ public class AddTreatmentCommand implements Command {
                 LOGGER.log(Level.INFO, "Missing required parameters - petName: {0}, treatmentName: {1}, date: {2}",
                         new Object[]{petName, treatmentName, date});
 
-                System.out.println("Invalid input. Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE");
+                System.out.println("Invalid input. " +
+                        "Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE note/{NOTE}");
                 return;
             }
 
@@ -97,13 +105,15 @@ public class AddTreatmentCommand implements Command {
                 return;
             }
 
-            Treatment newTreatment = new Treatment(treatmentName, date);
+            Treatment newTreatment = new Treatment(treatmentName, note, date);
             pet.addTreatment(newTreatment);
+
+            String printNoteFormat = hasNote ? ("\n  Note: " + note) : "";
 
             LOGGER.log(Level.INFO, "Added treatment '{0}' for {1} on {2}",
                     new Object[]{treatmentName, petName, date});
             System.out.println("Added treatment \"" + treatmentName + "\" on " + date +
-                    " for " + petName + ".");
+                    " for " + petName + "." + printNoteFormat);
 
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Unable to add treatment", e);

@@ -50,7 +50,8 @@ public class ListAllTreatmentsCommand implements Command {
         ArrayList<String> sortedTreatments = (ArrayList<String>) pets.stream()
                 .flatMap(pet -> pet.getTreatments().stream()
                         .map(treatment -> pet.getName() + ": " + treatment))
-                .sorted(Comparator.comparing(s -> LocalDate.parse(s.split(" on ")[1])))
+                .sorted(Comparator.comparing(s -> LocalDate.parse(s.split(" on ")[1]
+                        .split("\n")[0])))
                 .collect(toList());
 
         if (sortedTreatments.isEmpty()) {
