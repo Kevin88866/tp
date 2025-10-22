@@ -25,7 +25,7 @@ class Pet {
 
 Command <|.. AddPetCommand
 
-AddPetCommand --o "1" PetList : uses >
+AddPetCommand o-- "1" PetList : uses >
 
 PetList *-- "*" Pet : contains >
 
