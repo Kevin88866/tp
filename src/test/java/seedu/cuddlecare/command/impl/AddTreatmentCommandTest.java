@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for {@link AddTreatmentCommand}.
- *
+ * <p>
  * These tests validate that treatment records are added correctly for pets.
  */
 class AddTreatmentCommandTest {
@@ -55,7 +55,8 @@ class AddTreatmentCommandTest {
         assertEquals("Vaccination", pet.getTreatments().get(0).getName());
         assertEquals(LocalDate.of(2025, 10, 6), pet.getTreatments().get(0).getDate());
 
-        assertTrue(outContent.toString().contains("Added treatment \"Vaccination\" on 2025-10-06 for Fluffy."));    }
+        assertTrue(outContent.toString().contains("Added treatment \"Vaccination\" on 2025-10-06 for Fluffy."));
+    }
 
     @Test
     void exec_inputWithExtraSpaces_stillParses() {
@@ -68,6 +69,20 @@ class AddTreatmentCommandTest {
         assertEquals(1, pet.getTreatments().size());
         assertEquals("Annual Checkup", pet.getTreatments().get(0).getName());
         assertEquals(LocalDate.of(2025, 11, 1), pet.getTreatments().get(0).getDate());
+    }
+
+    @Test
+    void exec_validInputWithNote_addsTreatment() {
+        AddTreatmentCommand command = new AddTreatmentCommand(petList);
+
+        String input = "n/Fluffy t/Vet Visit d/2025-10-21 note/Doctor: Dr Ong, Medication: Medicated Eyedrops";
+        command.exec(input);
+
+        Pet pet = petList.getPetByName("Fluffy");
+        assertEquals(1, pet.getTreatments().size());
+        assertEquals("Vet Visit", pet.getTreatments().get(0).getName());
+        assertEquals(LocalDate.of(2025, 10, 21), pet.getTreatments().get(0).getDate());
+        assertEquals("Doctor: Dr Ong, Medication: Medicated Eyedrops", pet.getTreatments().get(0).getNote());
     }
 
     @Test

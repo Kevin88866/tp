@@ -40,8 +40,8 @@ class DeleteTreatmentCommandTest {
         petList.add(peanut);
 
         // Add treatments
-        Treatment t1 = new Treatment("Rabies Vaccine", LocalDate.parse("2025-10-10"));
-        Treatment t2 = new Treatment("Grooming", LocalDate.parse("2025-10-20"));
+        Treatment t1 = new Treatment("Rabies Vaccine", null, LocalDate.parse("2025-10-10"));
+        Treatment t2 = new Treatment("Grooming", null, LocalDate.parse("2025-10-20"));
 
         peanut.addTreatment(t1);
         peanut.addTreatment(t2);
