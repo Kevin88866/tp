@@ -1,0 +1,35 @@
+@startuml
+skinparam classAttributeIconSize 0
+title DeletePetCommand Class Diagram
+
+interface Command {
+    ~ exec(String args) : void
+}
+
+class DeletePetCommand {
+    - {static} LOGGER: Logger
+    - {static} SYNTAX : String
+    + DeletePetCommand(PetList pets)
+    + exec(String args) : void
+    - getPetName(String input) : String
+}
+
+class PetList {
+    + deletePet(Pet petToDelete) : boolean
+}
+
+class Pet {
+
+}
+
+Command <|.. DeletePetCommand
+
+DeletePetCommand --o "1" PetList : -pets >
+
+PetList --> "*" Pet : has ArrayList >
+
+
+DeletePetCommand -right[hidden]- PetList
+
+
+@enduml
