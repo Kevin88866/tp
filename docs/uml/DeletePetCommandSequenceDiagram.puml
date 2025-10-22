@@ -1,6 +1,8 @@
 @startuml
 title DeletePetCommand Sequence Diagram
 
+activate CuddleCare
+
 ' Constructor
 CuddleCare -> DeletePetCommand** : new(petList)
 activate DeletePetCommand
