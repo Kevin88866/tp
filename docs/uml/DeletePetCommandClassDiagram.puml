@@ -3,7 +3,7 @@ skinparam classAttributeIconSize 0
 title DeletePetCommand Class Diagram
 
 interface Command {
-    ~ exec(args: String) : void
+    + exec(args: String) : void
 }
 
 class DeletePetCommand {
