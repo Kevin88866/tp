@@ -6,7 +6,7 @@ title ListAllTreatmentsCommand Class Diagram
 ' Classes
 ' =====================
 
-class Command {
+interface Command {
     + exec(args : String) : void
 }
 
