@@ -1,0 +1,52 @@
+@startuml
+title DeletePetCommand Sequence Diagram
+
+' Constructor
+CuddleCare -> DeletePetCommand** : new(petList)
+activate DeletePetCommand
+return (created)
+
+' Exec Method
+CuddleCare -> DeletePetCommand : exec(args : String)
+activate DeletePetCommand
+
+' getPetName Method
+DeletePetCommand -> DeletePetCommand : getPetName(args: String)
+activate DeletePetCommand
+return petName : String
+
+' if input was invalid
+alt petName == null ||petName.isEmpty()
+    DeletePetCommand -> CuddleCare : print "Invalid Syntax..."
+    DeletePetCommand --x CuddleCare : (command failed)
+
+else
+    DeletePetCommand -> PetList : getPetByName(petName)
+    activate PetList
+    return pet: Pet
+
+    ' if invalid pet
+    alt pet == null
+        DeletePetCommand -> CuddleCare : print "No Pet Found"
+        DeletePetCommand --x CuddleCare : (command failed)
+
+    else
+        DeletePetCommand -> PetList : deletePet(pet)
+        activate PetList
+        return !isDeleted : boolean
+
+        ' if some error in deleting the pet
+        alt !isDeleted
+            DeletePetCommand -> CuddleCare : print "Could not delete"
+            DeletePetCommand --x CuddleCare : (command failed)
+
+        else
+            ' happy path
+            return print "Pet Deleted"
+        end
+
+    end
+
+end
+
+@enduml

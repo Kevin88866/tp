@@ -29,6 +29,11 @@ querying the PetList. If the syntax is correct and the pet exists, the
 command instructs the PetList to perform the actual deletion. The DeletePetCommand 
 is also responsible for printing all relevant success or error messages to the user.
 
+The detailed interaction between the main app (CuddleCare), DeletePetCommand, and 
+PetList during execution is illustrated in the sequence diagram below.
+
+![DeletePetCommand Class Diagram](diagrams/DeletePetCommand_Sequence_Diagram.png)
+
 ### Feature: Edit Pet
 {add details here}
 
