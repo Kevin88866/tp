@@ -45,7 +45,7 @@ class Treatment {
 ' Relationships
 ' =====================
 
-ListAllTreatmentsCommand -|> Command
+ListAllTreatmentsCommand .|> Command
 ListAllTreatmentsCommand --> PetList
 PetList "1" -> "*" Pet : contains
 Pet "1" --> "*" Treatment : has
