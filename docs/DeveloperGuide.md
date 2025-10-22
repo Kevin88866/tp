@@ -8,7 +8,29 @@ original source as well}
 ## Design & implementation
 
 ### Feature: Add Pet
-{add details here}
+The diagram below shows how the `AddPetCommand` class interacts with other
+components in the system.
+
+![AddPetCommand Class Diagram](diagrams/AddPetCommand_Class_Diagram.png)
+
+This design follows a command-based architecture, where each command is
+encapsulated in its own class implementing the `Command` interface.
+`AddPetCommand` depends on the `PetList` object, which stores all registered
+pets. Each `Pet` object maintains information about its name, species, and age.
+
+When executed, the command performs the following steps:
+1. Parses user input to extract the pet's name (`n/`), species (`s/`), and
+age (`a/`)
+2. Validates the input fields
+3. Creates a new `Pet` object with the parsed parameters
+4. Adds the new pet to the pet list using `addPet()`
+5. Handles duplicates and disregards the addition of the
+pet if the duplicate exists
+6. Displays and logs activity
+
+The `AddPetCommand` ensures that only valid and unique pets are added to the
+pet list. It emphasizes input validation, duplicate prevention, and
+error handling, while maintaining logging for debugging/monitoring execution.
 
 ### Feature: Delete Pet
 This feature is built using the Command Pattern. This design decouples the invoker 
