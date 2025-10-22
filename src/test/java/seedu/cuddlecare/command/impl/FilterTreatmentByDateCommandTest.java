@@ -42,12 +42,12 @@ class FilterTreatmentByDateCommandTest {
         petList.add(whiskers);
         petList.add(spot);
 
-        Treatment dec1 = new Treatment("Rabies Vaccine", LocalDate.parse("2024-12-01"));
-        Treatment dec10 = new Treatment("Annual Checkup", LocalDate.parse("2024-12-10"));
-        Treatment dec15 = new Treatment("Grooming", LocalDate.parse("2024-12-15"));
-        Treatment dec31 = new Treatment("Dental Cleaning", LocalDate.parse("2024-12-31"));
-        Treatment jan5 = new Treatment("Nail Trim", LocalDate.parse("2025-01-05"));
-        Treatment jan20 = new Treatment("Blood Test", LocalDate.parse("2025-01-20"));
+        Treatment dec1 = new Treatment("Rabies Vaccine", null, LocalDate.parse("2024-12-01"));
+        Treatment dec10 = new Treatment("Annual Checkup", null, LocalDate.parse("2024-12-10"));
+        Treatment dec15 = new Treatment("Grooming", null, LocalDate.parse("2024-12-15"));
+        Treatment dec31 = new Treatment("Dental Cleaning", null, LocalDate.parse("2024-12-31"));
+        Treatment jan5 = new Treatment("Nail Trim", null, LocalDate.parse("2025-01-05"));
+        Treatment jan20 = new Treatment("Blood Test", null, LocalDate.parse("2025-01-20"));
 
         peanut.addTreatment(dec1);
         peanut.addTreatment(dec10);
