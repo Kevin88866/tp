@@ -3,12 +3,11 @@ skinparam classAttributeIconSize 0
 title AddPetCommand Class Diagram
 
 interface Command {
-    ~ exec(String args) : void
+    + exec(String args) : void
 }
 
 class AddPetCommand {
     - {static} LOGGER : Logger
-    - pets : PetList
     + AddPetCommand(PetList pets)
     + exec(String args) : void
 }
@@ -26,9 +25,9 @@ class Pet {
 
 Command <|.. AddPetCommand
 
-AddPetCommand --o "1" PetList : -pets >
+AddPetCommand --o "1" PetList : uses >
 
-PetList --> "*" Pet : has ArrayList >
+PetList *-- "*" Pet : contains >
 
 AddPetCommand -right[hidden]- PetList
 
