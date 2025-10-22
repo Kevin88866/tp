@@ -1,0 +1,46 @@
+@startuml
+skinparam classAttributeIconSize 0
+title AddTreatmentCommand Class Diagram
+
+class AddTreatmentCommand {
+    - LOGGER : Logger
+    - pets : PetList
+    + AddTreatmentCommand(pets : PetList)
+    + exec(args : String) : void
+}
+
+interface Command {
+    + exec(args : String) : void
+}
+
+class PetList {
+    + getPetByName(name : String) : Pet
+    + size() : int
+    + get(index : int) : Pet
+}
+
+class Pet {
+    - name : String
+    - treatments : ArrayList<Treatment>
+    + getName() : String
+    + getTreatments() : ArrayList<Treatment>
+    + addTreatment(treatment : Treatment) : void
+}
+
+class Treatment {
+    - type : String
+    - date : LocalDate
+    - note : String
+    - isCompleted : boolean
+    + getType() : String
+    + getDate() : LocalDate
+    + isCompleted() : boolean
+    + toString() : String
+}
+
+Command <|-- AddTreatmentCommand
+AddTreatmentCommand -right-> PetList : uses
+PetList "1" *-- "*" Pet : contains
+Pet "1" *-left- "*" Treatment : has
+
+@enduml
