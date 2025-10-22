@@ -31,11 +31,11 @@ class FindCommandTest {
         petList.add(whiskers);
 
         // Add treatments with various names for testing
-        Treatment vaccine1 = new Treatment("Rabies Vaccine", LocalDate.parse("2025-10-10"));
-        Treatment vaccine2 = new Treatment("Annual Vaccine", LocalDate.parse("2025-11-15"));
-        Treatment grooming = new Treatment("Full Grooming", LocalDate.parse("2025-10-20"));
-        Treatment checkup = new Treatment("Regular Checkup", LocalDate.parse("2025-09-15"));
-        Treatment dental = new Treatment("Dental Cleaning", LocalDate.parse("2025-12-05"));
+        Treatment vaccine1 = new Treatment("Rabies Vaccine", null, LocalDate.parse("2025-10-10"));
+        Treatment vaccine2 = new Treatment("Annual Vaccine", null, LocalDate.parse("2025-11-15"));
+        Treatment grooming = new Treatment("Full Grooming", null, LocalDate.parse("2025-10-20"));
+        Treatment checkup = new Treatment("Regular Checkup", null, LocalDate.parse("2025-09-15"));
+        Treatment dental = new Treatment("Dental Cleaning", null, LocalDate.parse("2025-12-05"));
 
         peanut.addTreatment(vaccine1);
         peanut.addTreatment(grooming);

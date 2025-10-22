@@ -99,4 +99,9 @@ public class PetList {
         return pets.remove(petToDelete);
     }
 
+    /** Returns a snapshot copy of all pets as a List. */
+    public java.util.ArrayList<Pet> toList() {
+        return new java.util.ArrayList<>(pets);
+    }
+
 }
