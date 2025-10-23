@@ -1,0 +1,45 @@
+@startuml
+skinparam classAttributeIconSize 0
+title DeleteTreatmentCommand Class Diagram
+
+class DeleteTreatmentCommand {
+    - LOGGER : Logger
+    - pets : PetList
+    + DeleteTreatmentCommand(pets : PetList)
+    + exec(args : String) : void
+}
+
+interface Command {
+    + exec(args : String) : void
+}
+
+class PetList {
+    + getPetByName(name : String) : Pet
+    + size() : int
+    + get(index : int) : Pet
+}
+
+class Pet {
+    - name : String
+    - treatments : ArrayList<Treatment>
+    + getName() : String
+    + getTreatments() : ArrayList<Treatment>
+    + removeTreatment(index : int) : Treatment
+}
+
+class Treatment {
+    - type : String
+    - date : LocalDate
+    - note : String
+    - isCompleted : boolean
+    + getType() : String
+    + getDate() : LocalDate
+    + toString() : String
+}
+
+Command <|-- DeleteTreatmentCommand
+DeleteTreatmentCommand -right-> PetList : uses
+PetList "1" *-- "*" Pet : contains
+Pet "1" *-left- "*" Treatment : has
+
+@enduml

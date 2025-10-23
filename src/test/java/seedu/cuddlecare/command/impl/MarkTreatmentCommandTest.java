@@ -38,11 +38,11 @@ public class MarkTreatmentCommandTest {
         pets = new PetList();
 
         Pet milo = new Pet("Milo", "Dog", 2);
-        milo.addTreatment(new Treatment("Vaccine", LocalDate.parse("2025-10-01")));
-        milo.addTreatment(new Treatment("Checkup", LocalDate.parse("2025-10-02")));
+        milo.addTreatment(new Treatment("Vaccine", null, LocalDate.parse("2025-10-01")));
+        milo.addTreatment(new Treatment("Checkup", null, LocalDate.parse("2025-10-02")));
 
         Pet luna = new Pet("Luna", "Cat", 3);
-        luna.addTreatment(new Treatment("Dental", LocalDate.parse("2025-10-03")));
+        luna.addTreatment(new Treatment("Dental", null, LocalDate.parse("2025-10-03")));
 
         pets.add(milo);
         pets.add(luna);

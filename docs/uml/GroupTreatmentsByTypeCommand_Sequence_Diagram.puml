@@ -1,0 +1,51 @@
+@startuml
+title GroupTreatmentsByTypeCommand — Sequence Diagram (concise, no notes)
+actor User
+participant CuddleCare
+participant Parser
+participant CommandWithArguments as CWA
+participant GroupTreatmentsByTypeCommand as GTC
+participant PetList
+
+User -> CuddleCare : group-treatments-by-type [args]
+activate CuddleCare
+CuddleCare -> Parser : parse(input)
+activate Parser
+Parser --> CuddleCare : CWA(GTC,args)
+deactivate Parser
+
+CuddleCare -> CWA : exec()
+activate CWA
+CWA -> GTC : exec(args)
+activate GTC
+
+alt filter provided (n/PET_NAME)
+  GTC -> PetList : getPetByName(name)
+  activate PetList
+  PetList --> GTC : Pet / null
+  deactivate PetList
+  alt pet not found
+    GTC --> CWA : "No such pet"
+  else pet found
+    GTC -> GTC : process rows (flatten + group by type)
+  end
+else no filter
+  GTC -> PetList : toList()
+  activate PetList
+  PetList --> GTC : List<Pet>
+  deactivate PetList
+  GTC -> GTC : process rows (flatten + group by type)
+end
+
+alt no treatments
+  GTC --> CWA : "No treatments logged"
+else grouped results
+  GTC --> CWA : print groups by type
+end
+
+deactivate GTC
+CWA --> CuddleCare : return
+deactivate CWA
+CuddleCare --> User : prints
+deactivate CuddleCare
+@enduml

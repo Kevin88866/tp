@@ -3,19 +3,19 @@ skinparam classAttributeIconSize 0
 title DeletePetCommand Class Diagram
 
 interface Command {
-    ~ exec(String args) : void
+    + exec(args: String) : void
 }
 
 class DeletePetCommand {
     - {static} LOGGER: Logger
     - {static} SYNTAX : String
-    + DeletePetCommand(PetList pets)
-    + exec(String args) : void
-    - getPetName(String input) : String
+    + DeletePetCommand(pets: PetList)
+    + exec(args: String) : void
+    - getPetName(input: String) : String
 }
 
 class PetList {
-    + deletePet(Pet petToDelete) : boolean
+    + deletePet(petToDelete: Pet) : boolean
 }
 
 class Pet {
@@ -24,9 +24,9 @@ class Pet {
 
 Command <|.. DeletePetCommand
 
-DeletePetCommand --o "1" PetList : -pets >
+DeletePetCommand o-- "1" PetList : -pets >
 
-PetList --> "*" Pet : has ArrayList >
+PetList *--> "*" Pet : has ArrayList >
 
 
 DeletePetCommand -right[hidden]- PetList
