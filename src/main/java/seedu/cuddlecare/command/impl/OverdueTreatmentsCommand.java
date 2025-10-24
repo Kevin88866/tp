@@ -14,6 +14,16 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+// @@author HarshitSrivastavaHS
+/**
+ * Command that lists all overdue treatments for pets.
+ * <p>
+ * This command can display overdue treatments for either a specific pet
+ * (when the pet name is provided) or all pets if no name is given.
+ * Overdue treatments are determined based on the current date and whether
+ * the treatment has been completed.
+ * </p>
+ */
 public class OverdueTreatmentsCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(OverdueTreatmentsCommand.class.getName());
@@ -22,11 +32,26 @@ public class OverdueTreatmentsCommand implements Command {
 
     private final PetList pets;
 
+    /**
+     * Constructs an OverdueTreatmentsCommand with the given pet list.
+     *
+     * @param pets the PetList containing all pets in the system
+     * @throws AssertionError if pets is null
+     */
     public OverdueTreatmentsCommand(PetList pets) {
         assert pets != null : "Pets cannot be null";
         this.pets = pets;
     }
 
+    /**
+     * Executes the overdue treatments command.
+     * <p>
+     * Prints all overdue treatments for pets. If a pet name is provided in the format
+     * "n/PET_NAME", only that pet's overdue treatments are shown; otherwise, all pets are included.
+     * A treatment is considered overdue if it is not completed and its date is before today.
+     *
+     * @param args the command arguments
+     */
     public void exec(String args) {
         assert args != null : "args cannot be null";
 
