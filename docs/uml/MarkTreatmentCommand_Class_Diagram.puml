@@ -1,0 +1,42 @@
+@startuml
+skinparam classAttributeIconSize 0
+title MarkTreatmentCommand Class Diagram
+
+interface Command {
+  +exec(args : String) : void
+}
+
+class MarkTreatmentCommand {
+  -LOGGER : Logger
+  +MarkTreatmentCommand(pets : PetList)
+  +exec(args : String) : void
+  -parse(args : String) : Parsed
+}
+
+class PetList {
+  +getPetByName(name : String) : Pet
+}
+
+class Pet {
+  +getTreatments() : ArrayList<Treatment>
+}
+
+class Treatment {
+  -completed : boolean
+  +setCompleted(b : boolean) : void
+  +isCompleted() : boolean
+}
+
+class Parsed {
+  +petName : String
+  +index : int
+  +valid : boolean
+}
+
+MarkTreatmentCommand ..|> Command
+MarkTreatmentCommand --> PetList : uses
+PetList "1" *-- "*" Pet : contains
+Pet "1" *-- "*" Treatment : treatments
+MarkTreatmentCommand --> Parsed
+
+@enduml

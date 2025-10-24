@@ -1,0 +1,39 @@
+@startuml
+title EditPetCommand Sequence Diagram
+actor User
+participant CuddleCare
+participant Parser
+participant CommandWithArguments as CWA
+participant EditPetCommand as EPC
+participant PetList
+participant Pet
+
+User -> CuddleCare : edit-pet n/Milo a/4
+activate CuddleCare
+CuddleCare -> Parser : parse(...)
+activate Parser
+Parser --> CuddleCare : CWA(EPC,"n/Milo a/4")
+deactivate Parser
+
+CuddleCare -> CWA : exec()
+activate CWA
+CWA -> EPC : exec(...)
+activate EPC
+EPC -> PetList : getPetByName("Milo")
+activate PetList
+PetList --> EPC : Pet/null
+deactivate PetList
+
+alt not found
+  EPC --> CWA : "Pet not found"
+else found
+  EPC -> Pet : setAge(4) [maybe setName/setSpecies]
+  Pet --> EPC : ok
+  EPC --> CWA : success
+end
+deactivate EPC
+CWA --> CuddleCare : return
+deactivate CWA
+CuddleCare --> User : prints
+deactivate CuddleCare
+@enduml

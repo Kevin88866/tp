@@ -9,11 +9,13 @@ import seedu.cuddlecare.command.impl.DeleteTreatmentCommand;
 import seedu.cuddlecare.command.impl.EditPetCommand;
 import seedu.cuddlecare.command.impl.FilterTreatmentByDateCommand;
 import seedu.cuddlecare.command.impl.FindCommand;
+import seedu.cuddlecare.command.impl.GroupTreatmentsByTypeCommand;
 import seedu.cuddlecare.command.impl.ListAllTreatmentsCommand;
 import seedu.cuddlecare.command.impl.ListPetTreatmentsCommand;
 import seedu.cuddlecare.command.impl.ListPetsCommand;
 import seedu.cuddlecare.command.impl.MarkTreatmentCommand;
 import seedu.cuddlecare.command.impl.OverdueTreatmentsCommand;
+import seedu.cuddlecare.command.impl.SummaryCommand;
 import seedu.cuddlecare.command.impl.UnmarkTreatmentCommand;
 import seedu.cuddlecare.config.LoggingConfigurator;
 import seedu.cuddlecare.parser.Parser;
@@ -137,7 +139,9 @@ public class CuddleCare {
                 Map.entry("delete-treatment", new DeleteTreatmentCommand(pets)),
                 Map.entry("find", new FindCommand(pets)),
                 Map.entry("edit-pet", new EditPetCommand(pets)),
+                Map.entry("group-treatments", new GroupTreatmentsByTypeCommand(pets)),
                 Map.entry("treatment-date", new FilterTreatmentByDateCommand(pets)),
+                Map.entry("summary", new SummaryCommand(pets)),
                 Map.entry("overdue-treatments", new OverdueTreatmentsCommand(pets))
         );
         assert commands != null : "Commands map cannot be null";
