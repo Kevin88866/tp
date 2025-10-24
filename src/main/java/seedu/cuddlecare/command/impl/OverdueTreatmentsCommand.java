@@ -32,6 +32,8 @@ public class OverdueTreatmentsCommand implements Command {
 
     private final PetList pets;
 
+    private LocalDate testDate;
+
     /**
      * Constructs an OverdueTreatmentsCommand with the given pet list.
      *
@@ -42,6 +44,25 @@ public class OverdueTreatmentsCommand implements Command {
         assert pets != null : "Pets cannot be null";
         this.pets = pets;
     }
+
+    /**
+     * Constructs an OverdueTreatmentsCommand with a given pet list and custom date.
+     * <p>
+     * This constructor is primarily used for testing purposes to allow specifying
+     * a fixed current date instead of using {@link LocalDate#now()}.
+     * </p>
+     *
+     * @param pets     the PetList containing all pets in the system
+     * @param testDate the LocalDate to be used as the current date (for testing)
+     * @throws AssertionError if pets or testDate is null
+     */
+    protected OverdueTreatmentsCommand(PetList pets, LocalDate testDate) {
+        assert pets != null : "Pets cannot be null";
+        assert testDate != null : "Date cannot be null";
+        this.pets = pets;
+        this.testDate = testDate;
+    }
+
 
     /**
      * Executes the overdue treatments command.
@@ -71,7 +92,7 @@ public class OverdueTreatmentsCommand implements Command {
 
         Stream<Pet> targetPet = getPetStream(pet);
 
-        LocalDate presentDate = LocalDate.now();
+        LocalDate presentDate = testDate == null ? LocalDate.now() : testDate;
         Map<Pet, ArrayList<Treatment>> overdueTreatments = getOverdueTreatments(targetPet, presentDate);
 
         printOverdueTreatments(overdueTreatments, pet, presentDate);
@@ -96,6 +117,10 @@ public class OverdueTreatmentsCommand implements Command {
     }
 
     private Pet getPetByName(String args) {
+        if (args.isEmpty()) {
+            return null;
+        }
+
         String[] tags = args.split(" (?=[\\w+]/)");
         String petName = null;
         for (String tag : tags) {
