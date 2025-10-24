@@ -54,7 +54,6 @@ class OverdueTreatmentsCommandTest {
         overdueTreatments.exec("n/Chiku");
 
         System.setOut(originalOut);
-
         String output = outContent.toString();
         
         assertTrue(output.contains("\"Treatment2\" was due on 2025-05-20 (overdue for 157 days)") &&
@@ -80,7 +79,6 @@ class OverdueTreatmentsCommandTest {
         overdueTreatments.exec("n/Chiku");
 
         System.setOut(originalOut);
-
         String output = outContent.toString();
         
         assertTrue(output.contains("\"Treatment3\" was due on 2025-10-09 (overdue for 15 days)") &&
@@ -105,7 +103,6 @@ class OverdueTreatmentsCommandTest {
         overdueTreatments.exec("n/Chiku");
 
         System.setOut(originalOut);
-
         String output = outContent.toString();
         
         assertTrue(output.contains("\"Treatment3\" was due on 2025-10-09 (overdue for 15 days)") &&
@@ -130,7 +127,6 @@ class OverdueTreatmentsCommandTest {
         overdueTreatments.exec("");
 
         System.setOut(originalOut);
-
         String output = outContent.toString();
         
         assertTrue(output.contains("Bindi: \"Treatment2\" was due on 2025-05-20 (overdue for 157 days)") &&
@@ -150,10 +146,7 @@ class OverdueTreatmentsCommandTest {
         overdueTreatments.exec("");
 
         System.setOut(originalOut);
-
         String output = outContent.toString();
-        
-
         assertTrue(output.contains("No pets added"));
     }
 
@@ -166,10 +159,7 @@ class OverdueTreatmentsCommandTest {
         overdueTreatments.exec("some args without the correct tag");
 
         System.setOut(originalOut);
-
         String output = outContent.toString();
-        
-
         assertTrue(output.contains("Invalid arguments provided"));
     }
 
@@ -182,10 +172,7 @@ class OverdueTreatmentsCommandTest {
         overdueTreatments.exec("n/I do not exist");
 
         System.setOut(originalOut);
-
         String output = outContent.toString();
-        
-
         assertTrue(output.contains("No pet found with the name"));
     }
 
@@ -209,10 +196,7 @@ class OverdueTreatmentsCommandTest {
         overdueTreatments.exec("");
 
         System.setOut(originalOut);
-
         String output = outContent.toString();
-        
-
         assertTrue(output.contains("No overdue treatment"));
     }
 
@@ -229,9 +213,7 @@ class OverdueTreatmentsCommandTest {
         overdueTreatments.exec("");
 
         System.setOut(originalOut);
-
         String output = outContent.toString();
-        
         assertTrue(output.contains("No overdue treatment"));
     }
 }
