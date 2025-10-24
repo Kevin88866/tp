@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 // @@author HarshitSrivastavaHS
+
 /**
  * Command that lists all overdue treatments for pets.
  * <p>
@@ -142,25 +143,29 @@ public class OverdueTreatmentsCommand implements Command {
         return pet;
     }
 
-    private void printOverdueTreatments(Map<Pet, ArrayList<Treatment>> treatments, Pet inputPet, LocalDate presentDate) {
+    private void printOverdueTreatments(Map<Pet, ArrayList<Treatment>> treatments,
+                                        Pet inputPet, LocalDate presentDate) {
         assert presentDate != null : "Present date cannot be null";
         assert treatments != null : "Treatments cannot be null";
         if (treatments.isEmpty()) {
             LOGGER.log(Level.INFO, "No overdue Treatment");
-            System.out.printf("No overdue treatment%s. Way to go!%n", (inputPet == null ? "" : " for " + inputPet.getName()));
+            System.out.printf("No overdue treatment%s. Way to go!%n",
+                    (inputPet == null ? "" : " for " + inputPet.getName()));
             return;
         }
         System.out.printf("Overdue Treatments%s:%n", (inputPet == null ? "" : " for " + inputPet.getName()));
-        for (Map.Entry<Pet, ArrayList<Treatment>> entry: treatments.entrySet()) {
+        for (Map.Entry<Pet, ArrayList<Treatment>> entry : treatments.entrySet()) {
 
-            for (Treatment treatment: entry.getValue()) {
+            for (Treatment treatment : entry.getValue()) {
 
                 long overdueSince = ChronoUnit.DAYS.between(treatment.getDate(), presentDate);
 
                 if (inputPet == null) {
-                    System.out.printf("%s: \"%s\" was due on %s (overdue for %d days)%n", entry.getKey().getName(), treatment.getName(), treatment.getDate(), overdueSince);
+                    System.out.printf("%s: \"%s\" was due on %s (overdue for %d days)%n",
+                            entry.getKey().getName(), treatment.getName(), treatment.getDate(), overdueSince);
                 } else {
-                    System.out.printf("\"%s\" was due on %s (overdue for %d days)%n", treatment.getName(), treatment.getDate(), overdueSince);
+                    System.out.printf("\"%s\" was due on %s (overdue for %d days)%n",
+                            treatment.getName(), treatment.getDate(), overdueSince);
                 }
             }
         }
