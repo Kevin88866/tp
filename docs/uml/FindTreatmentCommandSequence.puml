@@ -1,12 +1,12 @@
 @startuml
-title FindCommand Sequence Diagram
+title FindTreatmentCommand Sequence Diagram
 actor User
-participant CuddleCare
-participant Parser
-participant CommandWithArguments as CWA
-participant FindCommand as FC
-participant PetList
-participant Pet
+participant ":CuddleCare" as CuddleCare
+participant ":Parser" as Parser
+participant ":CommandWithArguments" as CWA
+participant ":FindCommand" as FC
+participant ":PetList" as PetList
+participant ":Pet" as Pet
 
 User -> CuddleCare : "find-treatment KEYWORD"
 activate CuddleCare

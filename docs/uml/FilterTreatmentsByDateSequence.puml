@@ -1,13 +1,13 @@
 @startuml
 title FilterTreatmentCommand Sequence Diagram
 actor User
-participant CuddleCare
-participant Parser
-participant CommandWithArguments as CWA
-participant FilterTreatmentCommand as FTC
-participant PetList
-participant Pet
-participant Treatment
+participant ":CuddleCare" as CuddleCare
+participant ":Parser" as Parser
+participant ":CommandWithArguments" as CWA
+participant ":FilterTreatmentCommand" as FTC
+participant ":PetList" as PetList
+participant ":Pet" as Pet
+participant ":Treatment" as Treatment
 
 User -> CuddleCare : "filter-treatment start/START_DATE end/END_DATE"
 activate CuddleCare
