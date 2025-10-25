@@ -1,31 +1,26 @@
 @startuml
-title FilterTreatmentCommand Sequence Diagram
-actor User
-participant ":CuddleCare" as CuddleCare
-participant ":Parser" as Parser
-participant ":CommandWithArguments" as CWA
-participant ":FilterTreatmentCommand" as FTC
+title FilterTreatmentByDateCommand Sequence Diagram
+
+participant ":FilterTreatmentByDateCommand" as FTC
 participant ":PetList" as PetList
 participant ":Pet" as Pet
 participant ":Treatment" as Treatment
 
-User -> CuddleCare : "filter-treatment start/START_DATE end/END_DATE"
-activate CuddleCare
-CuddleCare -> Parser : parse(...)
-activate Parser
-Parser --> CuddleCare : CWA(FTC,"start/START_DATE end/END_DATE")
-deactivate Parser
-
-CuddleCare -> CWA : exec()
-activate CWA
-CWA -> FTC : exec("start/START_DATE end/END_DATE")
+-> FTC : exec("start/START_DATE end/END_DATE")
 activate FTC
 
-FTC -> FTC : parse dates
-FTC -> FTC : validate date range
+FTC -> FTC : parseArguments(args)
+activate FTC
+FTC --> FTC : startDate, endDate
+deactivate FTC
+
+FTC -> FTC : validateDateRange(startDate, endDate)
+activate FTC
+FTC --> FTC : valid/invalid
+deactivate FTC
 
 alt invalid dates
-  FTC --> CWA : "Invalid date format"
+  FTC --> : "Invalid date format"
 else valid dates
   FTC -> PetList : getAllPets()
   activate PetList
@@ -43,20 +38,21 @@ else valid dates
       activate Treatment
       Treatment --> FTC : LocalDate
       deactivate Treatment
-      FTC -> FTC : check if date in range
+
+      FTC -> FTC : isInRange(date, startDate, endDate)
+      activate FTC
+      FTC --> FTC : boolean
+      deactivate FTC
     end
   end
 
   alt treatments found
-    FTC --> CWA : "Treatments between START_DATE and END_DATE..."
+    FTC --> : "Treatments between START_DATE and END_DATE..."
   else no treatments
-    FTC --> CWA : "No treatments found"
+    FTC --> : "No treatments found"
   end
 end
 
 deactivate FTC
-CWA --> CuddleCare : return
-deactivate CWA
-CuddleCare --> User : prints
-deactivate CuddleCare
+
 @enduml

@@ -3,13 +3,13 @@ skinparam classAttributeIconSize 0
 title AddTreatmentCommand Class Diagram
 
 class AddTreatmentCommand {
-    - LOGGER : Logger
+    - {static} LOGGER : Logger
     - pets : PetList
     + AddTreatmentCommand(pets : PetList)
     + exec(args : String) : void
 }
 
-interface "{interface}\nCommand" as Command {
+interface "<<Interface>>\nCommand" as Command {
     + exec(args : String) : void
 }
 
@@ -38,7 +38,7 @@ class Treatment {
     + toString() : String
 }
 
-Command <|-- AddTreatmentCommand
+Command <|.. AddTreatmentCommand
 AddTreatmentCommand -right-> PetList : uses
 PetList "1" *-- "*" Pet : contains
 Pet "1" *-left- "*" Treatment : has

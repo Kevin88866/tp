@@ -1,23 +1,11 @@
 @startuml
 title FindTreatmentCommand Sequence Diagram
-actor User
-participant ":CuddleCare" as CuddleCare
-participant ":Parser" as Parser
-participant ":CommandWithArguments" as CWA
-participant ":FindCommand" as FC
+
+participant ":FindTreatmentCommand" as FC
 participant ":PetList" as PetList
 participant ":Pet" as Pet
 
-User -> CuddleCare : "find-treatment KEYWORD"
-activate CuddleCare
-CuddleCare -> Parser : parse(...)
-activate Parser
-Parser --> CuddleCare : CWA(FC,"KEYWORD")
-deactivate Parser
-
-CuddleCare -> CWA : exec()
-activate CWA
-CWA -> FC : exec("KEYWORD")
+-> FC : exec("KEYWORD")
 activate FC
 
 FC -> PetList : getAllPets()
@@ -32,19 +20,19 @@ loop for each pet
   deactivate Pet
 
   loop for each treatment
-    FC -> FC : check if name.contains(keyword)
+    FC -> FC : checkMatch(treatment, keyword)
+    activate FC
+    FC --> FC
+    deactivate FC
   end
 end
 
 alt matches found
-  FC --> CWA : "Found N treatments..."
+  FC --> : "Found N treatments..."
 else no matches
-  FC --> CWA : "No treatments found"
+  FC --> : "No treatments found"
 end
 
 deactivate FC
-CWA --> CuddleCare : return
-deactivate CWA
-CuddleCare --> User : prints
-deactivate CuddleCare
+
 @enduml
