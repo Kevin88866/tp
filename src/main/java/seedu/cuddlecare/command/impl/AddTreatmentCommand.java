@@ -20,7 +20,8 @@ import java.util.logging.Level;
 public class AddTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(AddTreatmentCommand.class.getName());
-    private static final String USAGE = "Invalid input. Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE note/{NOTE}";
+    private static final String USAGE = "Invalid input. Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE " +
+            "note/{NOTE}";
 
     /**
      * A list of all pets.
