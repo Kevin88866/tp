@@ -1,0 +1,62 @@
+@startuml
+title FilterTreatmentCommand Sequence Diagram
+actor User
+participant CuddleCare
+participant Parser
+participant CommandWithArguments as CWA
+participant FilterTreatmentCommand as FTC
+participant PetList
+participant Pet
+participant Treatment
+
+User -> CuddleCare : "filter-treatment start/START_DATE end/END_DATE"
+activate CuddleCare
+CuddleCare -> Parser : parse(...)
+activate Parser
+Parser --> CuddleCare : CWA(FTC,"start/START_DATE end/END_DATE")
+deactivate Parser
+
+CuddleCare -> CWA : exec()
+activate CWA
+CWA -> FTC : exec("start/START_DATE end/END_DATE")
+activate FTC
+
+FTC -> FTC : parse dates
+FTC -> FTC : validate date range
+
+alt invalid dates
+  FTC --> CWA : "Invalid date format"
+else valid dates
+  FTC -> PetList : getAllPets()
+  activate PetList
+  PetList --> FTC : List<Pet>
+  deactivate PetList
+
+  loop for each pet
+    FTC -> Pet : getTreatments()
+    activate Pet
+    Pet --> FTC : ArrayList<Treatment>
+    deactivate Pet
+
+    loop for each treatment
+      FTC -> Treatment : getDate()
+      activate Treatment
+      Treatment --> FTC : LocalDate
+      deactivate Treatment
+      FTC -> FTC : check if date in range
+    end
+  end
+
+  alt treatments found
+    FTC --> CWA : "Treatments between START_DATE and END_DATE..."
+  else no treatments
+    FTC --> CWA : "No treatments found"
+  end
+end
+
+deactivate FTC
+CWA --> CuddleCare : return
+deactivate CWA
+CuddleCare --> User : prints
+deactivate CuddleCare
+@enduml
