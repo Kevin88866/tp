@@ -28,9 +28,9 @@ loop for each pet
 end
 
 alt matches found
-  FC --> : "Found N treatments..."
+  <-- FC : "Found N treatments..."
 else no matches
-  FC --> : "No treatments found"
+  <-- FC : "No treatments found"
 end
 
 deactivate FC

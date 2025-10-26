@@ -20,7 +20,7 @@ FTC --> FTC : valid/invalid
 deactivate FTC
 
 alt invalid dates
-  FTC --> : "Invalid date format"
+  <-- FTC : "Invalid date format"
 else valid dates
   FTC -> PetList : getAllPets()
   activate PetList
@@ -47,9 +47,9 @@ else valid dates
   end
 
   alt treatments found
-    FTC --> : "Treatments between START_DATE and END_DATE..."
+    <-- FTC : "Treatments between START_DATE and END_DATE..."
   else no treatments
-    FTC --> : "No treatments found"
+    <-- FTC : "No treatments found"
   end
 end
 
