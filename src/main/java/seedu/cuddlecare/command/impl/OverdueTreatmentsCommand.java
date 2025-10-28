@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 // @@author HarshitSrivastavaHS
+
 /**
  * Command that lists all overdue treatments for pets.
  * <p>
@@ -102,14 +103,26 @@ public class OverdueTreatmentsCommand implements Command {
         assert targetPet != null : "Target pet cannot be null. It's either a stream of all pets or just the input pet.";
         assert presentDate != null : "Present date cannot be null";
         return targetPet
-                .filter(p -> p.getTreatments().stream()
-                        .anyMatch(t -> !t.isCompleted() && t.getDate().isBefore(presentDate)))
                 .collect(Collectors.toMap(
                         p -> p,
-                        p -> p.getTreatments().stream()
-                                .filter(t -> !t.isCompleted() && t.getDate().isBefore(presentDate))
-                                .collect(Collectors.toCollection(ArrayList::new))
+                        p -> getOverdueTreatmentsForPet(p, presentDate)
+                ))
+                .entrySet()
+                .stream()
+                .filter(p -> !p.getValue().isEmpty())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
                 ));
+    }
+
+    private ArrayList<Treatment> getOverdueTreatmentsForPet(Pet pet, LocalDate presentDate) {
+        assert pet != null : "Pet cannot be null";
+        assert presentDate != null : "Present date cannot be null";
+
+        return pet.getTreatments().stream()
+                .filter(t -> !t.isCompleted() && t.getDate().isBefore(presentDate))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private Stream<Pet> getPetStream(Pet pet) {
@@ -146,26 +159,27 @@ public class OverdueTreatmentsCommand implements Command {
                                         Pet inputPet, LocalDate presentDate) {
         assert presentDate != null : "Present date cannot be null";
         assert treatments != null : "Treatments cannot be null";
+
         if (treatments.isEmpty()) {
             LOGGER.log(Level.INFO, "No overdue Treatment");
             System.out.printf("No overdue treatment%s. Way to go!%n",
                     (inputPet == null ? "" : " for " + inputPet.getName()));
             return;
         }
+
         System.out.printf("Overdue Treatments%s:%n", (inputPet == null ? "" : " for " + inputPet.getName()));
+
         for (Map.Entry<Pet, ArrayList<Treatment>> entry : treatments.entrySet()) {
-
             for (Treatment treatment : entry.getValue()) {
-
                 long overdueSince = ChronoUnit.DAYS.between(treatment.getDate(), presentDate);
-
                 if (inputPet == null) {
                     System.out.printf("%s: \"%s\" was due on %s (overdue for %d days)%n",
                             entry.getKey().getName(), treatment.getName(), treatment.getDate(), overdueSince);
-                } else {
-                    System.out.printf("\"%s\" was due on %s (overdue for %d days)%n",
-                            treatment.getName(), treatment.getDate(), overdueSince);
+                    continue;
                 }
+                System.out.printf("\"%s\" was due on %s (overdue for %d days)%n",
+                        treatment.getName(), treatment.getDate(), overdueSince);
+
             }
         }
         LOGGER.log(Level.INFO, "Successfully executed the command");
