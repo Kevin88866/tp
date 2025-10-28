@@ -10,6 +10,11 @@
 - **Run**: `java -jar cuddlecare.jar`
 - **Prompt**: You should see a greeting and a prompt symbol `> `.
 
+```
+Hello! Welcome to CuddleCare.
+>
+```
+
 ## Features 
 
 ---
@@ -66,6 +71,60 @@ edit-pet n/Luna s/Cat a/3
 
 **Screenshot**
 ![Edit Pet (before/after)](./docs/diagrams/ug-edit-pet-before-after.png)
+
+---
+
+### Add Treatment — `add-treatment`
+Adds a new treatment record for a specified pet.
+
+**Format**
+```
+add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE [note/NOTE]
+```
+* n/ (required): name of the pet 
+* t/ (required): name of the treatment 
+* d/ (required): date in yyyy-MM-dd format 
+* note/ (optional): additional notes about the treatment
+
+**Example**
+```
+> add-treatment n/Milo t/Vaccination d/2025-10-06
+Added treatment "Vaccination" on 2025-10-06 for Milo.
+
+> add-treatment n/Luna t/Dental Cleaning d/2025-11-15 note/Dr. Smith, $200
+Added treatment "Dental Cleaning" on 2025-11-15 for Luna.
+Note: Dr. Smith, $200
+```
+
+**Notes**
+* Date must be in yyyy-MM-dd format (e.g., 2025-10-06).
+* If pet not found: Pet not found: <name>. 
+* If date is invalid: `Invalid date format. Please use yyyy-MM-dd format (e.g., 2024-12-25).`
+* On missing required fields: `Invalid input. Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE note/{NOTE}.`
+
+---
+
+### Delete Treatment — `delete-treatment`
+Deletes a treatment from a pet's record.
+
+**Format**
+```
+delete-treatment n/PET_NAME i/INDEX
+```
+
+* n/ (required): name of the pet 
+* i/ (required): 1-based index of the treatment to delete
+
+**Example**
+```
+> delete-treatment n/Milo i/1
+Deleted treatment "Vaccination" for Milo.
+```
+
+**Notes**
+* If pet not found: `Pet not found: <name>.`
+* If index is invalid: `Invalid treatment index.`
+* On malformed input: `Invalid input. Usage: delete-treatment n/PET_NAME i/INDEX.`
 
 ---
 
@@ -166,7 +225,61 @@ group-treatments
 
 ---
 
+### Filter Treatment by Date — `filter-treatment`
+Displays all treatments that fall within a specified date range across all pets.
 
+**Format**
+```
+filter-treatment start/START_DATE end/END_DATE
+```
+* start/ (required): start date in yyyy-MM-dd format 
+* end/ (required): end date in yyyy-MM-dd format 
+* Date range is inclusive (includes both start and end dates)
+
+**Example**
+```
+> filter-treatment start/2025-11-01 end/2025-11-30
+Treatments between 2025-11-01 and 2025-11-30:
+1. Annual Vaccine (Luna) - 2025-11-15
+2. Dental Checkup (Milo) - 2025-11-22
+```
+
+If no treatments in range: `No treatments found between <start> and <end>.`
+
+**Notes**
+* Start date must be before or equal to end date. 
+* If start date is after end date: `Error: Start date cannot be after end date.`
+* If date format is invalid: `Invalid date format. Please use yyyy-MM-dd format.`
+* On missing parameters: `Invalid input. Usage: filter-treatment start/START_DATE end/END_DATE.`
+
+---
+
+### Find Treatment — `find-treatment`
+Searches for treatments across all pets by keyword. The search is case-insensitive and uses substring matching.
+
+**Format**
+```
+find-treatment KEYWORD
+```
+
+**Example**
+```
+> find-treatment vaccine
+Found 2 treatments containing 'vaccine':
+1. Rabies Vaccine (Milo) - 2025-10-10
+2. Annual Vaccine (Luna) - 2025-11-15
+
+> find-treatment checkup
+Found 1 treatments containing 'checkup':
+1. Regular Checkup (Milo) - 2025-09-20
+```
+
+**Notes**
+* Keyword cannot be empty or whitespace-only.
+* If no matches: `No treatments found containing '<keyword>'.`
+* If keyword is empty: `Error: Please provide a keyword to search for.`
+
+---
 
 ## FAQ
 
