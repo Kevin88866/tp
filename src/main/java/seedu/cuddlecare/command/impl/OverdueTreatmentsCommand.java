@@ -173,11 +173,11 @@ public class OverdueTreatmentsCommand implements Command {
             for (Treatment treatment : entry.getValue()) {
                 long overdueSince = ChronoUnit.DAYS.between(treatment.getDate(), presentDate);
                 if (inputPet == null) {
-                    System.out.printf("%s: \"%s\" was due on %s (overdue for %d days)%n",
+                    System.out.printf("\t%s: \"%s\" was due on %s (overdue for %d days)%n",
                             entry.getKey().getName(), treatment.getName(), treatment.getDate(), overdueSince);
                     continue;
                 }
-                System.out.printf("\"%s\" was due on %s (overdue for %d days)%n",
+                System.out.printf("\t\"%s\" was due on %s (overdue for %d days)%n",
                         treatment.getName(), treatment.getDate(), overdueSince);
 
             }
