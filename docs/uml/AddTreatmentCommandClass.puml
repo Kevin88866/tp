@@ -4,7 +4,6 @@ title AddTreatmentCommand Class Diagram
 
 class AddTreatmentCommand {
     - {static} LOGGER : Logger
-    - pets : PetList
     + AddTreatmentCommand(pets : PetList)
     + exec(args : String) : void
 }

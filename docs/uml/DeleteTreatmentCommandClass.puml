@@ -4,7 +4,6 @@ title DeleteTreatmentCommand Class Diagram
 
 class DeleteTreatmentCommand {
     - {static} LOGGER : Logger
-    - pets : PetList
     + DeleteTreatmentCommand(pets : PetList)
     + exec(args : String) : void
 }
