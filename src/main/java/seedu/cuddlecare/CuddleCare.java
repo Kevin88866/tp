@@ -16,6 +16,7 @@ import seedu.cuddlecare.command.impl.ListPetsCommand;
 import seedu.cuddlecare.command.impl.MarkTreatmentCommand;
 import seedu.cuddlecare.command.impl.SummaryCommand;
 import seedu.cuddlecare.command.impl.UnmarkTreatmentCommand;
+import seedu.cuddlecare.command.impl.HelpCommand;
 import seedu.cuddlecare.config.LoggingConfigurator;
 import seedu.cuddlecare.parser.Parser;
 
@@ -140,11 +141,22 @@ public class CuddleCare {
                 Map.entry("edit-pet", new EditPetCommand(pets)),
                 Map.entry("group-treatments", new GroupTreatmentsByTypeCommand(pets)),
                 Map.entry("treatment-date", new FilterTreatmentByDateCommand(pets)),
-                Map.entry("summary", new SummaryCommand(pets))
+                Map.entry("summary", new SummaryCommand(pets)),
+                Map.entry("help", new HelpCommand())
         );
         assert commands != null : "Commands map cannot be null";
         parser.setCommands(commands);
+        setCommandsInHelpCommand();
         LOGGER.log(Level.INFO, "Commands initialized with " + commands.size() + " entries");
+    }
+
+    private void setCommandsInHelpCommand() {
+        Command helpCommand = commands.get("help");
+        if (!(helpCommand instanceof HelpCommand)) {
+            LOGGER.log(Level.SEVERE, "The help command in the commands map is not an instance of HelpCommand");
+            return;
+        }
+        ((HelpCommand) helpCommand).setCommands(commands);
     }
 
     Map<String, Command> getCommandsForTesting() {
