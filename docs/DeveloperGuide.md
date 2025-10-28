@@ -352,4 +352,18 @@ group-treatments-by-type
 
 ## Instructions for manual testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+1. **List Pets: list all pets**
+    1. `list-pets`
+2. **Edit pet: rename and age**
+    1. `add-pet n/Milo s/Dog a/3`
+    2. `edit-pet n/Milo nn/Millie a/4`
+    3. `list-pets` → verify updated name/age.
+3. **Mark → Unmark**
+    1. `add-treatment n/Millie t/"Vaccine A" d/2024-01-10`
+    2. `list-treatments n/Millie` → note index
+    3. `mark n/Millie i/<index>` → verify `[X]`
+    4. `unmark n/Millie i/<index>` → verify `[ ]`
+4. **Group by type (per pet & all)**
+    1. Add mixed treatments (e.g., Vaccine A / Checkup).
+    2. `group-treatments n/Millie` → check order & headers.
+    3. `group-treatments` → verify cross-pet listing & sort.
