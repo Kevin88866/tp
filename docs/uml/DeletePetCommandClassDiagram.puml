@@ -26,7 +26,7 @@ class Pet {
 
 Command <|.. DeletePetCommand
 
-DeletePetCommand o-- "1" PetList : -pets >
+DeletePetCommand o-- "1" PetList : has >
 
 PetList *--> "*" Pet : has ArrayList >
 
