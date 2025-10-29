@@ -126,10 +126,22 @@ public class HelpCommand implements Command {
         LOGGER.log(Level.INFO, "Printing all command categories with commands");
 
         System.out.println("Here is the list of all commands supported by the application: ");
-        for (Map.Entry<String, Map<String, Command>> categoryCommands: categorisedCommands.entrySet()) {
-            printCommandsByCategory(categoryCommands.getKey(), categoryCommands.getValue());
+
+        List<String> categoryOrder = List.of("General", "Pet", "Treatment");
+
+        for (String category : categoryOrder) {
+            if (categorisedCommands.containsKey(category)) {
+                printCommandsByCategory(category, categorisedCommands.get(category));
+            }
         }
-        System.out.printf("\tRun \"%s\" to find out more about a command.%n", SYNTAX);
+
+        categorisedCommands.entrySet().stream()
+                .filter(category -> !categoryOrder.contains(category.getKey()))
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(category -> printCommandsByCategory(category.getKey(), category.getValue()));
+
+
+        System.out.printf("Run \"%s\" to find out more about a command.%n", SYNTAX);
     }
 
     private void printCommandsByCategory(String category, Map<String, Command> commandsOfCategory) {
