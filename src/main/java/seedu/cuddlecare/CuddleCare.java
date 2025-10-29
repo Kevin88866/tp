@@ -19,11 +19,7 @@ import seedu.cuddlecare.command.impl.SummaryCommand;
 import seedu.cuddlecare.command.impl.UnmarkTreatmentCommand;
 import seedu.cuddlecare.config.LoggingConfigurator;
 import seedu.cuddlecare.parser.Parser;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
+import seedu.cuddlecare.storage.Storage;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -49,11 +45,6 @@ public class CuddleCare {
      */
     private static final String PROMPT_SYMBOL = "> ";
 
-    /*
-     * File path for the save file.
-     */
-    private static final String SAVE_PATH = "data/cuddlecare_save.txt";
-
     /**
      * Parser used to convert user input into commands.
      */
@@ -68,6 +59,11 @@ public class CuddleCare {
      * List of all pets.
      */
     private final PetList pets = new PetList();
+
+    /**
+     * Save file for pet and treatment information.
+     */
+    private final Storage storage = new Storage("data/cuddlecare_save.txt", pets);
 
     /**
      * Constructs a new CuddleCare application.
@@ -118,54 +114,12 @@ public class CuddleCare {
             }
             LOGGER.log(Level.INFO, "Executing command: " + command.getClass().getSimpleName());
             command.exec("");
-            saveDataToFile();
+            storage.save();
             printInputPrompt();
         }
 
         sc.close();
         LOGGER.log(Level.INFO, "Scanner closed, application loop ended");
-    }
-
-    /**
-     * Saves the pet and treatment data to a
-     * save file for easy access to the user.
-     */
-    void saveDataToFile() {
-        try {
-            File file = new File(SAVE_PATH).getParentFile();
-            if (!file.exists()) {
-                Files.createDirectories(file.toPath());
-            }
-
-            try (FileWriter writer = new FileWriter(SAVE_PATH)) {
-                if (pets.size() == 0) {
-                    writer.write("No pets found.\n");
-                } else {
-                    writer.write("CuddleCare Records\n");
-                    writer.write("===================\n\n");
-
-                    for (int i = 0; i < pets.size(); i++) {
-                        Pet pet = pets.get(i);
-                        writer.write((i + 1) + ". " + pet.toString() + "\n");
-
-                        if (pet.getTreatments().isEmpty()) {
-                            writer.write("\tNo treatments recorded.\n\n");
-                        } else {
-                            writer.write("\tTreatments:\n");
-                            for (Treatment t : pet.getTreatments()) {
-                                writer.write("\t- " + t.toString() + "\n");
-                            }
-                            writer.write("\n");
-                        }
-                    }
-                }
-            }
-
-            LOGGER.log(Level.INFO, "Data successfully saved to " + SAVE_PATH);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to save data: " + e.getMessage());
-            System.out.println("Failed to save data.");
-        }
     }
 
     /**
