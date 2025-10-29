@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static seedu.cuddlecare.ui.Ui.printHeader;
+
 // @@author HarshitSrivastavaHS
 /**
  * A command that displays information about other commands in the application.
@@ -126,7 +128,7 @@ public class HelpCommand implements Command {
 
         LOGGER.log(Level.INFO, "Printing all command categories with commands");
 
-        System.out.println("Here is the list of all commands supported by the application: ");
+        printHeader("Here is the list of all commands supported by the application: ");
 
         List<String> categoryOrder = List.of("General", "Pet", "Treatment");
 
@@ -146,7 +148,7 @@ public class HelpCommand implements Command {
     }
 
     private void printCommandsByCategory(String category, Map<String, Command> commandsOfCategory) {
-        System.out.println(category);
+        printHeader(category);
 
         commandsOfCategory.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
