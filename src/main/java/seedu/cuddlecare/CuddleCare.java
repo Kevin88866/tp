@@ -72,6 +72,7 @@ public class CuddleCare {
     CuddleCare() {
         parser = new Parser();
         assert parser != null : "Parser cannot be null";
+        storage.load();
     }
 
     /**

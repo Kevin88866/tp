@@ -4,6 +4,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,6 +45,89 @@ public class Storage {
     }
 
     /**
+     * Loads the pets and treatments from the save file.
+     */
+    public void load() {
+        if (!Files.exists(Paths.get(filePath))) {
+            LOGGER.log(Level.INFO, "Save file does not exist.");
+            return;
+        }
+
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(filePath));
+            Map<String, Pet> petMap = new HashMap<>();
+
+            boolean isReadingPets = true;
+
+            for (String line : lines) {
+                line = line.trim();
+
+                if (line.isEmpty() || line.equalsIgnoreCase("# Pets")) {
+                    continue;
+                }
+
+                if (line.equalsIgnoreCase("# Treatments")) {
+                    isReadingPets = false;
+                    continue;
+                }
+
+                String[] parts = line.split("\\|");
+
+                if (isReadingPets) {
+                    if (parts.length < 3) {
+                        continue;
+                    }
+                    String name = parts[0].trim();
+                    String species = parts[1].trim();
+                    int age;
+                    try {
+                        age = Integer.parseInt(parts[2].trim());
+                    } catch (NumberFormatException e) {
+                        LOGGER.log(Level.WARNING, "Invalid age for pet " + name);
+                        continue;
+                    }
+
+                    Pet pet = new Pet(name, species, age);
+                    pets.add(pet);
+                    petMap.put(name, pet);
+                } else {
+                    if (parts.length < 4) {
+                        continue;
+                    }
+
+                    String petName = parts[0].trim();
+                    String treatmentName = parts[1].trim();
+                    LocalDate date;
+                    try {
+                        date = LocalDate.parse(parts[2].trim());
+                    } catch (DateTimeParseException e) {
+                        LOGGER.log(Level.WARNING, "Invalid date for treatment " + treatmentName);
+                        continue;
+                    }
+
+                    boolean isComplete = Boolean.parseBoolean(parts[3].trim());
+                    String note = (parts.length >= 5) ? parts[4].trim() : "";
+
+                    Pet pet = petMap.get(petName);
+                    if (pet == null) {
+                        LOGGER.log(Level.WARNING, "Pet not found for treatment " + treatmentName);
+                        continue;
+                    }
+
+                    Treatment t = new Treatment(treatmentName, note, date);
+                    t.setCompleted(isComplete);
+                    pet.addTreatment(t);
+                }
+            }
+
+            LOGGER.log(Level.INFO, "Data successfully loaded from " + filePath);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load data: " + e.getMessage());
+            System.out.println("Failed to load data.");
+        }
+    }
+
+    /**
      * Saves all the pet and treatment information
      * to the save file.
      */
@@ -49,30 +138,25 @@ public class Storage {
                 Files.createDirectories(file.toPath());
             }
 
-            try (FileWriter writer = new FileWriter(filePath)) {
-                if (pets.size() == 0) {
-                    writer.write("No pets found.\n");
-                } else {
-                    writer.write("CuddleCare Records\n");
-                    writer.write("===================\n\n");
+            FileWriter writer = new FileWriter(filePath);
+            
+            writer.write("# Pets\n");
+            for (int i = 0; i < pets.size(); i++) {
+                Pet pet = pets.get(i);
+                writer.write(pet.getName() + " | " + pet.getSpecies() + " | " + pet.getAge() + "\n");
+            }
 
-                    for (int i = 0; i < pets.size(); i++) {
-                        Pet pet = pets.get(i);
-                        writer.write((i + 1) + ". " + pet.toString() + "\n");
-
-                        if (pet.getTreatments().isEmpty()) {
-                            writer.write("\tNo treatments recorded.\n\n");
-                        } else {
-                            writer.write("\tTreatments:\n");
-                            for (Treatment t : pet.getTreatments()) {
-                                writer.write("\t- " + t.toString() + "\n");
-                            }
-                            writer.write("\n");
-                        }
-                    }
+            writer.write("\n# Treatments\n");
+            for (int i = 0; i < pets.size(); i++) {
+                Pet pet = pets.get(i);
+                for (Treatment t : pet.getTreatments()) {
+                    writer.write(pet.getName() + " | " + t.getName() + " | " +
+                            t.getDate() + " | " + t.isCompleted() + " | " +
+                            (t.hasNote() ? t.getNote() : "") + "\n");
                 }
             }
 
+            writer.close();
             LOGGER.log(Level.INFO, "Data successfully saved to " + filePath);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to save data: " + e.getMessage());
