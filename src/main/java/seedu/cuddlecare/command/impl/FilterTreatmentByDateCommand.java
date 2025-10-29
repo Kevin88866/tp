@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 //@@author Pavithra6-Srinivasan
+
 /**
  * A command that filters treatments by date range across all pets.
  * <p>
@@ -74,7 +75,8 @@ public class FilterTreatmentByDateCommand implements Command {
                 return;
             }
 
-            Ui.printHeader("Treatment Summary from: " + fromDate + " to: " + toDate);
+            Ui.printHeader("Found " + filteredTreatments.size() +
+                    " treatment(s) from " + fromDate + " to " + toDate + ":");
             Ui.printList(filteredTreatments);
 
         } catch (Exception e) {
