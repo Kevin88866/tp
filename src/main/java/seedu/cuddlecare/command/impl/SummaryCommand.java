@@ -20,8 +20,9 @@ public class SummaryCommand implements Command {
     // @@author HarshitSrivastavaHS
     private static final String SYNTAX = "summary from/DATE to/DATE";
     private static final String SHORT_DESCRIPTION = "Displays a summary of completed treatments.";
-    private static final String LONG_DESCRIPTION = "Shows all treatments marked as completed within a specified date range. "
-            + "Useful for tracking recent or past pet care activities.";
+    private static final String LONG_DESCRIPTION = "Shows all treatments " +
+            "marked as completed within a specified date range. " +
+            "Useful for tracking recent or past pet care activities.";
     private static final List<String> CATEGORIES = List.of("Treatment");
     // @@author
 

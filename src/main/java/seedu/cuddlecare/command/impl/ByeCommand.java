@@ -15,7 +15,8 @@ public class ByeCommand implements Command {
 
     private static final String SYNTAX = "bye";
     private static final String SHORT_DESCRIPTION = "Exits the application";
-    private static final String LONG_DESCRIPTION = "Terminates the CuddleCare application after displaying a farewell message.";
+    private static final String LONG_DESCRIPTION = "Terminates the CuddleCare application " +
+            "after displaying a farewell message.";
     private static final List<String> CATEGORIES = List.of("General");
 
     /**

@@ -25,7 +25,8 @@ public class AddTreatmentCommand implements Command {
     // @@author HarshitSrivastavaHS
     private static final String SYNTAX = "add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE [note/NOTE]";
     private static final String SHORT_DESCRIPTION = "Adds a treatment record for a pet";
-    private static final String LONG_DESCRIPTION = "Creates and logs a new treatment for the specified pet, including its name, date, and optional note.";
+    private static final String LONG_DESCRIPTION = "Creates and logs a new treatment " +
+            "for the specified pet, including its name, date, and optional note.";
     private static final List<String> CATEGORIES = List.of("Treatment");
     // @@author
 

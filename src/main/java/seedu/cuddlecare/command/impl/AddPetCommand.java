@@ -22,8 +22,10 @@ public class AddPetCommand implements Command {
     // @@author HarshitSrivastavaHS
     private static final String SYNTAX = "add-pet n/PET_NAME s/PET_SPECIES a/PET_AGE";
     private static final String SHORT_DESCRIPTION = "Adds a new pet";
-    private static final String LONG_DESCRIPTION = "Adds a new pet to the application with the specified name, species, and age. " +
-            "All fields are required, and the command ensures the pet is recorded for future operations.";
+    private static final String LONG_DESCRIPTION = "Adds a new pet to the application " +
+            "with the specified name, species, and age. " +
+            "All fields are required, and the command ensures " +
+            "the pet is recorded for future operations.";
     private static final List<String> CATEGORIES = List.of("Pet");
     // @@author
 

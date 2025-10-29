@@ -20,8 +20,9 @@ public class ListPetsCommand implements Command {
     // @@author HarshitSrivastavaHS
     private static final String SYNTAX = "list-pets";
     private static final String SHORT_DESCRIPTION = "Lists all pets in the application.";
-    private static final String LONG_DESCRIPTION = "Displays all pets currently tracked by the application in numbered order. "
-            + "Useful for viewing an overview of all registered pets at once.";
+    private static final String LONG_DESCRIPTION = "Displays all pets currently " +
+            "tracked by the application in numbered order. " +
+            "Useful for viewing an overview of all registered pets at once.";
     private static final List<String> CATEGORIES = List.of("Pet");
     // @@author
 

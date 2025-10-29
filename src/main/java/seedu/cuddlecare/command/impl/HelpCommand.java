@@ -2,7 +2,6 @@ package seedu.cuddlecare.command.impl;
 
 import seedu.cuddlecare.command.Command;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -30,7 +29,8 @@ public class HelpCommand implements Command {
 
     private static final String SYNTAX = "help [c/COMMAND_NAME]";
     private static final String SHORT_DESCRIPTION = "Displays All Commands";
-    private static final String LONG_DESCRIPTION = "Displays all commands in the application, organized by category. " +
+    private static final String LONG_DESCRIPTION = "Displays all commands in " +
+            "the application, organized by category. " +
             "Optionally, it can show detailed information for a specific command.";
     private static final List<String> CATEGORIES = List.of("General");
 
@@ -70,7 +70,8 @@ public class HelpCommand implements Command {
         }
 
         if (commandName != null && !commandsMap.containsKey(commandName.toLowerCase())) {
-            System.out.printf("Command \"%s\" not found. Run \"help\" for a list of all available commands.%n", commandName);
+            System.out.printf("Command \"%s\" not found. Run \"help\" for " +
+                    "a list of all available commands.%n", commandName);
             LOGGER.log(Level.INFO, "No command found by the name of \""+commandName+"\"");
             return;
         }
@@ -149,13 +150,17 @@ public class HelpCommand implements Command {
 
         commandsOfCategory.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
-                .forEach(entry -> System.out.printf("\t%s: %s%n", entry.getKey(), entry.getValue().getShortDescription()));
+                .forEach(entry ->
+                        System.out.printf("\t%s: %s%n", entry.getKey(), entry.getValue().getShortDescription()));
 
         System.out.println();
     }
 
     private void printCommand(String commandName, Command command) {
-        System.out.printf("\tCommand Name: %s%n\tCategory: %s%n\tDescription: %s%n\tSyntax: %s%n%n\t*[t/tag] means tag is an optional argument.%n", commandName, String.join(",", command.getCategory()) ,command.getLongDescription(), command.getSyntax());
+        System.out.printf("\tCommand Name: %s%n\tCategory: %s%n\tDescription: %s%n" +
+                "\tSyntax: %s%n%n\t*[t/tag] means tag is an optional argument." +
+                "%n", commandName, String.join(",", command.getCategory()) ,
+                command.getLongDescription(), command.getSyntax());
     }
 
     private Map<String, Map<String, Command>> getCategorizedCommands() {
@@ -172,7 +177,8 @@ public class HelpCommand implements Command {
                 );
     }
 
-    private Map<String, Map<String, Command>> categorizeCommands(Stream<Map.Entry<String, Map.Entry<String, Command>>> stream) {
+    private Map<String, Map<String, Command>> categorizeCommands(Stream<Map.Entry<String,
+            Map.Entry<String, Command>>> stream) {
         return stream.collect(Collectors.groupingBy(
                 Map.Entry::getKey,
                 Collectors.toMap(

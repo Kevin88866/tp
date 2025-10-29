@@ -68,7 +68,8 @@ public class Parser {
         Command command = commands.get(commandName.toLowerCase());
 
         if (command == null) {
-            System.out.printf("Invalid Command: %s%nRun \"help\" to find the list of all available commands.%n", commandName);
+            System.out.printf("Invalid Command: %s%nRun \"help\" to " +
+                    "find the list of all available commands.%n", commandName);
             LOGGER.log(Level.WARNING, "Invalid command received: " + commandName);
             return null;
         }
