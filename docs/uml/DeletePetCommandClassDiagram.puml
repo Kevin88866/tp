@@ -1,5 +1,7 @@
 @startuml
 skinparam classAttributeIconSize 0
+hide circle
+
 title DeletePetCommand Class Diagram
 
 interface "<<Interface>>\nCommand" as Command {
