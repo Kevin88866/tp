@@ -8,6 +8,7 @@ import seedu.cuddlecare.command.Command;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import seedu.cuddlecare.ui.Ui;
 
 /**
  * Edits a pet's basic details (name, species, age).
@@ -37,14 +38,14 @@ public class EditPetCommand implements Command {
         try {
             EditPetArgs p = EditPetParser.parse(args);
             if (!p.valid) {
-                printUsage();
+                Ui.printEditPetUsage();
                 LOGGER.log(Level.WARNING, "Invalid args for edit-pet: \"{0}\"", args);
                 return;
             }
 
             Pet target = pets.getPetByName(p.oldName);
             if (target == null) {
-                System.out.println("No such pet: " + p.oldName);
+                Ui.println("No such pet: " + p.oldName);
                 LOGGER.log(Level.INFO, "Edit failed; unknown pet \"{0}\"", p.oldName);
                 return;
             }
@@ -52,7 +53,7 @@ public class EditPetCommand implements Command {
             if (p.newName != null && !p.newName.equalsIgnoreCase(p.oldName)) {
                 Pet conflict = pets.getPetByName(p.newName);
                 if (conflict != null && conflict != target) {
-                    System.out.println("A pet named \"" + p.newName + "\" already exists.");
+                    Ui.println("A pet named \"" + p.newName + "\" already exists.");
                     LOGGER.log(Level.INFO, "Edit aborted; name conflict: {0}", p.newName);
                     return;
                 }
@@ -80,7 +81,7 @@ public class EditPetCommand implements Command {
             }
 
             if (!changed) {
-                System.out.println("Nothing to update. Provide at least one of nn/, s/, a/ with a new value.");
+                Ui.println("Nothing to update. Provide at least one of nn/, s/, a/ with a new value.");
                 LOGGER.fine("EditPetCommand: nothing changed");
                 return;
             }
@@ -90,18 +91,14 @@ public class EditPetCommand implements Command {
             }
 
             LOGGER.log(Level.INFO, "Edited pet \"{0}\" -> {1}", new Object[]{p.oldName, target});
-            System.out.println(summary.toString());
+            Ui.println(summary.toString());
 
         } catch (NumberFormatException e) {
-            System.out.println("Age must be a valid number.");
+            Ui.println("Age must be a valid number.");
             LOGGER.log(Level.WARNING, "Invalid age in edit-pet", e);
         } catch (Exception e) {
-            System.out.println("Unable to edit pet. Please try again.");
+            Ui.println("Unable to edit pet. Please try again.");
             LOGGER.log(Level.WARNING, "Unexpected error in edit-pet", e);
         }
-    }
-
-    private void printUsage() {
-        System.out.println("Usage: edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]");
     }
 }

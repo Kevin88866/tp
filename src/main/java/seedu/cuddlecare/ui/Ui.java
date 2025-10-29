@@ -72,4 +72,27 @@ public class Ui {
         }
     }
 
+
+    public static void println(String s) {
+        System.out.println(s);
+    }
+
+    public static void print(String s) {
+        System.out.print(s);
+    }
+
+    public static void printMarkUsage() {
+        System.out.println("Usage: mark n/PET_NAME i/INDEX");
+        System.out.println("Example: mark n/Milo i/2");
+    }
+
+    public static void printUnmarkUsage() {
+        System.out.println("Usage: unmark n/PET_NAME i/INDEX");
+        System.out.println("Example: unmark n/Milo i/2");
+    }
+
+    public static void printEditPetUsage() {
+        System.out.println("Usage: edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]");
+    }
+
 }

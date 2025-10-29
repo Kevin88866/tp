@@ -5,6 +5,7 @@ import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
 
 import java.util.logging.Logger;
+import seedu.cuddlecare.ui.Ui;
 
 /**
  * Lists all pets currently tracked by the application.
@@ -36,14 +37,14 @@ public class ListPetsCommand implements Command {
         assert pets != null : "Pet list must not be null";
         int size = pets.size();
         if (size == 0) {
-            System.out.println("No pets found.");
+            Ui.println("No pets found.");
             LOGGER.fine("ListPetsCommand: empty list");
             return;
         }
-        System.out.println("Here are your pets:");
+        Ui.println("Here are your pets:");
         for (int i = 0; i < size; i++) {
             Pet p = pets.get(i);
-            System.out.println((i + 1) + ". " + p.toString());
+            Ui.println((i + 1) + ". " + p.toString());
         }
     }
 }

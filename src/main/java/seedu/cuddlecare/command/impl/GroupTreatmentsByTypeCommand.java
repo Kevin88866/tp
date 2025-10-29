@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import seedu.cuddlecare.ui.Ui;
 
 /**
  * Groups treatments by type (e.g., all vaccines together), optionally across all pets
@@ -54,7 +55,7 @@ public class GroupTreatmentsByTypeCommand implements Command {
             if (p.petName != null && !p.petName.isEmpty()) {
                 Pet pet = pets.getPetByName(p.petName);
                 if (pet == null) {
-                    System.out.println("No such pet: " + p.petName);
+                    Ui.println("No such pet: " + p.petName);
                     LOGGER.log(Level.INFO, "Group by type failed; unknown pet \"{0}\"", p.petName);
                     return;
                 }
@@ -65,14 +66,14 @@ public class GroupTreatmentsByTypeCommand implements Command {
 
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Unexpected error in group-treatments", e);
-            System.out.println("Unable to group treatments. Please try again.");
+            Ui.println("Unable to group treatments. Please try again.");
         }
     }
 
     private void groupForSinglePet(Pet pet) {
         List<Treatment> ts = pet.getTreatments();
         if (ts == null || ts.isEmpty()) {
-            System.out.println("No treatments for " + pet.getName() + " to group.");
+            Ui.println("No treatments for " + pet.getName() + " to group.");
             LOGGER.fine("GroupTreatmentsByTypeCommand: empty for single pet");
             return;
         }
@@ -90,7 +91,7 @@ public class GroupTreatmentsByTypeCommand implements Command {
             }
         }
         if (!hasAny) {
-            System.out.println("No treatments logged.");
+            Ui.println("No treatments logged.");
             LOGGER.log(Level.WARNING, "No treatments logged.");
             return;
         }
@@ -122,14 +123,14 @@ public class GroupTreatmentsByTypeCommand implements Command {
     }
 
     private void printGroups(Map<String, List<Row>> groups, String header) {
-        System.out.println(header);
+        Ui.println(header);
         for (Map.Entry<String, List<Row>> e : groups.entrySet()) {
             String type = e.getKey();
             List<Row> rows = e.getValue();
-            System.out.println("== " + type + " ==");
+            Ui.println("== " + type + " ==");
             int idx = 1;
             for (Row r : rows) {
-                System.out.println((idx++) + ". " + r.pet.getName() + ": " + r.t);
+                Ui.println((idx++) + ". " + r.pet.getName() + ": " + r.t);
             }
         }
         LOGGER.log(Level.INFO, "Printed {0} group(s) by type", groups.size());
