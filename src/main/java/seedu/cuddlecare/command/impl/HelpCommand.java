@@ -114,7 +114,7 @@ public class HelpCommand implements Command {
     }
 
     private String getTagValue(String args, String tag) {
-        String[] parts = args.split("  (?=[\\w+]/)");
+        String[] parts = args.split(" (?=[\\w+]/)");
         for (String part : parts) {
             if (part.startsWith(tag)) {
                 return part.substring(tag.length() + 1);
