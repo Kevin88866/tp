@@ -230,21 +230,21 @@ Displays all treatments that fall within a specified date range across all pets.
 
 **Format**
 ```
-filter-treatment start/START_DATE end/END_DATE
+filter-treatment from/FROM_DATE to/TO_DATE
 ```
-* start/ (required): start date in yyyy-MM-dd format 
-* end/ (required): end date in yyyy-MM-dd format 
+* from/ (required): start date in yyyy-MM-dd format 
+* to/ (required): end date in yyyy-MM-dd format 
 * Date range is inclusive (includes both start and end dates)
 
 **Example**
 ```
-> filter-treatment start/2025-11-01 end/2025-11-30
+> filter-treatment from/2025-11-01 to/2025-11-30
 Treatments between 2025-11-01 and 2025-11-30:
 1. Annual Vaccine (Luna) - 2025-11-15
 2. Dental Checkup (Milo) - 2025-11-22
 ```
 
-If no treatments in range: `No treatments found between <start> and <end>.`
+If no treatments in range: `No treatments found between <FROM_DATE> and <START_DATE>.`
 
 **Notes**
 * Start date must be before or equal to end date. 
@@ -281,6 +281,73 @@ Found 1 treatments containing 'checkup':
 
 ---
 
+### List All Treatments — `list-all-treatments`
+Lists all treatments.
+
+**Format**
+```
+list-all-treatments
+```
+
+**Example**
+```
+> list-all-treatments
+1. mimi: [ ] vaccine on 2025-10-10
+2. snoopy: [ ] vaccine on 2025-10-11
+```
+
+**Notes**
+* If no treatments: `No treatments logged.` will be displayed.
+---
+
+### List a Pet's Treatments — `list-treatments n/PET_NAME`
+Lists all treatments specific to a pet.
+
+**Format**
+```
+list-treatments n/PET_NAME
+```
+
+**Example**
+```
+> list-treatments n/mimi
+mimi's treatment history:
+1. [ ] vaccine on 2025-10-10
+2. [ ] dental appointment on 2025-10-11
+
+> list-treatments n/snoopy
+snoopy has no logged treatments.
+```
+
+**Notes**
+* If no treatments: `<PET_NAME> has no logged treatments.` will be displayed.
+* If pet is not found: `Pet not found: <PET_NAME>` will be displayed.
+* Pet name is not case-sensitive!
+---
+
+### Summary of completed treatments — `summary from/FROM_DATE to/TO_DATE`
+Displays a summary of all completed treatments within a specific date range.
+
+**Format**
+```
+summary from/FROM_DATE to/TO_DATE
+```
+* from/ (required): start date in yyyy-MM-dd format
+* to/ (required): end date in yyyy-MM-dd format
+* Date range is inclusive (includes both start and end dates)
+
+**Example**
+```
+> summary from/2025-10-10 to/2025-12-10
+1. mimi: [X] vaccine on 2025-10-10
+2. snoopy: [X] vaccine on 2025-10-11
+```
+
+**Notes**
+* If no completed treatments: `No treatments found from <FROM_DATE> to <TO_DATE>' will be displayed.`
+
+---
+
 ## FAQ
 
 **Q**: How do I transfer my data to another computer? 
@@ -294,3 +361,6 @@ Found 1 treatments containing 'checkup':
 * Mark a Treatment as Done `mark n/PET_NAME i/INDEX`
 * Unmark a Treatment `unmark n/PET_NAME i/INDEX`
 * Group Treatments by Type `group-treatments [n/PET_NAME]`
+* List All Treatments `list-all-treatments`
+* List a Pet's Treatments `list-treatments n/PET_NAME`
+* Completed Treatment Summary `summary from/FROM_DATE to/TO_DATE`
