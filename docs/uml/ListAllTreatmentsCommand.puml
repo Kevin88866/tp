@@ -6,12 +6,12 @@ title ListAllTreatmentsCommand Class Diagram
 ' Classes
 ' =====================
 
-interface Command {
+interface "<<Interface>>\nCommand" as Command {
     + exec(args : String) : void
 }
 
 class ListAllTreatmentsCommand {
-    - LOGGER : Logger
+    - {static} LOGGER : Logger
     + ListAllTreatmentsCommand(pets : PetList)
     + exec(args : String) : void
 }
@@ -46,6 +46,6 @@ class Treatment {
 
 ListAllTreatmentsCommand .|> Command
 ListAllTreatmentsCommand --> PetList
-PetList "1" -> "*" Pet : contains
-Pet "1" --> "*" Treatment : has
+PetList "1" *- "*" Pet : contains
+Pet "1" *-- "*" Treatment : has
 @enduml
