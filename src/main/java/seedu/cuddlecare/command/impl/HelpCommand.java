@@ -64,7 +64,7 @@ public class HelpCommand implements Command {
 
         String commandName = getCommandName(args);
         if (!args.isEmpty() && commandName == null) {
-            System.out.printf("Invalid Syntax.\n%s", SYNTAX);
+            System.out.printf("Invalid Syntax.\n%s%n", SYNTAX);
             LOGGER.log(Level.INFO, "Invalid Syntax");
             return;
         }
