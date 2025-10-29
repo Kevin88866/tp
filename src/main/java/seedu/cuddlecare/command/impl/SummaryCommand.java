@@ -3,6 +3,7 @@ package seedu.cuddlecare.command.impl;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
 import seedu.cuddlecare.command.utils.DateUtils;
+import seedu.cuddlecare.ui.Ui;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -63,12 +64,8 @@ public class SummaryCommand implements Command {
             return;
         }
 
-        printFilteredList(filteredList, fromDate, toDate);
-    }
-
-    private void printFilteredList(ArrayList<String> filteredList, LocalDate fromDate, LocalDate toDate) {
-        System.out.println("Treatment Summary from: " + fromDate + " to: " + toDate);
-        filteredList.forEach(System.out::println);
+        Ui.printHeader("Treatment Summary from: " + fromDate + " to: " + toDate);
+        Ui.printList(filteredList);
     }
 
     /**

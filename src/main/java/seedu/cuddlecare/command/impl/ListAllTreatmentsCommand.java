@@ -2,6 +2,7 @@ package seedu.cuddlecare.command.impl;
 
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
+import seedu.cuddlecare.ui.Ui;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -60,7 +61,6 @@ public class ListAllTreatmentsCommand implements Command {
             return;
         }
 
-        sortedTreatments.stream()
-                .forEach(System.out::println);
+        Ui.printList(sortedTreatments);
     }
 }

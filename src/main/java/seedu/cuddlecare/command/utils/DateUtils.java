@@ -1,6 +1,8 @@
 package seedu.cuddlecare.command.utils;
 
 
+import seedu.cuddlecare.ui.Ui;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
@@ -77,7 +79,7 @@ public class DateUtils {
         if (fromDate == null || toDate == null) {
             LOGGER.log(Level.INFO, "Missing date range parameters - from: {0}, to: {1}",
                     new Object[]{fromDate, toDate});
-            System.out.println("Invalid input. Usage: " + syntax);
+            Ui.printInvalidInputMessage(syntax);
             return false;
         }
 
