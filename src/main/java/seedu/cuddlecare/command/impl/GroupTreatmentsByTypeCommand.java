@@ -1,5 +1,7 @@
 package seedu.cuddlecare.command.impl;
 
+import seedu.cuddlecare.parser.GroupTreatmentsByTypeParser;
+import seedu.cuddlecare.parser.args.GroupTreatmentsByTypeArgs;
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
@@ -47,7 +49,7 @@ public class GroupTreatmentsByTypeCommand implements Command {
         assert pets != null : "Pet list must not be null";
 
         try {
-            Parsed p = parseArgs(args);
+            GroupTreatmentsByTypeArgs p = GroupTreatmentsByTypeParser.parse(args);
 
             if (p.petName != null && !p.petName.isEmpty()) {
                 Pet pet = pets.getPetByName(p.petName);
@@ -145,26 +147,6 @@ public class GroupTreatmentsByTypeCommand implements Command {
 
     private static java.time.LocalDate extractDate(Treatment t) {
         return t.getDate();
-    }
-
-
-    private Parsed parseArgs(String args) {
-        Parsed p = new Parsed();
-        if (args == null || args.isBlank()){
-            return p;
-        }
-
-        String[] tokens = args.trim().split("(?=n/)");
-        for (String tok : tokens) {
-            if (tok.startsWith("n/")) {
-                p.petName = tok.substring(2).trim();
-            }
-        }
-        return p;
-    }
-
-    private static final class Parsed {
-        String petName;
     }
 
     private static final class Row {

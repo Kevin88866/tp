@@ -1,5 +1,7 @@
 package seedu.cuddlecare.command.impl;
 
+import seedu.cuddlecare.parser.EditPetParser;
+import seedu.cuddlecare.parser.args.EditPetArgs;
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
@@ -33,7 +35,7 @@ public class EditPetCommand implements Command {
         assert pets != null : "Pet list must not be null";
 
         try {
-            Parsed p = parseArgs(args);
+            EditPetArgs p = EditPetParser.parse(args);
             if (!p.valid) {
                 printUsage();
                 LOGGER.log(Level.WARNING, "Invalid args for edit-pet: \"{0}\"", args);
@@ -101,52 +103,5 @@ public class EditPetCommand implements Command {
 
     private void printUsage() {
         System.out.println("Usage: edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]");
-    }
-
-    private Parsed parseArgs(String args) {
-        Parsed p = new Parsed();
-        if (args == null) {
-            p.valid = false;
-            return p;
-        }
-
-        String oldName = null;
-        String newName = null;
-        String species = null;
-        Integer age = null;
-
-        String[] tokens = args.split("\\s+(?=nn/|n/|s/|a/)");
-        for (String t : tokens) {
-            if (t.startsWith("n/")) {
-                oldName = t.substring(2).trim();
-            } else if (t.startsWith("nn/")) {
-                newName = t.substring(3).trim();
-            } else if (t.startsWith("s/")) {
-                species = t.substring(2).trim();
-            } else if (t.startsWith("a/")) {
-                String a = t.substring(2).trim();
-                if (!a.isEmpty()) {
-                    age = Integer.parseInt(a);
-                }
-            }
-        }
-
-        p.oldName = oldName;
-        p.newName = newName;
-        p.species = species;
-        p.age = age;
-        p.valid = oldName != null && !oldName.isEmpty() &&
-                (newName != null && !newName.isEmpty()
-                        || species != null && !species.isEmpty()
-                        || age != null);
-        return p;
-    }
-
-    private static final class Parsed {
-        String oldName;
-        String newName;
-        String species;
-        Integer age;
-        boolean valid;
     }
 }
