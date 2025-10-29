@@ -4,6 +4,7 @@ import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
 import seedu.cuddlecare.command.Command;
+import seedu.cuddlecare.ui.Ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,10 +80,9 @@ public class ListPetTreatmentsCommand implements Command {
             System.out.println(petName + " has no logged treatments.");
             return;
         }
-        System.out.println(petName + "'s treatment history:");
-        for (int i = 0; i < treatments.size(); i++) {
-            System.out.println(i + 1 + "." + treatments.get(i));
-        }
+
+        Ui.printHeader(petName + "'s treatment history:");
+        Ui.printList(treatments);
     }
 
     // @@author HarshitSrivastavaHS

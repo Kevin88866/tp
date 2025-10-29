@@ -58,8 +58,8 @@ class SummaryCommandTest {
 
         String[] lines = outContent.toString().trim().split("\\R");
 
-        assertEquals("Snoopy: [X] Health Checkup on 2025-10-09", lines[1]);
-        assertEquals("Mimi: [X] Dental Appointment on 2025-12-20", lines[2]);
+        assertEquals("1.Snoopy: [X] Health Checkup on 2025-10-09", lines[1]);
+        assertEquals("2.Mimi: [X] Dental Appointment on 2025-12-20", lines[2]);
     }
 
     @Test

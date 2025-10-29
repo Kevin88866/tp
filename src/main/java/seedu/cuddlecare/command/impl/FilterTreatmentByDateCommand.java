@@ -5,6 +5,7 @@ import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
 import seedu.cuddlecare.command.Command;
 import seedu.cuddlecare.command.utils.DateUtils;
+import seedu.cuddlecare.ui.Ui;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 //@@author Pavithra6-Srinivasan
+
 /**
  * A command that filters treatments by date range across all pets.
  * <p>
@@ -84,7 +86,9 @@ public class FilterTreatmentByDateCommand implements Command {
                 return;
             }
 
-            printFilteredList(filteredTreatments, fromDate, toDate);
+            Ui.printHeader("Found " + filteredTreatments.size() +
+                    " treatment(s) from " + fromDate + " to " + toDate + ":");
+            Ui.printList(filteredTreatments);
 
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Unexpected error during filter treatment by date execution", e);
@@ -113,12 +117,6 @@ public class FilterTreatmentByDateCommand implements Command {
         return CATEGORIES;
     }
     // @@author
-
-    private void printFilteredList(ArrayList<String> filteredTreatments, LocalDate fromDate, LocalDate toDate) {
-        System.out.println("Found " + filteredTreatments.size() +
-                " treatment(s) from " + fromDate + " to " + toDate + ":");
-        filteredTreatments.forEach(System.out::println);
-    }
 
     /**
      * Filters treatments across all pets within the specified date range.
