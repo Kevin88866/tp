@@ -4,6 +4,7 @@ import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +18,14 @@ public class AddPetCommand implements Command {
     
     /** Logger for this class. */
     private static final Logger LOGGER = Logger.getLogger(AddPetCommand.class.getName());
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "add-pet n/PET_NAME s/PET_SPECIES a/PET_AGE";
+    private static final String SHORT_DESCRIPTION = "Adds a new pet";
+    private static final String LONG_DESCRIPTION = "Adds a new pet to the application with the specified name, species, and age. " +
+            "All fields are required, and the command ensures the pet is recorded for future operations.";
+    private static final List<String> CATEGORIES = List.of("Pet");
+    // @@author
 
     /** A list of all pets. */
     private final PetList pets;
@@ -88,5 +97,27 @@ public class AddPetCommand implements Command {
         } finally {
             LOGGER.log(Level.INFO, "Add-pet command execution completed.");
         }
-    } 
+    }
+
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
 }

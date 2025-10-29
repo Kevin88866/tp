@@ -1,6 +1,7 @@
 package seedu.cuddlecare.command.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import seedu.cuddlecare.Pet;
@@ -16,6 +17,16 @@ import seedu.cuddlecare.command.Command;
 public class MarkTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(MarkTreatmentCommand.class.getName());
+
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "mark n/PET_NAME i/INDEX";
+    private static final String SHORT_DESCRIPTION = "Marks a treatment as completed for a pet.";
+    private static final String LONG_DESCRIPTION = "Marks a specific treatment as completed " +
+            "for a given pet. Specify the pet using n/PET_NAME" +
+            " and the treatment index using i/INDEX.";
+    private static final List<String> CATEGORIES = List.of("Treatment");
+    // @@author
 
     /** Repository of pets. */
     private final PetList pets;
@@ -76,6 +87,28 @@ public class MarkTreatmentCommand implements Command {
         System.out.println("Index: " + index1Based);
         LOGGER.info(() -> "Marked: " + petName + " i/" + index1Based + " \"" + t.getName() + "\"");
     }
+
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
 
     private void printUsage() {
         System.out.println("Usage: mark n/PET_NAME i/INDEX");

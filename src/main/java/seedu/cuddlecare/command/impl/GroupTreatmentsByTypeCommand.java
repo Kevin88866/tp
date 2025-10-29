@@ -33,6 +33,17 @@ import java.util.logging.Logger;
 public class GroupTreatmentsByTypeCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(GroupTreatmentsByTypeCommand.class.getName());
+
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "group-treatments [n/PET_NAME]";
+    private static final String SHORT_DESCRIPTION = "Groups treatments by type";
+    private static final String LONG_DESCRIPTION = "Groups treatments by their type (first word " +
+            "of the name) either for a single pet or all " +
+            "pets. Items within each group are sorted by date ascending.";
+    private static final List<String> CATEGORIES = List.of("Treatment");
+    // @@author
+
     private final PetList pets;
 
     /**
@@ -66,6 +77,28 @@ public class GroupTreatmentsByTypeCommand implements Command {
             System.out.println("Unable to group treatments. Please try again.");
         }
     }
+
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
 
     private void groupForSinglePet(Pet pet) {
         List<Treatment> ts = pet.getTreatments();

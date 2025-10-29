@@ -8,6 +8,7 @@ import seedu.cuddlecare.command.Command;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -20,8 +21,15 @@ import java.util.logging.Level;
 public class AddTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(AddTreatmentCommand.class.getName());
-    private static final String USAGE = "Invalid input. Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE " +
-            "note/{NOTE}";
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE [note/NOTE]";
+    private static final String SHORT_DESCRIPTION = "Adds a treatment record for a pet";
+    private static final String LONG_DESCRIPTION = "Creates and logs a new treatment for the specified pet, including its name, date, and optional note.";
+    private static final List<String> CATEGORIES = List.of("Treatment");
+    // @@author
+
+    private static final String USAGE = "Invalid input. Usage: "+SYNTAX;
 
     /**
      * A list of all pets.
@@ -89,6 +97,28 @@ public class AddTreatmentCommand implements Command {
             System.out.println("Invalid date format. Please use yyyy-MM-dd format (e.g., 2024-12-25).");
         }
     }
+
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
 
     /**
      * Extracts and validates a parameter value from a command part.
