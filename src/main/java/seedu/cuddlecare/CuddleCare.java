@@ -155,7 +155,7 @@ public class CuddleCare {
     private void setCommandsInHelpCommand() {
         Command helpCommand = commands.get("help");
         if (!(helpCommand instanceof HelpCommand)) {
-            LOGGER.log(Level.SEVERE, "The help command in the commands map is not an instance of HelpCommand");
+            LOGGER.log(Level.WARNING, "The help command in the commands map is not an instance of HelpCommand");
             return;
         }
         ((HelpCommand) helpCommand).setCommands(commands);
