@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import static seedu.cuddlecare.ui.Ui.printHeader;
 
 // @@author HarshitSrivastavaHS
+
 /**
  * A command that displays information about other commands in the application.
  * <p>
@@ -74,11 +75,11 @@ public class HelpCommand implements Command {
         if (commandName != null && !commandsMap.containsKey(commandName.toLowerCase())) {
             System.out.printf("Command \"%s\" not found. Run \"help\" for " +
                     "a list of all available commands.%n", commandName);
-            LOGGER.log(Level.INFO, "No command found by the name of \""+commandName+"\"");
+            LOGGER.log(Level.INFO, "No command found by the name of \"" + commandName + "\"");
             return;
         }
 
-        if (commandName!=null) {
+        if (commandName != null) {
             LOGGER.log(Level.INFO, "Printing help for a command");
             printCommand(commandName, commandsMap.get(commandName.toLowerCase()));
         } else {
@@ -113,10 +114,10 @@ public class HelpCommand implements Command {
     }
 
     private String getTagValue(String args, String tag) {
-        String [] parts = args.split("  (?=[\\w+]/)");
-        for (String part: parts) {
+        String[] parts = args.split("  (?=[\\w+]/)");
+        for (String part : parts) {
             if (part.startsWith(tag)) {
-                return part.substring(tag.length()+1);
+                return part.substring(tag.length() + 1);
             }
         }
         return null;
@@ -160,8 +161,8 @@ public class HelpCommand implements Command {
 
     private void printCommand(String commandName, Command command) {
         System.out.printf("\tCommand Name: %s%n\tCategory: %s%n\tDescription: %s%n" +
-                "\tSyntax: %s%n%n\t*[t/tag] means tag is an optional argument." +
-                "%n", commandName, String.join(",", command.getCategory()) ,
+                        "\tSyntax: %s%n%n\t*[t/tag] means tag is an optional argument." +
+                        "%n", commandName, String.join(",", command.getCategory()),
                 command.getLongDescription(), command.getSyntax());
     }
 

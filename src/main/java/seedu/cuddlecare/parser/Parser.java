@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 /**
  * Parses user input strings into {@link Command} objects.
- *
+ * <p>
  * The parser maps command names to command objects and can
  * handle commands with optional arguments.
  */
@@ -43,13 +43,13 @@ public class Parser {
 
     /**
      * Parses a user input string into a {@link Command} object.
-     *
+     * <p>
      * If the input is empty or the command name is invalid,
      * prints an error message and returns {@code null}.
      *
      * @param input The user input string
      * @return A {@link CommandWithArguments} wrapping the corresponding {@link Command},
-     *         or {@code null} if the input is empty or invalid
+     * or {@code null} if the input is empty or invalid
      */
     public Command parse(String input) {
         assert input != null : "input cannot be null";
