@@ -4,7 +4,7 @@ hide circle
 
 title DeletePetCommand Class Diagram
 
-interface "<<Interface>>\nCommand" as Command {
+interface "<<interface>>\nCommand" as Command {
     + exec(args: String) : void
 }
 
