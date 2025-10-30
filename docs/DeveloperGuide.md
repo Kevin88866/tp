@@ -384,8 +384,44 @@ group-treatments-by-type
 **Logging**
 - INFO summarising bucket counts; FINE for per‑bucket sizes.
 
-### Feature: View overdue treatments for all pets
-{add details here}
+### Feature: Overdue Treatments Command
+![OverdueTreatmentsCommand Class Diagram](diagrams/OverdueTreatmentsCommand_Class_Diagram.png)
+The `OverdueTreatmentsCommand` displays all treatments that are overdue for pets. It can show overdue treatments for a specific pet if the pet name is provided, or for all pets if no name is given. A treatment is considered overdue if it is **not completed** and its scheduled date is **before today**.
+
+This command follows the **Command Pattern**, encapsulating all logic related to listing overdue treatments in a dedicated class implementing the `Command` interface. It depends on a `PetList` instance, injected via its constructor, and optionally allows a custom date for testing purposes.
+
+**Execution flow**:
+![OverdueTreatmentsCommand Sequence Diagram](diagrams/OverdueTreatmentsCommand_Sequence_Diagram.png)
+1. The command is executed via `exec(String args)`.
+2. Parses optional argument `n/PET_NAME` to determine if the user wants overdue treatments for a specific pet.
+3. Validates the argument:
+    - Prints syntax error if the input format is invalid.
+    - Prints a message if the specified pet does not exist.
+4. Determines the current date (or uses the provided test date for testing).
+5. Collects all overdue treatments:
+    - Iterates through the relevant pet(s).
+    - Filters treatments where `isCompleted()` is `false` and `getDate()` is before the current date.
+6. Prints the overdue treatments in a readable format, including:
+    - Pet name (if displaying for all pets)
+    - Treatment name
+    - Scheduled date
+    - Number of days overdue
+7. If no overdue treatments exist, prints a friendly message.
+
+**Design Considerations**:
+
+- Supports both **all pets** and **single pet** modes using streams.
+- Uses **Dependency Injection** for `PetList` and optional test date.
+- Separates filtering logic (`getOverdueTreatmentsForPet`) from printing logic (`printOverdueTreatments`) for clarity and testability.
+- Handles empty pet list and missing pet gracefully.
+- Logs execution steps, invalid inputs, and command success for monitoring.
+
+**Logging**:
+
+- `INFO` when command is executed with arguments.
+- `INFO` for invalid arguments or missing pets.
+- `INFO` when no overdue treatments are found.
+- `INFO` on successful execution with results printed.
 
 ### Feature: Summary
 {add details here}
