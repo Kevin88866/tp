@@ -21,7 +21,10 @@ class PetList {
 }
 
 class Pet {
-
+    - name : String
+        - species : String
+        - age : int
+        + Pet(String name, String species, int age)
 }
 
 Command <|.. DeletePetCommand
