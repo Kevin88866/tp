@@ -1,9 +1,5 @@
 # User Guide
 
-## Introduction
-
-{Give a product intro}
-
 ## Quick Start
 
 - **Java**: Ensure Java 17+.
@@ -520,12 +516,6 @@ bye
 
 ---
 
-## FAQ
-
-**Q**: How do I transfer my data to another computer? 
-
-**A**: {your answer here}
-
 ## Command Summary
 
 * List Pets `list-pets`
@@ -536,3 +526,7 @@ bye
 * List All Treatments `list-all-treatments`
 * List a Pet's Treatments `list-treatments n/PET_NAME`
 * Completed Treatment Summary `summary from/FROM_DATE to/TO_DATE`
+* Help `help [c/COMMAND_NAME]`
+* Delete pet `delete-pet n/PET_NAME`
+* Overdue Treatments `overdue [n/PET_NAME]`
+* Exit `bye`
