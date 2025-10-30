@@ -77,10 +77,6 @@ public class Ui {
         System.out.println(s);
     }
 
-    public static void print(String s) {
-        System.out.print(s);
-    }
-
     public static void printMarkUsage() {
         System.out.println("Usage: mark n/PET_NAME i/INDEX");
         System.out.println("Example: mark n/Milo i/2");

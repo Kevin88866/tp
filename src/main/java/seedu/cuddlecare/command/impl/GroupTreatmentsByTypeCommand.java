@@ -123,7 +123,7 @@ public class GroupTreatmentsByTypeCommand implements Command {
     }
 
     private void printGroups(Map<String, List<Row>> groups, String header) {
-        Ui.println(header);
+        Ui.printHeader(header);
         for (Map.Entry<String, List<Row>> e : groups.entrySet()) {
             String type = e.getKey();
             List<Row> rows = e.getValue();
