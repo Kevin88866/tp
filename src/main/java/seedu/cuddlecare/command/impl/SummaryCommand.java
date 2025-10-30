@@ -7,6 +7,7 @@ import seedu.cuddlecare.ui.Ui;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -16,6 +17,15 @@ import static java.util.stream.Collectors.toList;
 public class SummaryCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(SummaryCommand.class.getName());
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "summary from/DATE to/DATE";
+    private static final String SHORT_DESCRIPTION = "Displays a summary of completed treatments.";
+    private static final String LONG_DESCRIPTION = "Shows all treatments " +
+            "marked as completed within a specified date range. " +
+            "Useful for tracking recent or past pet care activities.";
+    private static final List<String> CATEGORIES = List.of("Treatment");
+    // @@author
 
     /**
      * A list of all pets.
@@ -100,7 +110,25 @@ public class SummaryCommand implements Command {
         return filteredList;
     }
 
-    protected String getSyntax() {
-        return "summary from/DATE to/DATE";
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
     }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
 }

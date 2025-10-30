@@ -1,8 +1,10 @@
 @startuml
 skinparam classAttributeIconSize 0
+hide circle
+
 title DeletePetCommand Class Diagram
 
-interface Command {
+interface "<<interface>>\nCommand" as Command {
     + exec(args: String) : void
 }
 
@@ -19,12 +21,15 @@ class PetList {
 }
 
 class Pet {
-
+    - name : String
+        - species : String
+        - age : int
+        + Pet(String name, String species, int age)
 }
 
 Command <|.. DeletePetCommand
 
-DeletePetCommand o-- "1" PetList : -pets >
+DeletePetCommand --> "1" PetList : has >
 
 PetList *--> "*" Pet : has ArrayList >
 

@@ -1,0 +1,55 @@
+@startuml
+title ListPetTreatmentsCommand Sequence Diagram
+
+actor User
+participant ":CuddleCare" as CuddleCare
+participant ":Parser" as Parser
+participant ":ListPetTreatmentsCommand" as Command
+participant ":PetList" as PetList
+participant ":Pet" as Pet
+participant "<<class>>\nUi" as Ui
+
+
+User -> CuddleCare: list-treatments n/Milo
+activate CuddleCare
+
+CuddleCare -> Parser: parse("list-treatments n/Milo")
+activate Parser
+Parser --> CuddleCare: ListPetTreatmentsCommand instance
+deactivate Parser
+
+CuddleCare -> Command: exec("n/Milo")
+activate Command
+
+
+Command -> PetList: getPetByName("Milo")
+activate PetList
+PetList --> Command: Pet
+deactivate PetList
+
+alt Pet not found
+    Command --> User: "Pet not found: Milo"
+
+else Pet found
+    Command -> Pet: getTreatments()
+    activate Pet
+    Pet --> Command: ArrayList<Treatment>
+    deactivate Pet
+
+    alt No treatments logged
+        Command --> User: "Milo has no logged treatments."
+
+    else Treatments found
+        Command -> Ui: printHeader(...)
+        activate Ui
+        Ui --> User: "Milo's treatment history:"
+        deactivate Ui
+        Command -> Ui: printList(treatments)
+        activate Ui
+        Ui --> User: shows Milo's treatment list
+        deactivate Ui
+        deactivate Command
+    end
+end
+        deactivate CuddleCare
+@enduml
