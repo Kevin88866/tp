@@ -41,7 +41,7 @@ Pet "1" *-- "*" Treatment : treatments
 MarkTreatmentCommand --> Parsed
 class Ui {
   +println(msg : String) : void
-  +printUsage(syntax : String) : void
+  +printUsage() : void
 }
 MarkTreatmentCommand ..> Ui : uses
 @enduml
