@@ -55,7 +55,7 @@ class Ui {
 
 SummaryCommand .|> Command
 SummaryCommand --> PetList
-SummaryCommand --> Ui
+SummaryCommand ..> Ui
 SummaryCommand --> DateUtils
 PetList "1" *-- "*" Pet : contains >
 Pet "1" *-- "*" Treatment : has >

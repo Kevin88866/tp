@@ -52,7 +52,7 @@ class Ui {
 
 ListAllTreatmentsCommand .|> Command
 ListAllTreatmentsCommand --> PetList
-ListAllTreatmentsCommand --> Ui
+ListAllTreatmentsCommand ..> Ui
 PetList "1" *-- "*" Pet : contains >
 Pet "1" *-- "*" Treatment : has >
 @enduml
