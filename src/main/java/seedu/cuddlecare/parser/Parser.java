@@ -53,7 +53,7 @@ public class Parser {
      */
     public Command parse(String input) {
         assert input != null : "input cannot be null";
-        input = input.trim();
+        input = input.trim().replaceAll("\\|", " ");
 
         if (input.isEmpty()) {
             System.out.println("Empty Command");
