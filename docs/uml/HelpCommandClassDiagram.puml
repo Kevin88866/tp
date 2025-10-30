@@ -3,6 +3,8 @@
 skinparam classAttributeIconSize 0
 hide circle
 
+title HelpCommand Class Diagram
+
 interface "<<interface>>\nCommand" as Command {
     + exec(args: String)
     + getSyntax(): String
