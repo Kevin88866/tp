@@ -4,6 +4,7 @@ import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
 import seedu.cuddlecare.command.Command;
+import seedu.cuddlecare.ui.Ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +87,7 @@ public class DeleteTreatmentCommand implements Command {
             }
 
             if (petName == null || index == -1) {
-                System.out.println("Invalid input. Usage: delete-treatment n/PET_NAME i/INDEX");
+                Ui.printInvalidInputMessage(SYNTAX);
                 return;
             }
 

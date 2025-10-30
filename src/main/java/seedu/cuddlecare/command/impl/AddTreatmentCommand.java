@@ -5,6 +5,7 @@ import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
 import seedu.cuddlecare.command.Command;
+import seedu.cuddlecare.ui.Ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -29,8 +30,6 @@ public class AddTreatmentCommand implements Command {
             "for the specified pet, including its name, date, and optional note.";
     private static final List<String> CATEGORIES = List.of("Treatment");
     // @@author
-
-    private static final String USAGE = "Invalid input. Usage: "+SYNTAX;
 
     /**
      * A list of all pets.
@@ -92,7 +91,9 @@ public class AddTreatmentCommand implements Command {
 
         } catch (IllegalArgumentException e) {
             LOGGER.log(Level.WARNING, "Invalid arguments: {0}", e.getMessage());
-            System.out.println(e.getMessage());
+            if (e.getMessage() != null && !e.getMessage().isEmpty()) {
+                System.out.println(e.getMessage());
+            }
         } catch (DateTimeParseException e) {
             LOGGER.log(Level.WARNING, "Invalid date format", e);
             System.out.println("Invalid date format. Please use yyyy-MM-dd format (e.g., 2024-12-25).");
@@ -152,7 +153,8 @@ public class AddTreatmentCommand implements Command {
         if (petName == null || treatmentName == null || date == null) {
             LOGGER.log(Level.INFO, "Missing required parameters - petName: {0}, treatmentName: {1}, date: {2}",
                     new Object[]{petName, treatmentName, date});
-            throw new IllegalArgumentException(USAGE);
+            Ui.printInvalidInputMessage(SYNTAX);  // ✅ Use Ui method
+            throw new IllegalArgumentException();  // Remove message from exception
         }
     }
 
