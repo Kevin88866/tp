@@ -201,7 +201,7 @@ list-pets
 
 The diagram below shows how the AddTreatmentCommand class interacts with other components in the system.
 
-![AddTreatmentCommand_Class_Diagram.png](Diagrams/AddTreatmentCommand_Class_Diagram.png)
+![AddTreatmentCommand_Class_Diagram.png](diagrams/AddTreatmentCommand_Class_Diagram.png)
 
 The design follows a command-based architecture, where each command is encapsulated in its own class implementing the
 Command interface. AddTreatmentCommand depends on the PetList object, which stores all registered pets. Each Pet object
@@ -225,7 +225,7 @@ is invalid, appropriate error messages are displayed.
 
 The figure below shows how the DeleteTreatmentCommand interacts with other key classes in the system.
 
-![DeleteTreatmentCommand_Class_Diagram.png](Diagrams/DeleteTreatmentCommand_Class_Diagram.png)
+![DeleteTreatmentCommand_Class_Diagram.png](diagrams/DeleteTreatmentCommand_Class_Diagram.png)
 
 The DeleteTreatmentCommand follows a command-based architecture, where each command is encapsulated in its own class
 implementing the Command interface.
@@ -274,7 +274,7 @@ The search is case-insensitive and uses substring matching.
 
 The sequence diagram below illustrates the execution flow of the find treatment command:
 
-![FindTreatmentCommand_Sequence_Diagram.png](Diagrams/FindTreatmentCommand_Sequence_Diagram.png)
+![FindTreatmentCommand_Sequence_Diagram.png](diagrams/FindTreatmentCommand_Sequence_Diagram.png)
 
 Implementation
 The find treatment mechanism is facilitated by `FindTreatmentCommand`. It performs a case-insensitive keyword search
@@ -307,7 +307,7 @@ in the system.
 
 The sequence diagram below shows the execution flow when filtering treatments by date:
 
-![FilterTreatmentByDateCommand_Sequence_Diagram.png](Diagrams/FilterTreatmentByDateCommand_Sequence_Diagram.png)
+![FilterTreatmentByDateCommand_Sequence_Diagram.png](diagrams/FilterTreatmentByDateCommand_Sequence_Diagram.png)
 
 The filter treatments by date range feature is facilitated by `FilterTreatmentCommand`. It allows users to view all
 treatments that fall within a specified date range across all pets in the system.
