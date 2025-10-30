@@ -1,0 +1,100 @@
+@startuml
+
+title HelpCommand Sequence Diagram
+
+participant ":CuddleCare" as CuddleCare
+participant ":HelpCommand" as Help
+participant "<<class>>\nUi" as Ui
+
+' Application Activation Bar
+activate CuddleCare
+
+' Constructor
+CuddleCare -> Help** : new HelpCommand()
+activate Help
+return HelpCommand Object
+' End of Constructor
+
+' Sets commands : Commands
+CuddleCare -> Help : setCommands(command : Commands)
+activate Help
+return
+
+' Main execution of the command
+CuddleCare -> Help : exec(args: String)
+activate Help
+
+    ' Get the name of the command in the argument (if any)
+    Help -> Help : getCommandName(args: String)
+    activate Help
+
+        ' Get the name using another method
+        Help -> Help : getTagValue(args: String, tag: String)
+        activate Help
+        return commandName: String
+
+    return commandName: String
+
+    ' if args is not empty and command name is null
+    alt !args.isEmpty() && commandName == null
+        Help --> CuddleCare : Invalid Syntax
+
+    ' if the command name is not null, and the commandName is invalid
+    else commandName != null && !commandsMap.containsKey(commandName.toLowerCase())
+        Help --> CuddleCare : Command not found
+
+    ' if commandName was provided (and it exists)
+    else commandName != null
+        Help -> Help : printCommand(commandName: String, \ncommand: Command);
+        activate Help
+        return
+        Help --> CuddleCare : print help for command
+
+    ' if no args were provided
+    else else
+        Help -> Help : printAllCommands()
+        activate Help
+
+            ' Filters commands into categories
+            Help -> Help : getCategorizedCommands()
+            activate Help
+                Help -> Help : commandsByCategory()
+                activate Help
+
+                return Stream
+            return categorisedCommands : Map
+
+        Help -> Ui : printHeader(header: String)
+        activate Ui
+        return
+
+        loop for each category in categoricalOrder
+            opt categorisedCommands.containsKey(category)
+                Help -> Help : printCommandsByCategory(category: String, commandsOfCategory: Map)
+                activate Help
+                    Help -> Ui : printHeader(category: String)
+                    activate Ui
+                    return Prints the heading
+                return Prints the Category with all commands
+            end
+        end
+
+        loop for all categories not in categoricalOrder
+            Help -> Help : printCommandsByCategory(category: String, commandsOfCategory: Map)
+            activate Help
+                Help -> Ui : printHeader(category: String)
+                activate Ui
+                return Prints the heading
+            return Prints the Category with all commands
+        end
+
+    end
+
+return
+
+return end of command
+
+deactivate CuddleCare
+' End of Activation Bar for the application
+
+@enduml

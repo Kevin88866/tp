@@ -1,0 +1,21 @@
+@startuml
+title ByeCommand Sequence Diagram
+
+participant ":CuddleCare" as CuddleCare
+participant ":ByeCommand" as Bye
+
+activate CuddleCare
+CuddleCare -> Bye** : new ByeCommand()
+activate Bye
+return ByeCommand object
+
+
+CuddleCare -> Bye : exec(args: String)
+activate Bye
+
+Bye -> CuddleCare : System.exit(0)
+deactivate Bye
+deactivate CuddleCare
+destroy CuddleCare
+
+@enduml

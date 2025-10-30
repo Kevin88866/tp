@@ -1,0 +1,49 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+hide circle
+
+title OverdueTreatmentsCommand Class Diagram
+
+interface "<<interface>>\nCommand" as Command {
+    + exec(args: String) : void
+}
+
+class OverdueTreatmentsCommand {
+    - testDate : LocalDate
+    - {static}LOGGER : Logger
+    - {static} SYNTAX : String
+
+    + OverdueTreatmentsCommand(pets: PetList)
+    # OverdueTreatmentsCommand(pets: PetList, testDate : LocalDate)
+    + exec(args: String) : void
+}
+
+class PetList {
+    + getPetByName(name : String) : Pet
+}
+
+class Pet {
+    - name : String
+    - species : String
+    - age : int
+    + getTreatments() : ArrayList<Treatment>
+}
+
+class Treatment {
+    - name : String
+    - date : LocalDate
+    - completed : boolean
+    + getName() : String
+    + getDate() : LocalDate
+    + isCompleted() : boolean
+}
+
+Command <|.. OverdueTreatmentsCommand
+OverdueTreatmentsCommand -right--> PetList : has >
+PetList *-down-- "*" Pet : has ArrayList >
+Pet *-left-- "*" Treatment : has ArrayList >
+
+
+
+@enduml

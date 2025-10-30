@@ -1,8 +1,9 @@
 @startuml
 skinparam classAttributeIconSize 0
 title GroupTreatmentsByTypeCommand Class Diagram
+hide circle
 
-interface Command {
+interface Command <<interface>>{
   +exec(args : String) : void
 }
 
@@ -42,5 +43,9 @@ GroupTreatmentsByTypeCommand --> PetList : uses
 PetList "1" *-- "*" Pet : contains
 Pet "1" *-- "*" Treatment : treatments
 GroupTreatmentsByTypeCommand --> Parsed : parses
-
+class Ui {
+  +println(msg : String) : void
+  +printUsage(syntax : String) : void
+}
+GroupTreatmentsByTypeCommand ..> Ui : uses
 @enduml

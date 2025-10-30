@@ -10,6 +10,7 @@ import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
 import seedu.cuddlecare.command.Command;
+import seedu.cuddlecare.ui.Ui;
 
 /**
  * Marks a treatment as completed for a specific pet by local index.
@@ -52,7 +53,7 @@ public class MarkTreatmentCommand implements Command {
         MarkTreatmentArgs parsed = MarkTreatmentParser.parse(args);
 
         if (!parsed.valid) {
-            printUsage();
+            Ui.printMarkUsage();
             return;
         }
 
@@ -61,23 +62,23 @@ public class MarkTreatmentCommand implements Command {
 
         Pet pet = pets.getPetByName(petName);
         if (pet == null) {
-            System.out.println("No such pet: " + petName);
+            Ui.println("No such pet: " + petName);
             LOGGER.warning("Mark: pet not found: " + petName);
             return;
         }
 
         ArrayList<Treatment> treatments = pet.getTreatments();
         if (treatments.isEmpty()) {
-            System.out.println(petName + " has no treatments to mark.");
+            Ui.println(petName + " has no treatments to mark.");
             LOGGER.fine("Mark: empty treatment list for " + petName);
             return;
         }
 
         int idx = index1Based - 1;
         if (idx < 0 || idx >= treatments.size()) {
-            System.out.println("No such treatment");
-            System.out.println("Pet: " + petName);
-            System.out.println("Index: " + index1Based);
+            Ui.println("No such treatment");
+            Ui.println("Pet: " + petName);
+            Ui.println("Index: " + index1Based);
             LOGGER.warning(() -> "Mark: invalid index " + index1Based + " for " + petName
                     + " (size=" + treatments.size() + ")");
             return;
@@ -85,11 +86,12 @@ public class MarkTreatmentCommand implements Command {
 
         Treatment t = treatments.get(idx);
         t.setCompleted(true);
-        System.out.println("Marked as done");
-        System.out.println("Pet: " + petName);
-        System.out.println("Index: " + index1Based);
+        Ui.println("Marked as done");
+        Ui.println("Pet: " + petName);
+        Ui.println("Index: " + index1Based);
         LOGGER.info(() -> "Marked: " + petName + " i/" + index1Based + " \"" + t.getName() + "\"");
     }
+
 
     // @@author HarshitSrivastavaHS
     @Override
@@ -113,8 +115,4 @@ public class MarkTreatmentCommand implements Command {
     }
     // @@author
 
-    private void printUsage() {
-        System.out.println("Usage: mark n/PET_NAME i/INDEX");
-        System.out.println("Example: mark n/Milo i/2");
-    }
 }

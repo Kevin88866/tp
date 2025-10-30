@@ -1,0 +1,86 @@
+@startuml
+
+participant ":CuddleCare" as CuddleCare
+participant ":OverdueTreatmentCommand" as OverdueTreatment
+participant ":PetList" as PetList
+
+' Activation of CuddleCare
+activate CuddleCare
+
+' Creation of OverdueTreatmentCommand object
+CuddleCare -> OverdueTreatment** : new OverdueTreatmentCommand(pets: PetList)
+activate OverdueTreatment
+return OverdueTreatmentCommand object
+' End of Constructor of OverdueTreatmentCommand
+
+' Start of exec method
+CuddleCare -> OverdueTreatment : exec(args: String)
+activate OverdueTreatment
+
+' If no pets
+alt pets.size == 0
+    OverdueTreatment --> CuddleCare : No pets added
+
+else else
+
+' Get pet by name
+OverdueTreatment -> OverdueTreatment : getPetByName(args: String)
+activate OverdueTreatment
+OverdueTreatment -> PetList : getPetByName(input: String)
+activate PetList
+return pet : Pet
+return pet : Pet
+
+alt if !args.isEmpty() && pet == null
+OverdueTreatment --> CuddleCare : Invalid Syntax
+else else
+
+' Get pet Stream
+OverdueTreatment -> OverdueTreatment : getPetStream(pet : Pet)
+activate OverdueTreatment
+alt pet == null
+OverdueTreatment -> PetList : stream()
+activate PetList
+return Stream<Pet>
+else else
+end
+return Stream<Pet>
+
+OverdueTreatment -> OverdueTreatment : getOverdueTreatments(targetPet : Stream<Pet>, \npresentDate : LocalDate)
+activate OverdueTreatment
+
+OverdueTreatment -> OverdueTreatment : getOverdueTreatmentsForPet(pet : Pet, presentDate : LocalDate)
+activate OverdueTreatment
+return ArrayList<Treatment>
+return Map<Pet, ArrayList<Treatment>>
+
+OverdueTreatment -> OverdueTreatment : printOverdueTreatments(\ntreatments : Map<Pet, ArrayList<Treatment>>, \ninputPet : Pet, presentDate : LocalDate)
+activate OverdueTreatment
+
+alt treatments.isEmpty()
+
+OverdueTreatment --> CuddleCare : No OverdueTreatments
+
+else else
+
+loop for every pet with OverdueTreatment
+    loop for every treatment of a pet
+        OverdueTreatment --> CuddleCare : Prints Overdue Treatments
+    end
+end
+
+
+end
+
+return end
+end
+
+end
+
+return End of command
+' End of exec method
+
+deactivate CuddleCare
+
+
+@enduml

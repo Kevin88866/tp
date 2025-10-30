@@ -5,6 +5,7 @@
 This Developer Guide was inspired by
 the [AddressBook-Level3 (AB3) Developer Guide](https://se-education.org/addressbook-level3/DeveloperGuide.html)
 
+***
 ## Design & implementation
 
 ### Architecture
@@ -56,6 +57,8 @@ The sequence of interactions for a typical command (e.g., `add-pet n/Milo s/Dog 
 7. `Command` prints success/error message via `Ui`
 8. `CuddleCare` triggers `Storage` to save changes
 
+***
+
 ### Feature: Add Pet
 
 The diagram below shows how the `AddPetCommand` class interacts with other
@@ -82,7 +85,7 @@ When executed, the command performs the following steps:
 The `AddPetCommand` ensures that only valid and unique pets are added to the
 pet list. It emphasizes input validation, duplicate prevention, and
 error handling, while maintaining logging for debugging/monitoring execution.
-
+***
 ### Feature: Delete Pet
 
 This feature is built using the Command Pattern. This design decouples the invoker
@@ -107,7 +110,7 @@ The detailed interaction between the main app (CuddleCare), DeletePetCommand, an
 PetList during execution is illustrated in the sequence diagram below.
 
 ![DeletePetCommand Class Diagram](diagrams/DeletePetCommand_Sequence_Diagram.png)
-
+***
 ### Feature: Edit Pet
 
 ![EditPetCommand Class Diagram](diagrams/EditPetCommand_Class_Diagram.png)
@@ -153,7 +156,7 @@ edit-pet n/Tama a/12
 
 - INFO: start/end; edited fields.
 - WARNING: invalid tokens/number format; pet missing.
-
+***
 ### Feature: List Pets
 
 ![ListPetsCommand Class Diagram](diagrams/ListPetsCommand_Class_Diagram.png)
@@ -183,7 +186,7 @@ list-pets
 **Logging**
 
 - INFO on command entry/exit; FINE for iteration count.
-
+***
 ### Feature: Add Treatment
 
 The diagram below shows how the AddTreatmentCommand class interacts with other components in the system.
@@ -205,7 +208,7 @@ When executed, the command:
 
 The command validates all inputs before modifying the pet's treatment list. If the pet is not found or the date format
 is invalid, appropriate error messages are displayed.
-
+***
 ### Feature: Delete Treatment
 
 The figure below shows how the DeleteTreatmentCommand interacts with other key classes in the system.
@@ -249,7 +252,7 @@ Cons:
 
 * Ambiguous when multiple treatments have similar names.
 * Requires additional confirmation steps.
-
+***
 ### Feature: Find Treatment
 
 The FindCommand allows users to search for treatments across all pets by matching a keyword against treatment names.
@@ -280,7 +283,7 @@ When the command is executed:
 5. Each treatment name is checked against the keyword (case-insensitive substring match)
 6. Matching treatments are collected with their pet names and dates
 7. Results are displayed to the user, or a "No treatments found" message if no matches
-
+***
 ### Feature: Filter Treatments By Date
 
 The FilterTreatmentCommand enables users to view all treatments that fall within a specified date range across all pets
@@ -311,7 +314,7 @@ When the command is executed:
 5. For each pet, the command iterates through its treatments
 6. Each treatment's date is checked against the date range (inclusive)
 7. Matching treatments are collected and displayed to the user
-
+***
 ### Feature: Mark a treatment as done
 
 ![MarkTreatmentCommand Class Diagram](diagrams/MarkTreatmentCommand_Class_Diagram.png)
@@ -352,7 +355,7 @@ mark n/Milo i/2
 
 - INFO on success with (petName, index).
 - WARNING for invalid input or lookups.
-
+***
 ### Feature: Mark a treatment as not done
 
 ![UnmarkTreatmentCommand Class Diagram](diagrams/UnmarkTreatmentCommand_Class_Diagram.png)
@@ -385,7 +388,7 @@ unmark n/Milo i/2
 **Logging**
 
 - Same as `mark`.
-
+***
 ### Feature: List All Treatments across all pets
 
 #### Design
@@ -403,6 +406,7 @@ When executed, the command iterates through each `Pet` in the `PetList`, retriev
 and formats them into displayable strings. The command then sorts all treatments by their dates in
 ascending order before printing them to the console.
 
+***
 ### Feature: List All Treatments of a pet
 
 #### Design
@@ -423,7 +427,7 @@ When the command is executed:
 
 The sequence diagram is given below to show the execution of the list all treatments of a pet command.
 ![ListPetTreatmentsCommand sequence diagram](diagrams/ListPetTreatmentsCommand_Sequence_Diagram.png)
-
+***
 ### Feature: Summary of Completed Treatments
 
 The figure below shows how the `SummaryCommand` interacts with other key classes in the system.
@@ -441,6 +445,7 @@ When the command is executed:
 The sequence diagram is given below to show the execution of the summary command.
 ![SummaryCommand sequence diagram](diagrams/SummaryCommand_Sequence_Diagram.png)
 
+***
 ### Feature: Group Treatments by type
 
 ![GroupTreatmentsByTypeCommand Class Diagram](diagrams/GroupTreatmentsByTypeCommand_Class_Diagram.png)
@@ -483,17 +488,103 @@ group-treatments-by-type
 **Logging**
 
 - INFO summarising bucket counts; FINE for per‑bucket sizes.
+***
+### Feature: Overdue Treatments Command
+![OverdueTreatmentsCommand Class Diagram](diagrams/OverdueTreatmentsCommand_Class_Diagram.png)
+The `OverdueTreatmentsCommand` displays all treatments that are overdue for pets. It can show overdue treatments for a specific pet if the pet name is provided, or for all pets if no name is given. A treatment is considered overdue if it is **not completed** and its scheduled date is **before today**.
 
-### Feature: View overdue treatments for all pets
+This command follows the **Command Pattern**, encapsulating all logic related to listing overdue treatments in a dedicated class implementing the `Command` interface. It depends on a `PetList` instance, injected via its constructor, and optionally allows a custom date for testing purposes.
 
-{add details here}
+**Execution flow**:
+![OverdueTreatmentsCommand Sequence Diagram](diagrams/OverdueTreatmentsCommand_Sequence_Diagram.png)
+1. The command is executed via `exec(String args)`.
+2. Parses optional argument `n/PET_NAME` to determine if the user wants overdue treatments for a specific pet.
+3. Validates the argument:
+    - Prints syntax error if the input format is invalid.
+    - Prints a message if the specified pet does not exist.
+4. Determines the current date (or uses the provided test date for testing).
+5. Collects all overdue treatments:
+    - Iterates through the relevant pet(s).
+    - Filters treatments where `isCompleted()` is `false` and `getDate()` is before the current date.
+6. Prints the overdue treatments in a readable format, including:
+    - Pet name (if displaying for all pets)
+    - Treatment name
+    - Scheduled date
+    - Number of days overdue
+7. If no overdue treatments exist, prints a friendly message.
 
-### Feature: Help to view all commands
+**Design Considerations**:
 
-### Feature: Exit
+- Supports both **all pets** and **single pet** modes using streams.
+- Uses **Dependency Injection** for `PetList` and optional test date.
+- Separates filtering logic (`getOverdueTreatmentsForPet`) from printing logic (`printOverdueTreatments`) for clarity and testability.
+- Handles empty pet list and missing pet gracefully.
+- Logs execution steps, invalid inputs, and command success for monitoring.
 
-{add details here}
+**Logging**:
 
+- `INFO` when command is executed with arguments.
+- `INFO` for invalid arguments or missing pets.
+- `INFO` when no overdue treatments are found.
+- `INFO` on successful execution with results printed.
+***
+### Feature: Help Command
+![HelpCommand Class Diagram](diagrams/HelpCommand_Class_Diagram.png)  
+The HelpCommand provides users with guidance on available commands in the application. It can either display all commands grouped by category or show detailed information for a specific command using the optional `c/COMMAND_NAME` argument.
+
+This feature follows the **Command Pattern**, encapsulating all help-related logic in its own class that implements the `Command` interface. The HelpCommand depends on a map of all commands (`Map<String, Command>`) that is set via `setCommands(Map)`.
+
+**Execution flow**:
+![HelpCommand Sequence Diagram](diagrams/HelpCommand_Sequence_Diagram.png)
+1. The command is executed via `exec(String args)`.
+2. Parses optional argument `c/COMMAND_NAME` to determine if help for a specific command is requested.
+3. Validates the argument:
+    - If the syntax is invalid, prints the help command syntax.
+    - If a specific command is requested but not found, prints an error message.
+4. If a valid command name is provided, prints detailed information including:
+    - Command name
+    - Category
+    - Long description
+    - Syntax
+5. If no command name is provided, prints all commands grouped by their category, respecting a predefined order (`General`, `Pet`, `Treatment`) and sorting remaining categories alphabetically.
+
+**Design Considerations**:
+
+- Uses **Dependency Injection** to receive the `commandsMap`, making it testable.
+- Categorizes commands dynamically using streams and collectors.
+- Supports optional arguments via a tag-based parsing mechanism (`c/COMMAND_NAME`).
+- Logs command execution, invalid syntax, and missing commands for monitoring.
+
+**Logging**:
+
+- `INFO` on command execution, printing all commands or specific command.
+- `INFO` on invalid syntax or missing command.
+- Maintains clear separation of concerns between argument parsing, categorization, and printing.
+***
+### Feature: Bye Command
+![ByeCommand Class Diagram](diagrams/ByeCommand_Class_Diagram.png)
+The `ByeCommand` allows users to **exit the application** gracefully. When executed, it prints a farewell message and terminates the program.
+
+This command follows the **Command Pattern**, encapsulating the exit behavior in a dedicated class implementing the `Command` interface. It does not require any dependencies or arguments.
+
+**Execution flow**:
+![ByeCommand Sequence Diagram](diagrams/ByeCommand_Sequence_Diagram.png)
+1. The command is executed via `exec(String args)`.
+2. Prints a farewell message to the console: `Bye bye, Have a wonderful day ahead :)`
+3. Terminates the application using `System.exit(0)`.
+
+**Design Considerations**:
+
+- Simple, single-responsibility command.
+- Ignores any arguments passed, ensuring a consistent exit behavior.
+- Logs or monitoring is not necessary due to its terminal effect.
+- Follows a **General** category, as it pertains to application lifecycle.
+
+**Logging**:
+
+- N/A — the command immediately exits the application after printing the message.
+
+***
 ## Product scope
 
 ### Target user profile
@@ -576,4 +667,27 @@ organized and ensuring pets stay healthy and happy.
 1. Add pet and treatments
 2. Mark some treatments
 3. `Summary from/2024-01-10 to/2025-01-10` → verify that all completed treatments within the date range are listed
-       
+
+**Delete a pet**
+1. `add-pet n/Milo s/Dog a/2`
+1. `list-pet` - verify it was added
+1. `delete-pet n/Milo`
+1. `list-pets` - verify it's deleted
+
+**View all commands**
+1. `help` - shows all commands available in the application
+1. `help c/add-pet` - shows more details about the add-pet command, including syntax
+
+**View overdue treatments**
+1. `add-pet n/Milo s/Dog a/3`
+1. `add-treatment n/Milo t/Vaccine d/2025-10-05`
+1. `add-treatment n/Milo t/Checkup d/2025-10-08`
+1. `add-treatment n/Milo t/Something d/2026-10-07`
+1. `overdue-treatments` - verify only the first two treatments are shown
+1. `mark n/Milo i/0`
+1. `overdue-treatments` - verify only the first treatment is shown
+
+**Bye Command**
+1. Type `bye` in the CLI
+1. The Application outputs: `Bye bye, Have a wonderful day ahead :)
+1. Application terminates.
