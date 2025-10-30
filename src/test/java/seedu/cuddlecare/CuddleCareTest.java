@@ -21,7 +21,6 @@ class CuddleCareTest {
 
     private CuddleCare app;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
 
     @BeforeAll
     static void muteLogs() {
