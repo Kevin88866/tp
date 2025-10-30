@@ -19,8 +19,7 @@ activate AddPetCommand
 
 ' Invalid input case
 alt missing name OR species OR age < 0
-    AddPetCommand -> CuddleCare : print "Invalid input. Please try again."
-    AddPetCommand --> CuddleCare : (command failed)
+    AddPetCommand --> CuddleCare : print "Invalid input. Please try again."
 
 else valid input
     ' Create Pet object
