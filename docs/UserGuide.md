@@ -387,9 +387,13 @@ summary from/FROM_DATE to/TO_DATE
 
 * List Pets `list-pets`
 * Edit Pet `edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]`
+* Add Treatment `add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE [note/NOTE]`
+* Delete Treatment `delete-treatment n/PET_NAME i/INDEX`
 * Mark a Treatment as Done `mark n/PET_NAME i/INDEX`
 * Unmark a Treatment `unmark n/PET_NAME i/INDEX`
 * Group Treatments by Type `group-treatments [n/PET_NAME]`
+* Filter Treatments by Date `filter-treatment from/FROM_DATE to/TO_DATE`
+* Find Treatment `find-treatment KEYWORD`
 * List All Treatments `list-all-treatments`
 * List a Pet's Treatments `list-treatments n/PET_NAME`
 * Completed Treatment Summary `summary from/FROM_DATE to/TO_DATE`
