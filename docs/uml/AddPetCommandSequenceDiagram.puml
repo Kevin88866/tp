@@ -1,0 +1,47 @@
+@startuml
+title AddPetCommand Sequence Diagram
+
+participant ":CuddleCare" as CuddleCare
+participant ":AddPetCommand" as AddPetCommand
+participant ":PetList" as PetList
+participant ":Pet" as Pet
+
+activate CuddleCare
+
+' Constructor
+CuddleCare -> AddPetCommand** : new(petList)
+activate AddPetCommand
+return (created)
+
+' Exec Method
+CuddleCare -> AddPetCommand : exec(args : String)
+activate AddPetCommand
+
+' Invalid input case
+alt missing name OR species OR age < 0
+    AddPetCommand -> CuddleCare : print "Invalid input. Please try again."
+    AddPetCommand --x CuddleCare : (command failed)
+
+else valid input
+    ' Create Pet object
+    AddPetCommand -> Pet** : new(name, species, age)
+    activate Pet
+    return newPet : Pet
+
+    ' Add to PetList
+    AddPetCommand -> PetList : add(newPet)
+    activate PetList
+    return isAdded : boolean
+
+    ' Duplicate pet case
+    alt isAdded == false
+        AddPetCommand -> CuddleCare : print "A pet with that name already exists."
+        AddPetCommand --x CuddleCare : (command failed)
+
+    else pet added
+        AddPetCommand -> CuddleCare : print "<name> has been successfully added."
+        AddPetCommand --> CuddleCare : (command completed)
+    end
+end
+
+@enduml
