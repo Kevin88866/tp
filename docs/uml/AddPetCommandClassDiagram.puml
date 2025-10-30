@@ -1,8 +1,10 @@
 @startuml
 skinparam classAttributeIconSize 0
+hide circle
+
 title AddPetCommand Class Diagram
 
-interface Command {
+interface "<<interface>>\nCommand" as Command {
     + exec(String args) : void
 }
 
@@ -25,9 +27,9 @@ class Pet {
 
 Command <|.. AddPetCommand
 
-AddPetCommand o-- "1" PetList : uses >
+AddPetCommand --> "1" PetList : uses >
 
-PetList *-- "*" Pet : contains >
+PetList *--> "*" Pet : contains >
 
 AddPetCommand -right[hidden]- PetList
 
