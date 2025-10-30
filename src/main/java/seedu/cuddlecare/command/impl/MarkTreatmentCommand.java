@@ -91,8 +91,7 @@ public class MarkTreatmentCommand implements Command {
         Ui.println("Index: " + index1Based);
         LOGGER.info(() -> "Marked: " + petName + " i/" + index1Based + " \"" + t.getName() + "\"");
     }
-<<<<<<< HEAD
-=======
+
 
     // @@author HarshitSrivastavaHS
     @Override
@@ -116,9 +115,4 @@ public class MarkTreatmentCommand implements Command {
     }
     // @@author
 
-    private void printUsage() {
-        System.out.println("Usage: mark n/PET_NAME i/INDEX");
-        System.out.println("Example: mark n/Milo i/2");
-    }
->>>>>>> 5ceeef759020e9a9399a008c361b3d0c4bcd5b8e
 }

@@ -113,8 +113,7 @@ public class EditPetCommand implements Command {
             LOGGER.log(Level.WARNING, "Unexpected error in edit-pet", e);
         }
     }
-<<<<<<< HEAD
-=======
+
 
     // @@author HarshitSrivastavaHS
     @Override
@@ -138,8 +137,4 @@ public class EditPetCommand implements Command {
     }
     // @@author
 
-    private void printUsage() {
-        System.out.println("Usage: edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]");
-    }
->>>>>>> 5ceeef759020e9a9399a008c361b3d0c4bcd5b8e
 }
