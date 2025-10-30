@@ -72,7 +72,6 @@ public class CuddleCare {
     CuddleCare() {
         parser = new Parser();
         assert parser != null : "Parser cannot be null";
-        storage.load();
     }
 
     /**
@@ -85,6 +84,7 @@ public class CuddleCare {
         LOGGER.log(Level.INFO, "CuddleCare application started");
         initialiseCommands();
         greet();
+        storage.load();
         startApplicationLoop();
     }
 
