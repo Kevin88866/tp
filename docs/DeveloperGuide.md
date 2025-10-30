@@ -12,7 +12,7 @@ the [AddressBook-Level3 (AB3) Developer Guide](https://se-education.org/addressb
 
 The Architecture Diagram below explains the high-level design of CuddleCare.
 
-![Architecture-CuddleCare_Architecture.png](Diagrams/Architecture-CuddleCare_Architecture.png)
+![Architecture-CuddleCare_Architecture.png](diagrams/Architecture-CuddleCare_Architecture.png)
 
 **Main Components:**
 
