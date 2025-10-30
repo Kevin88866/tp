@@ -1,0 +1,26 @@
+@startuml
+
+title ByeCommand Class Diagram
+
+skinparam classAttributeIconSize 0
+hide circle
+
+interface "<<interface>> Command" as Command {
+    + exec(args: String)
+    + getSyntax(): String
+    + getShortDescription(): String
+    + getLongDescription(): String
+    + getCategory(): List<String>
+}
+
+class ":ByeCommand" as Bye {
+    - {static} SYNTAX : String
+    - {static} SHORT_DESCRIPTION : String
+    - {static} LONG_DESCRIPTION : String
+    - {static} CATEGORIES : List<String>
+    + exec(args: String)
+}
+
+Command <|.. Bye
+
+@enduml
