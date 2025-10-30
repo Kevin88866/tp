@@ -41,7 +41,7 @@ PetList "1" *-- "*" Pet : contains
 EditPetCommand --> Parsed : parses
 class Ui {
   +println(msg : String) : void
-  +printUsage(syntax : String) : void
+  +printUsage() : void
 }
 EditPetCommand ..> Ui : uses
 @enduml
