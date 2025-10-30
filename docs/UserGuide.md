@@ -19,6 +19,35 @@ Hello! Welcome to CuddleCare.
 
 ---
 
+### Add Pet — `add-pet`
+Adds a new pet to the tracker.
+
+**Format**
+```
+add-pet n/PET_NAME s/SPECIES_NAME a/AGE
+```
+* n/ (required): name of the pet
+* s/ (required): species of the pet 
+* a/ (required): age of the pet
+
+**Example**
+```
+> add-pet n/Peanut s/Golden Retriever a/7
+Peanut has been successfully added.
+
+> add-pet n/Peanut s/Husky a/3
+A pet with that name already exists.
+```
+
+**Notes**
+* Name and species can be 1 or more words.
+* Each pet's name must be unique or user will have to re-enter
+(as seen above).
+* Age must be a number and is in units of years. 
+* If input is invalid: `Invalid input. Please try again.`
+
+---
+
 ### List Pets — `list-pets`
 Lists all pets.
 
