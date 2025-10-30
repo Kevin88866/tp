@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+title CuddleCare Architecture
+
+actor User
+
+rectangle CuddleCare_System {
+    component "CuddleCare\n(Main)" as CuddleCare
+    component Ui
+    component Parser
+    component Command
+    component Model
+    component Storage
+}
+
+storage "data.txt"
+
+User -down-> Ui : Input actions
+Ui -up-> User : Display output
+
+Ui -right-> CuddleCare : Sends user input
+CuddleCare -right-> Parser : Parse input
+Parser -up-> CuddleCare : Returns Command
+
+CuddleCare -down-> Command : Execute
+CuddleCare -down-> Model : Manages data
+CuddleCare -right-> Storage : Read/Write
+
+Command -up-> Ui : Print output
+Command -down-> Model : Update data
+
+Storage -down-> "data.txt" : Write
+"data.txt" -up-> Storage : Read
+
+@enduml
