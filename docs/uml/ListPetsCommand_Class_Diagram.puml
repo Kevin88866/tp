@@ -30,7 +30,7 @@ ListPetsCommand --> PetList : uses
 PetList "1" *-- "*" Pet : contains
 class Ui {
   +println(msg : String) : void
-  +printUsage(syntax : String) : void
+  +printUsage() : void
 }
 ListPetsCommand ..> Ui : uses
 @enduml
