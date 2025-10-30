@@ -7,6 +7,12 @@ original source as well}
 
 ## Design & implementation
 
+### Architecture
+
+The Architecture Diagram below explains the high-level design of CuddleCare.
+
+![Architecture-CuddleCare_Architecture.png](Diagrams/Architecture-CuddleCare_Architecture.png)
+
 ### Feature: Add Pet
 The diagram below shows how the `AddPetCommand` class interacts with other
 components in the system.
