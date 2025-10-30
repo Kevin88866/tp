@@ -56,12 +56,10 @@ public class Storage {
         try {
             List<String> lines = Files.readAllLines(Paths.get(filePath));
             Map<String, Pet> petMap = new HashMap<>();
-
             boolean isReadingPets = true;
 
             for (String line : lines) {
                 line = line.trim();
-
                 if (line.isEmpty() || line.equalsIgnoreCase("# Pets")) {
                     continue;
                 }
@@ -72,51 +70,10 @@ public class Storage {
                 }
 
                 String[] parts = line.split("\\|");
-
                 if (isReadingPets) {
-                    if (parts.length < 3) {
-                        continue;
-                    }
-                    String name = parts[0].trim();
-                    String species = parts[1].trim();
-                    int age;
-                    try {
-                        age = Integer.parseInt(parts[2].trim());
-                    } catch (NumberFormatException e) {
-                        LOGGER.log(Level.WARNING, "Invalid age for pet " + name);
-                        continue;
-                    }
-
-                    Pet pet = new Pet(name, species, age);
-                    pets.add(pet);
-                    petMap.put(name, pet);
+                    processPet(parts, petMap);
                 } else {
-                    if (parts.length < 4) {
-                        continue;
-                    }
-
-                    String petName = parts[0].trim();
-                    String treatmentName = parts[1].trim();
-                    LocalDate date;
-                    try {
-                        date = LocalDate.parse(parts[2].trim());
-                    } catch (DateTimeParseException e) {
-                        LOGGER.log(Level.WARNING, "Invalid date for treatment " + treatmentName);
-                        continue;
-                    }
-
-                    boolean isComplete = Boolean.parseBoolean(parts[3].trim());
-                    String note = (parts.length >= 5) ? parts[4].trim() : "";
-
-                    Pet pet = petMap.get(petName);
-                    if (pet == null) {
-                        LOGGER.log(Level.WARNING, "Pet not found for treatment " + treatmentName);
-                        continue;
-                    }
-
-                    Treatment t = new Treatment(treatmentName, note, date);
-                    t.setCompleted(isComplete);
-                    pet.addTreatment(t);
+                    processTreatment(parts, petMap);
                 }
             }
 
@@ -128,39 +85,131 @@ public class Storage {
     }
 
     /**
+     * Processes each line from the save file that contains
+     * information about the pet including its name, species,
+     * and age and adds it to the pet list.
+     * @param parts each part of the line in the save file
+     * @param petMap the name of the pet to its Pet object
+     */
+    private void processPet(String[] parts, Map<String, Pet> petMap) {
+        if (parts.length < 3) {
+            return;
+        }
+
+        String name = parts[0].trim();
+        String species = parts[1].trim();
+        int age;
+
+        try {
+            age = Integer.parseInt(parts[2].trim());
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Invalid age for pet " + name);
+            return;
+        }
+
+        Pet pet = new Pet(name, species, age);
+        pets.add(pet);
+        petMap.put(name, pet);
+    }
+
+    /**
+     * Processes each line from the save file that contains
+     * information about each treatment and assigns it to
+     * the corresponding pet.
+     * @param parts each part of the line in the save file
+     * @param petMap the name of the pet to its Pet object
+     */
+    private void processTreatment(String[] parts, Map<String, Pet> petMap) {
+        if (parts.length < 4) {
+            return;
+        }
+
+        String petName = parts[0].trim();
+        String treatmentName = parts[1].trim();
+        LocalDate date;
+
+        try {
+            date = LocalDate.parse(parts[2].trim());
+        } catch (DateTimeParseException e) {
+            LOGGER.log(Level.WARNING, "Invalid date for treatment " + treatmentName);
+            return;
+        }
+
+        boolean isComplete = Boolean.parseBoolean(parts[3].trim());
+        String note = (parts.length >= 5) ? parts[4].trim() : "";
+
+        Pet pet = petMap.get(petName);
+        if (pet == null) {
+            LOGGER.log(Level.WARNING, "Pet not found for treatment " + treatmentName);
+            return;
+        }
+
+        Treatment t = new Treatment(treatmentName, note, date);
+        t.setCompleted(isComplete);
+        pet.addTreatment(t);
+    }
+
+    /**
      * Saves all the pet and treatment information
      * to the save file.
      */
     public void save() {
         try {
-            File file = new File(filePath).getParentFile();
-            if (!file.exists()) {
-                Files.createDirectories(file.toPath());
-            }
-
+            createSaveDirectory();
             FileWriter writer = new FileWriter(filePath);
             
-            writer.write("# Pets\n");
-            for (int i = 0; i < pets.size(); i++) {
-                Pet pet = pets.get(i);
-                writer.write(pet.getName() + " | " + pet.getSpecies() + " | " + pet.getAge() + "\n");
-            }
-
-            writer.write("\n# Treatments\n");
-            for (int i = 0; i < pets.size(); i++) {
-                Pet pet = pets.get(i);
-                for (Treatment t : pet.getTreatments()) {
-                    writer.write(pet.getName() + " | " + t.getName() + " | " +
-                            t.getDate() + " | " + t.isCompleted() + " | " +
-                            (t.hasNote() ? t.getNote() : "") + "\n");
-                }
-            }
+            savePets(writer);
+            saveTreatments(writer);
 
             writer.close();
             LOGGER.log(Level.INFO, "Data successfully saved to " + filePath);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to save data: " + e.getMessage());
             System.out.println("Failed to save data.");
+        }
+    }
+
+    /**
+     * Saves all the current treatments for each pet into
+     * the save file.
+     * @param writer the file writer
+     * @throws IOException
+     */
+    private void saveTreatments(FileWriter writer) throws IOException {
+        writer.write("\n# Treatments\n");
+        for (int i = 0; i < pets.size(); i++) {
+            Pet pet = pets.get(i);
+            for (Treatment t : pet.getTreatments()) {
+                writer.write(pet.getName() + " | " + t.getName() + " | " +
+                        t.getDate() + " | " + t.isCompleted() + " | " +
+                        (t.hasNote() ? t.getNote() : "") + "\n");
+            }
+        }
+    }
+
+    /**
+     * Saves all the current pets in the pet list
+     * into the save file.
+     * @param writer the file writer
+     * @throws IOException
+     */
+    private void savePets(FileWriter writer) throws IOException {
+        writer.write("# Pets\n");
+        for (int i = 0; i < pets.size(); i++) {
+            Pet pet = pets.get(i);
+            writer.write(pet.getName() + " | " + pet.getSpecies() + " | " + pet.getAge() + "\n");
+        }
+    }
+
+    /**
+     * Checks if the save file exists and creates
+     * it otherwise.
+     * @throws IOException
+     */
+    private void createSaveDirectory() throws IOException {
+        File file = new File(filePath).getParentFile();
+        if (!file.exists()) {
+            Files.createDirectories(file.toPath());
         }
     }
 }
