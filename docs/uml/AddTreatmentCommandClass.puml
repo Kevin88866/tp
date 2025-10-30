@@ -1,5 +1,6 @@
 @startuml
 skinparam classAttributeIconSize 0
+hide circle
 title AddTreatmentCommand Class Diagram
 
 class AddTreatmentCommand {
@@ -8,7 +9,7 @@ class AddTreatmentCommand {
     + exec(args : String) : void
 }
 
-interface "<<Interface>>\nCommand" as Command {
+interface "<<interface>>\nCommand" as Command {
     + exec(args : String) : void
 }
 
