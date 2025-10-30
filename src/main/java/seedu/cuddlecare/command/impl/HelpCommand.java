@@ -117,7 +117,7 @@ public class HelpCommand implements Command {
         String[] parts = args.split(" (?=[\\w+]/)");
         for (String part : parts) {
             if (part.startsWith(tag)) {
-                return part.substring(tag.length() + 1);
+                return part.substring(tag.length() + 1).trim().toLowerCase();
             }
         }
         return null;
