@@ -1,6 +1,7 @@
 package seedu.cuddlecare.command.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import seedu.cuddlecare.parser.UnmarkTreatmentParser;
@@ -19,6 +20,16 @@ import seedu.cuddlecare.ui.Ui;
 public class UnmarkTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(UnmarkTreatmentCommand.class.getName());
+
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "unmark n/PET_NAME i/INDEX";
+    private static final String SHORT_DESCRIPTION = "Unmarks a treatment (sets it as not completed) for a pet.";
+    private static final String LONG_DESCRIPTION = "Unmarks a specific treatment for a given pet by " +
+            "its local index. Specify the pet using n/PET_NAME" +
+            " and the treatment index using i/INDEX.";
+    private static final List<String> CATEGORIES = List.of("Treatment");
+    // @@author
 
     /** Repository of pets. */
     private final PetList pets;
@@ -80,4 +91,27 @@ public class UnmarkTreatmentCommand implements Command {
         Ui.println("Index: " + index1Based);
         LOGGER.info(() -> "Marked: " + petName + " i/" + index1Based + " \"" + t.getName() + "\"");
     }
+
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
+
 }

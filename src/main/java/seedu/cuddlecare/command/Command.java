@@ -1,5 +1,7 @@
 package seedu.cuddlecare.command;
 
+import java.util.List;
+
 /**
  * Represents a command that can be executed with optional arguments.
  *
@@ -14,4 +16,20 @@ public interface Command {
      * @param args the arguments passed to the command, may be empty
      */
     void exec(String args);
+
+    default String getSyntax() {
+        return "";
+    }
+
+    default String getLongDescription() {
+        return "";
+    }
+
+    default String getShortDescription() {
+        return "";
+    }
+
+    default List<String> getCategory() {
+        return List.of("General");
+    }
 }

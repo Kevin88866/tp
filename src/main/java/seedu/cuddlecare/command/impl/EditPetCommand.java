@@ -6,6 +6,7 @@ import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import seedu.cuddlecare.ui.Ui;
@@ -22,6 +23,17 @@ import seedu.cuddlecare.ui.Ui;
 public class EditPetCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(EditPetCommand.class.getName());
+
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]";
+    private static final String SHORT_DESCRIPTION = "Edits a pet's name, species, and/or age.";
+    private static final String LONG_DESCRIPTION = "Updates the details of an existing pet in the list." +
+            " Specify the pet to edit using n/OLD_NAME. Optionally" +
+            " provide nn/NEW_NAME, s/SPECIES, and/or a/AGE to update one or more fields.";
+    private static final List<String> CATEGORIES = List.of("Pet");
+    // @@author
+
     private final PetList pets;
 
     /**
@@ -101,4 +113,26 @@ public class EditPetCommand implements Command {
             LOGGER.log(Level.WARNING, "Unexpected error in edit-pet", e);
         }
     }
+
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
 }
