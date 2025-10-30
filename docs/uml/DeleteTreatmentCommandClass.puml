@@ -37,8 +37,13 @@ class Treatment {
     + toString() : String
 }
 
+class Ui {
+    + {static} printInvalidInputMessage(syntax : String) : void
+}
+
 Command <|.. DeleteTreatmentCommand
-DeleteTreatmentCommand -right-> PetList : uses
+DeleteTreatmentCommand -down-> PetList : uses
+DeleteTreatmentCommand ..> Ui : uses
 PetList "1" *-- "*" Pet : contains
 Pet "1" *-left- "*" Treatment : has
 

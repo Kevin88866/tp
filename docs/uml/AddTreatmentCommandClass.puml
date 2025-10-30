@@ -38,8 +38,15 @@ class Treatment {
     + toString() : String
 }
 
+class Ui {
+    + {static} printInvalidInputMessage(syntax : String) : void
+    + {static} printHeader(header : String) : void
+    + {static} printList(list : ArrayList) : void
+}
+
 Command <|.. AddTreatmentCommand
-AddTreatmentCommand -right-> PetList : uses
+AddTreatmentCommand -down-> PetList : uses
+AddTreatmentCommand ..> Ui : uses
 PetList "1" *-- "*" Pet : contains
 Pet "1" *-left- "*" Treatment : has
 
