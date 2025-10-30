@@ -49,7 +49,7 @@ else Pet found
         Ui --> User: shows Milo's treatment list
         deactivate Ui
         deactivate Command
-        deactivate CuddleCare
     end
 end
+        deactivate CuddleCare
 @enduml

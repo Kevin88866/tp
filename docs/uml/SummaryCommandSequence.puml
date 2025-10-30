@@ -53,6 +53,6 @@ else Treatments found
     Ui --> User: displays completed treatments summary
     deactivate Ui
     deactivate Command
-    deactivate CuddleCare
 end
+    deactivate CuddleCare
 @enduml
