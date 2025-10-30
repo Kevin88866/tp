@@ -1,0 +1,56 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+hide circle
+
+interface "<<interface>>\nCommand" as Command {
+    + exec(args: String)
+    + getSyntax(): String
+    + getShortDescription(): String
+    + getLongDescription(): String
+    + getCategory(): List<String>
+}
+
+class HelpCommand {
+    - {static} SYNTAX : String
+    - {static} SHORT_DESCRIPTION : String
+    - {static} LONG_DESCRIPTION : String
+    - {static} CATEGORIES : List<String>
+    + setCommands(Map<String, Command>)
+    + exec(args: String)
+    + getSyntax(): String
+    + getShortDescription(): String
+    + getLongDescription(): String
+    + getCategory(): List<String>
+}
+
+class AddPetCommand {
+    - {static} SYNTAX : String
+    - {static} SHORT_DESCRIPTION : String
+    - {static} LONG_DESCRIPTION : String
+    - {static} CATEGORIES : List<String>
+}
+class DeletePetCommand {
+    - {static} SYNTAX : String
+    - {static} SHORT_DESCRIPTION : String
+    - {static} LONG_DESCRIPTION : String
+    - {static} CATEGORIES : List<String>
+  }
+class EditPetCommand {
+    - {static} SYNTAX : String
+    - {static} SHORT_DESCRIPTION : String
+    - {static} LONG_DESCRIPTION : String
+    - {static} CATEGORIES : List<String>
+}
+
+HelpCommand ...|> Command
+HelpCommand -----> Command : has Map<String, Command> >
+Command <|... AddPetCommand
+Command <|... DeletePetCommand
+Command <|... EditPetCommand
+
+HelpCommand ..> AddPetCommand
+HelpCommand ...> DeletePetCommand
+HelpCommand ...> EditPetCommand
+
+@enduml
