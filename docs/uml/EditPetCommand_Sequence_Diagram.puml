@@ -1,12 +1,13 @@
 @startuml
 title EditPetCommand Sequence Diagram
 actor User
-participant CuddleCare
-participant Parser
-participant CommandWithArguments as CWA
-participant EditPetCommand as EPC
-participant PetList
-participant Pet
+participant ":CuddleCare" as CuddleCare
+participant ":Parser" as Parser
+participant ":CommandWithArguments" as CWA
+participant ":EditPetCommand" as EPC
+participant ":PetList" as PetList
+participant ":Pet" as Pet
+participant ":Ui" as Ui
 
 User -> CuddleCare : edit-pet n/Milo a/4
 activate CuddleCare
@@ -31,9 +32,10 @@ else found
   Pet --> EPC : ok
   EPC --> CWA : success
 end
+  EPC --> Ui : prints
 deactivate EPC
 CWA --> CuddleCare : return
 deactivate CWA
-CuddleCare --> User : prints
+Ui --> User : prints
 deactivate CuddleCare
 @enduml

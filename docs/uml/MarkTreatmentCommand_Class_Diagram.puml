@@ -1,8 +1,9 @@
 @startuml
 skinparam classAttributeIconSize 0
 title MarkTreatmentCommand Class Diagram
+hide circle
 
-interface Command {
+interface Command <<interface>>{
   +exec(args : String) : void
 }
 
@@ -38,5 +39,9 @@ MarkTreatmentCommand --> PetList : uses
 PetList "1" *-- "*" Pet : contains
 Pet "1" *-- "*" Treatment : treatments
 MarkTreatmentCommand --> Parsed
-
+class Ui {
+  +println(msg : String) : void
+  +printUsage(syntax : String) : void
+}
+MarkTreatmentCommand ..> Ui : uses
 @enduml

@@ -1,8 +1,9 @@
 @startuml
 skinparam classAttributeIconSize 0
 title ListPetsCommand Class Diagram
+hide circle
 
-interface Command {
+interface Command <<interface>>{
   +exec(args : String) : void
 }
 
@@ -27,5 +28,9 @@ class Pet {
 ListPetsCommand ..|> Command
 ListPetsCommand --> PetList : uses
 PetList "1" *-- "*" Pet : contains
-
+class Ui {
+  +println(msg : String) : void
+  +printUsage(syntax : String) : void
+}
+ListPetsCommand ..> Ui : uses
 @enduml

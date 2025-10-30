@@ -1,11 +1,12 @@
 @startuml
 title GroupTreatmentsByTypeCommand — Sequence Diagram (concise, no notes)
 actor User
-participant CuddleCare
-participant Parser
-participant CommandWithArguments as CWA
-participant GroupTreatmentsByTypeCommand as GTC
-participant PetList
+participant ":CuddleCare" as CuddleCare
+participant ":Parser" as Parser
+participant ":CommandWithArguments" as CWA
+participant ":GroupTreatmentsByTypeCommand" as GTC
+participant ":PetList" as PetList
+participant ":Ui" as Ui
 
 User -> CuddleCare : group-treatments-by-type [args]
 activate CuddleCare
@@ -43,9 +44,10 @@ else grouped results
   GTC --> CWA : print groups by type
 end
 
+  GTC --> Ui : prints
 deactivate GTC
 CWA --> CuddleCare : return
 deactivate CWA
-CuddleCare --> User : prints
+Ui --> User : prints
 deactivate CuddleCare
 @enduml

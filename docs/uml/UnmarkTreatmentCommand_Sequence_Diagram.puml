@@ -1,12 +1,13 @@
 @startuml
 title UnmarkTreatmentCommand Sequence Diagram
 actor User
-participant CuddleCare
-participant Parser
-participant CommandWithArguments as CWA
-participant UnmarkTreatmentCommand as UTC
-participant PetList
-participant Pet
+participant ":CuddleCare" as CuddleCare
+participant ":Parser" as Parser
+participant ":CommandWithArguments" as CWA
+participant ":UnmarkTreatmentCommand" as UTC
+participant ":PetList" as PetList
+participant ":Pet" as Pet
+participant ":Ui" as Ui
 
 User -> CuddleCare : unmark n/Milo i/2
 activate CuddleCare
@@ -31,9 +32,10 @@ else found
   Pet --> UTC : ok
   UTC --> CWA : "Unmarked."
 end
+  UTC --> Ui : prints
 deactivate UTC
 CWA --> CuddleCare : return
 deactivate CWA
-CuddleCare --> User : prints
+Ui --> User : prints
 deactivate CuddleCare
 @enduml
