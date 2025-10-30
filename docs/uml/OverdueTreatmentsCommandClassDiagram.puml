@@ -5,7 +5,7 @@ hide circle
 
 title OverdueTreatmentsCommand Class Diagram
 
-interface "<<Interface>>\nCommand" as Command {
+interface "<<interface>>\nCommand" as Command {
     + exec(args: String) : void
 }
 
@@ -40,7 +40,7 @@ class Treatment {
 }
 
 Command <|.. OverdueTreatmentsCommand
-OverdueTreatmentsCommand o-right-- PetList : has >
+OverdueTreatmentsCommand -right--> PetList : has >
 PetList *-down-- "*" Pet : has ArrayList >
 Pet *-left-- "*" Treatment : has ArrayList >
 
