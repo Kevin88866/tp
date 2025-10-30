@@ -1,3 +1,4 @@
 Hello! Welcome to CuddleCare.
 > Invalid Command: Hi
+Run "help" to find the list of all available commands.
 > Bye bye, Have a wonderful day ahead :)

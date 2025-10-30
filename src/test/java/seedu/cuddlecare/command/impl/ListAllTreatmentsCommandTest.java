@@ -60,9 +60,9 @@ class ListAllTreatmentsCommandTest {
 
         String[] lines = outContent.toString().trim().split("\\R");
 
-        assertEquals("Hamham: [ ] Health Checkup on 2025-10-09", lines[0]);
-        assertEquals("Mimi: [ ] Vaccination on 2025-11-11", lines[1]);
-        assertEquals("Snoopy: [ ] Dental Appointment on 2025-12-20", lines[2]);
+        assertEquals("1.Hamham: [ ] Health Checkup on 2025-10-09", lines[0]);
+        assertEquals("2.Mimi: [ ] Vaccination on 2025-11-11", lines[1]);
+        assertEquals("3.Snoopy: [ ] Dental Appointment on 2025-12-20", lines[2]);
     }
 
     @Test

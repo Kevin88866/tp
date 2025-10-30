@@ -1,8 +1,11 @@
 package seedu.cuddlecare.command.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import seedu.cuddlecare.parser.UnmarkTreatmentParser;
+import seedu.cuddlecare.parser.args.UnmarkTreatmentArgs;
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
@@ -16,6 +19,16 @@ import seedu.cuddlecare.command.Command;
 public class UnmarkTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(UnmarkTreatmentCommand.class.getName());
+
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "unmark n/PET_NAME i/INDEX";
+    private static final String SHORT_DESCRIPTION = "Unmarks a treatment (sets it as not completed) for a pet.";
+    private static final String LONG_DESCRIPTION = "Unmarks a specific treatment for a given pet by " +
+            "its local index. Specify the pet using n/PET_NAME" +
+            " and the treatment index using i/INDEX.";
+    private static final List<String> CATEGORIES = List.of("Treatment");
+    // @@author
 
     /** Repository of pets. */
     private final PetList pets;
@@ -36,7 +49,8 @@ public class UnmarkTreatmentCommand implements Command {
     @Override
     public void exec(String args) {
         assert pets != null : "Pet list must not be null";
-        Parsed parsed = parseArgs(args);
+        UnmarkTreatmentArgs parsed = UnmarkTreatmentParser.parse(args);
+
         if (!parsed.valid) {
             printUsage();
             return;
@@ -59,7 +73,7 @@ public class UnmarkTreatmentCommand implements Command {
             return;
         }
 
-        int idx = index1Based - 1; // convert to 0-based
+        int idx = index1Based - 1;
         if (idx < 0 || idx >= treatments.size()) {
             System.out.println("No such treatment");
             System.out.println("Pet: " + petName);
@@ -77,59 +91,30 @@ public class UnmarkTreatmentCommand implements Command {
         LOGGER.info(() -> "Marked: " + petName + " i/" + index1Based + " \"" + t.getName() + "\"");
     }
 
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
+
     private void printUsage() {
         System.out.println("Usage: unmark n/PET_NAME i/INDEX");
         System.out.println("Example: unmark n/Milo i/2");
-    }
-
-    /**
-     * Parses arguments of the form "n/NAME i/INDEX" (order-insensitive).
-     * NAME is taken as the token immediately after 'n/' (no spaces).
-     */
-    private Parsed parseArgs(String args) {
-        Parsed p = new Parsed();
-        if (args == null) {
-            p.valid = false;
-            return p;
-        }
-        String trimmed = args.trim();
-        if (trimmed.isEmpty()) {
-            p.valid = false;
-            return p;
-        }
-
-        String[] tokens = trimmed.split("(?=[ni]/)");
-        String name = null;
-        Integer idx = null;
-        boolean isBadIndex = false;
-        boolean hasName = false;
-        boolean hasIndex = false;
-
-        for (String token : tokens) {
-            if (token.startsWith("n/")) {
-                name = token.substring(2).trim();
-                hasName = true;
-            } else if (token.startsWith("i/")) {
-                String num = token.substring(2).trim();
-                try {
-                    idx = Integer.parseInt(num);
-                    hasIndex = true;
-                } catch (NumberFormatException e) {
-                    p.valid = false;
-                    return p;
-                }
-            }
-        }
-
-        p.petName = name;
-        p.index = (idx == null) ? -1 : idx;
-        p.valid = hasName && hasIndex && p.index > 0 && !p.petName.isEmpty();
-        return p;
-    }
-
-    private static final class Parsed {
-        String petName;
-        int index;
-        boolean valid;
     }
 }

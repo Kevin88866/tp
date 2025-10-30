@@ -1,5 +1,7 @@
 package seedu.cuddlecare.command.impl;
 
+import seedu.cuddlecare.parser.GroupTreatmentsByTypeParser;
+import seedu.cuddlecare.parser.args.GroupTreatmentsByTypeArgs;
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
@@ -33,6 +35,17 @@ import java.util.logging.Logger;
 public class GroupTreatmentsByTypeCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(GroupTreatmentsByTypeCommand.class.getName());
+
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "group-treatments [n/PET_NAME]";
+    private static final String SHORT_DESCRIPTION = "Groups treatments by type";
+    private static final String LONG_DESCRIPTION = "Groups treatments by their type (first word " +
+            "of the name) either for a single pet or all " +
+            "pets. Items within each group are sorted by date ascending.";
+    private static final List<String> CATEGORIES = List.of("Treatment");
+    // @@author
+
     private final PetList pets;
 
     /**
@@ -47,7 +60,7 @@ public class GroupTreatmentsByTypeCommand implements Command {
         assert pets != null : "Pet list must not be null";
 
         try {
-            Parsed p = parseArgs(args);
+            GroupTreatmentsByTypeArgs p = GroupTreatmentsByTypeParser.parse(args);
 
             if (p.petName != null && !p.petName.isEmpty()) {
                 Pet pet = pets.getPetByName(p.petName);
@@ -66,6 +79,28 @@ public class GroupTreatmentsByTypeCommand implements Command {
             System.out.println("Unable to group treatments. Please try again.");
         }
     }
+
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
 
     private void groupForSinglePet(Pet pet) {
         List<Treatment> ts = pet.getTreatments();
@@ -145,26 +180,6 @@ public class GroupTreatmentsByTypeCommand implements Command {
 
     private static java.time.LocalDate extractDate(Treatment t) {
         return t.getDate();
-    }
-
-
-    private Parsed parseArgs(String args) {
-        Parsed p = new Parsed();
-        if (args == null || args.isBlank()){
-            return p;
-        }
-
-        String[] tokens = args.trim().split("(?=n/)");
-        for (String tok : tokens) {
-            if (tok.startsWith("n/")) {
-                p.petName = tok.substring(2).trim();
-            }
-        }
-        return p;
-    }
-
-    private static final class Parsed {
-        String petName;
     }
 
     private static final class Row {

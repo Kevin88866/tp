@@ -1,0 +1,58 @@
+@startuml
+title SummaryCommand Sequence Diagram
+
+actor User
+participant ":CuddleCare" as CuddleCare
+participant ":Parser" as Parser
+participant ":SummaryCommand" as Command
+participant ":DateUtils" as DateUtils
+participant "<<class>>\nUi" as Ui
+
+
+User -> CuddleCare: summary from/2025-10-10 to/2025-12-12
+activate CuddleCare
+
+CuddleCare -> Parser: parse(...)
+activate Parser
+Parser --> CuddleCare: SummaryCommand instance
+deactivate Parser
+
+CuddleCare -> Command: exec("from/2025-10-10 to/2025-12-12")
+activate Command
+
+
+Command -> DateUtils: parseDateRange(args)
+activate DateUtils
+DateUtils --> Command: Map<from,to>
+deactivate DateUtils
+
+
+Command -> DateUtils: isDateValid(fromDate, toDate, syntax)
+activate DateUtils
+opt Invalid date range (from > to)
+    DateUtils --> User: "Error: Start date cannot be after end date."
+    DateUtils --> Command: boolean
+    deactivate DateUtils
+end
+
+Command -> Command: filterTreatments(fromDate, toDate)
+activate Command
+Command --> Command: ArrayList<String>
+deactivate Command
+
+
+alt No treatments found
+    Command --> User: "No treatments found from/2025-10-10 to/2025-12-12."
+else Treatments found
+    Command -> Ui: printHeader("Treatment Summary from: ... to: ...")
+    activate Ui
+    Ui --> User: "Treatment Summary from: ... to: ..."
+    deactivate Ui
+    Command -> Ui: printList(filteredList)
+    activate Ui
+    Ui --> User: displays completed treatments summary
+    deactivate Ui
+    deactivate Command
+end
+    deactivate CuddleCare
+@enduml

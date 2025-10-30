@@ -1,9 +1,12 @@
 package seedu.cuddlecare.command.impl;
 
+import seedu.cuddlecare.parser.EditPetParser;
+import seedu.cuddlecare.parser.args.EditPetArgs;
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +22,17 @@ import java.util.logging.Logger;
 public class EditPetCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(EditPetCommand.class.getName());
+
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]";
+    private static final String SHORT_DESCRIPTION = "Edits a pet's name, species, and/or age.";
+    private static final String LONG_DESCRIPTION = "Updates the details of an existing pet in the list." +
+            " Specify the pet to edit using n/OLD_NAME. Optionally" +
+            " provide nn/NEW_NAME, s/SPECIES, and/or a/AGE to update one or more fields.";
+    private static final List<String> CATEGORIES = List.of("Pet");
+    // @@author
+
     private final PetList pets;
 
     /**
@@ -33,7 +47,7 @@ public class EditPetCommand implements Command {
         assert pets != null : "Pet list must not be null";
 
         try {
-            Parsed p = parseArgs(args);
+            EditPetArgs p = EditPetParser.parse(args);
             if (!p.valid) {
                 printUsage();
                 LOGGER.log(Level.WARNING, "Invalid args for edit-pet: \"{0}\"", args);
@@ -99,54 +113,29 @@ public class EditPetCommand implements Command {
         }
     }
 
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
+
     private void printUsage() {
         System.out.println("Usage: edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]");
-    }
-
-    private Parsed parseArgs(String args) {
-        Parsed p = new Parsed();
-        if (args == null) {
-            p.valid = false;
-            return p;
-        }
-
-        String oldName = null;
-        String newName = null;
-        String species = null;
-        Integer age = null;
-
-        String[] tokens = args.split("\\s+(?=nn/|n/|s/|a/)");
-        for (String t : tokens) {
-            if (t.startsWith("n/")) {
-                oldName = t.substring(2).trim();
-            } else if (t.startsWith("nn/")) {
-                newName = t.substring(3).trim();
-            } else if (t.startsWith("s/")) {
-                species = t.substring(2).trim();
-            } else if (t.startsWith("a/")) {
-                String a = t.substring(2).trim();
-                if (!a.isEmpty()) {
-                    age = Integer.parseInt(a);
-                }
-            }
-        }
-
-        p.oldName = oldName;
-        p.newName = newName;
-        p.species = species;
-        p.age = age;
-        p.valid = oldName != null && !oldName.isEmpty() &&
-                (newName != null && !newName.isEmpty()
-                        || species != null && !species.isEmpty()
-                        || age != null);
-        return p;
-    }
-
-    private static final class Parsed {
-        String oldName;
-        String newName;
-        String species;
-        Integer age;
-        boolean valid;
     }
 }

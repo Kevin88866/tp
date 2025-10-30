@@ -1,18 +1,18 @@
 @startuml
 skinparam classAttributeIconSize 0
+hide circle
 title ListAllTreatmentsCommand Class Diagram
 
 ' =====================
 ' Classes
 ' =====================
 
-class Command {
+interface "<<interface>>\nCommand" as Command {
     + exec(args : String) : void
 }
 
 class ListAllTreatmentsCommand {
-    - LOGGER : Logger
-    - pets : PetList
+    - {static} LOGGER : Logger
     + ListAllTreatmentsCommand(pets : PetList)
     + exec(args : String) : void
 }
@@ -25,9 +25,9 @@ class PetList {
 
 class Pet {
     - name : String
-    - treatments : List<Treatment>
+    - treatments : ArrayList<Treatment>
     + getName() : String
-    + getTreatments() : List<Treatment>
+    + getTreatments() : ArrayList<Treatment>
 }
 
 class Treatment {
@@ -41,12 +41,18 @@ class Treatment {
     + toString() : String
 }
 
+class Ui {
+    + printHeader(header : String) : void
+    + printList(list : ArrayList<T>) : void
+}
+
 ' =====================
 ' Relationships
 ' =====================
 
-ListAllTreatmentsCommand -|> Command
+ListAllTreatmentsCommand .|> Command
 ListAllTreatmentsCommand --> PetList
-PetList "1" -> "*" Pet : contains
-Pet "1" --> "*" Treatment : has
+ListAllTreatmentsCommand --> Ui
+PetList "1" *-- "*" Pet : contains >
+Pet "1" *-- "*" Treatment : has >
 @enduml
