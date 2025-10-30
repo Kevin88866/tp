@@ -18,12 +18,14 @@ encapsulated in its own class implementing the `Command` interface.
 `AddPetCommand` depends on the `PetList` object, which stores all registered
 pets. Each `Pet` object maintains information about its name, species, and age.
 
+![AddPetCommand Sequence Diagram](diagrams/AddPetCommand_Sequence_Diagram.png)
+
 When executed, the command performs the following steps:
 1. Parses user input to extract the pet's name (`n/`), species (`s/`), and
 age (`a/`)
 2. Validates the input fields
 3. Creates a new `Pet` object with the parsed parameters
-4. Adds the new pet to the pet list using `addPet()`
+4. Adds the new pet to the pet list using `add()`
 5. Handles duplicates and disregards the addition of the
 pet if the duplicate exists
 6. Displays and logs activity
