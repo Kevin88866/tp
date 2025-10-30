@@ -2,12 +2,12 @@
 title ListPetTreatmentsCommand Sequence Diagram
 
 actor User
-participant "CuddleCare" as CuddleCare
-participant "Parser" as Parser
-participant "ListPetTreatmentsCommand" as Command
-participant "PetList" as PetList
-participant "Pet" as Pet
-participant "Ui" as Ui
+participant ":CuddleCare" as CuddleCare
+participant ":Parser" as Parser
+participant ":ListPetTreatmentsCommand" as Command
+participant ":PetList" as PetList
+participant ":Pet" as Pet
+participant "<<class>>\nUi" as Ui
 
 
 User -> CuddleCare: list-treatments n/Milo
