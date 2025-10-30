@@ -20,6 +20,7 @@ import seedu.cuddlecare.command.impl.UnmarkTreatmentCommand;
 import seedu.cuddlecare.command.impl.HelpCommand;
 import seedu.cuddlecare.config.LoggingConfigurator;
 import seedu.cuddlecare.parser.Parser;
+import seedu.cuddlecare.storage.Storage;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -61,12 +62,18 @@ public class CuddleCare {
     private final PetList pets = new PetList();
 
     /**
+     * Save file for pet and treatment information.
+     */
+    private final Storage storage = new Storage("data/cuddlecare_save.txt", pets);
+
+    /**
      * Constructs a new CuddleCare application.
      * Initializes the parser.
      */
     CuddleCare() {
         parser = new Parser();
         assert parser != null : "Parser cannot be null";
+        storage.load();
     }
 
     /**
@@ -109,8 +116,10 @@ public class CuddleCare {
             }
             LOGGER.log(Level.INFO, "Executing command: " + command.getClass().getSimpleName());
             command.exec("");
+            storage.save();
             printInputPrompt();
         }
+
         sc.close();
         LOGGER.log(Level.INFO, "Scanner closed, application loop ended");
     }
