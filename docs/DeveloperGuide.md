@@ -311,6 +311,8 @@ When executed, the command iterates through each `Pet` in the `PetList`, retriev
 and formats them into displayable strings. The command then sorts all treatments by their dates in
 ascending order before printing them to the console.
 
+
+
 ### Feature: List All Treatments of a pet
 #### Design
 
@@ -328,8 +330,26 @@ When the command is executed:
 4. displays the list of treatments in a numbered format. If the pet has no logged treatments,
    or if the pet is not found, the command prints a message.
 
-### Feature: Add Treatment Note
-{add details here}
+The sequence diagram is given below to show the execution of the list all treatments of a pet command.
+![ListPetTreatmentsCommand sequence diagram](diagrams/ListPetTreatmentsCommand_Sequence_Diagram.png)
+
+### Feature: Summary of Completed Treatments
+
+The figure below shows how the `SummaryCommand` interacts with other key classes in the system.
+![SummaryCommand class diagram](diagrams/SummaryCommand_Class_Diagram.png)
+
+When the command is executed:
+
+1. user input is parsed to extract the date range using the `DateUtils` class.
+2. validates the date range to ensure that the fromDate is not after the toDate.
+3. iterates through the list of pets in the PetList and collects all Treatment records that:
+   * Fall within the specified date range, and
+   * Have been marked as completed
+4. displays the summary report using the Ui class
+
+The sequence diagram is given below to show the execution of the summary command.
+![SummaryCommand sequence diagram](diagrams/SummaryCommand_Sequence_Diagram.png)
+
 
 ### Feature: Group Treatments by type
 ![GroupTreatmentsByTypeCommand Class Diagram](diagrams/GroupTreatmentsByTypeCommand_Class_Diagram.png)

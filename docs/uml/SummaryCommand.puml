@@ -1,7 +1,7 @@
 @startuml
 skinparam classAttributeIconSize 0
 hide circle
-title ListPetTreatmentsCommand Class Diagram
+title SummaryCommand Class Diagram
 
 ' =====================
 ' Classes
@@ -11,16 +11,14 @@ interface "<<interface>>\nCommand" as Command {
     + exec(args : String) : void
 }
 
-class ListPetTreatmentsCommand {
+class SummaryCommand {
     - {static} LOGGER : Logger
-    + ListPetTreatmentsCommand(pets : PetList)
+    + SummaryCommand(pets : PetList)
     + exec(args : String) : void
 }
 
 class PetList {
-    + getPetByName(name : String) : Pet
-    + size() : int
-    + get(index : int) : Pet
+    + stream() : Stream<Pet>
 }
 
 class Pet {
@@ -41,6 +39,11 @@ class Treatment {
     + toString() : String
 }
 
+class DateUtils {
+    + {static} parseDateRange(args : String) : Map<String, LocalDate>
+    + {static} isDateValid(fromDate : LocalDate, toDate : LocalDate, syntax: String) : boolean
+}
+
 class Ui {
     + printHeader(header : String) : void
     + printList(list : ArrayList<T>) : void
@@ -50,9 +53,10 @@ class Ui {
 ' Relationships
 ' =====================
 
-ListPetTreatmentsCommand .|> Command
-ListPetTreatmentsCommand --> PetList
-ListPetTreatmentsCommand --> Ui
+SummaryCommand .|> Command
+SummaryCommand --> PetList
+SummaryCommand --> Ui
+SummaryCommand --> DateUtils
 PetList "1" *-- "*" Pet : contains >
 Pet "1" *-- "*" Treatment : has >
 @enduml
