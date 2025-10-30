@@ -38,8 +38,7 @@ else valid input
         AddPetCommand --> CuddleCare : print "A pet with that name already exists."
 
     else pet added
-        AddPetCommand -> CuddleCare : print "<name> has been successfully added."
-        AddPetCommand --> CuddleCare : (command completed)
+        AddPetCommand --> CuddleCare : print "<name> has been successfully added."
     end
 end
 
