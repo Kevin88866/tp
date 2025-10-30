@@ -6,6 +6,7 @@ import seedu.cuddlecare.Treatment;
 import seedu.cuddlecare.command.Command;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 /**
@@ -16,6 +17,17 @@ import java.util.logging.Level;
 public class DeleteTreatmentCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(DeleteTreatmentCommand.class.getName());
+
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "delete-treatment n/PET_NAME i/INDEX";
+    private static final String SHORT_DESCRIPTION = "Deletes a treatment for a specific pet";
+    private static final String LONG_DESCRIPTION = "Removes the treatment at the " +
+            "given index from the specified pet’s treatment list. " +
+            "Use 'list-treatments n/PET_NAME' to view treatment " +
+            "indexes before deleting.";
+    private static final List<String> CATEGORIES = List.of("Treatment");
+    // @@author
     
     private final PetList pets;
 
@@ -107,4 +119,26 @@ public class DeleteTreatmentCommand implements Command {
             System.out.println("Unable to delete the treatment. Please try again.");
         }
     }
+
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
 }

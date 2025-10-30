@@ -4,6 +4,7 @@ import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,10 +25,14 @@ public class DeletePetCommand implements Command {
      */
     private static final Logger LOGGER = Logger.getLogger(DeletePetCommand.class.getName());
 
-    /**
-     * Syntax help message displayed on incorrect usage.
-     */
+
     private static final String SYNTAX = "delete-pet n/<pet name>";
+    private static final String SHORT_DESCRIPTION = "Deletes a pet from the application by name";
+    private static final String LONG_DESCRIPTION = "Removes a pet from the PetList " +
+            "based on its name. If the pet exists, it will be " +
+            "removed and a confirmation message will be displayed. " +
+            "If the pet does not exist, an error message is shown.";
+    private static final List<String> CATEGORIES = List.of("Pet");
 
     /**
      * The list of pets to operate on.
@@ -60,6 +65,7 @@ public class DeletePetCommand implements Command {
      *
      * @param args the command arguments in the form <code>n/&lt;pet name&gt;</code>
      */
+    @Override
     public void exec(String args) {
         LOGGER.log(Level.INFO, "Executing DeletePetCommand with args: " + args);
 
@@ -92,6 +98,26 @@ public class DeletePetCommand implements Command {
 
         LOGGER.log(Level.INFO, String.format("Deleted pet: %s (%s, %d)",
                 pet.getName(), pet.getSpecies(), pet.getAge()));
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
     }
 
     /**

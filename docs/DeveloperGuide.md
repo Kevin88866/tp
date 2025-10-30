@@ -120,6 +120,65 @@ list-pets
 **Logging**
 - INFO on command entry/exit; FINE for iteration count.
 
+### Feature: Add Treatment
+The diagram below shows how the AddTreatmentCommand class interacts with other components in the system.
+
+![AddTreatmentCommand_Class_Diagram.png](Diagrams/AddTreatmentCommand_Class_Diagram.png)
+
+The design follows a command-based architecture, where each command is encapsulated in its own class implementing the
+Command interface. AddTreatmentCommand depends on the PetList object, which stores all registered pets. Each Pet object
+maintains a list of Treatment objects.
+
+When executed, the command:
+
+1. Parses user input to extract the pet name (`n/`), treatment name (`t/`), and date (`d/`)
+2. Retrieves the corresponding Pet object from the PetList using `getPetByName()`
+3. Validates the date format using `LocalDate.parse()`
+4. Creates a new Treatment object with the validated parameters
+5. Adds the treatment to the pet's treatment list via `addTreatment()`
+6. Displays a confirmation message or error if validation fails
+
+The command validates all inputs before modifying the pet's treatment list. If the pet is not found or the date format
+is invalid, appropriate error messages are displayed.
+
+### Feature: Delete Treatment
+The figure below shows how the DeleteTreatmentCommand interacts with other key classes in the system.
+
+![DeleteTreatmentCommand_Class_Diagram.png](Diagrams/DeleteTreatmentCommand_Class_Diagram.png)
+
+The DeleteTreatmentCommand follows a command-based architecture, where each command is encapsulated in its own class
+implementing the Command interface.
+
+When the command is executed:
+1. User input is parsed to extract the pet's name (`n/`) and treatment index (`i/`)
+2. Command retrieves the corresponding Pet object from the PetList using `getPetByName()`
+3. Validates that the index is within valid bounds
+4. Converts the 1-based user index to 0-based array index
+5. Removes the treatment from the pet's list using `removeTreatment()`
+6. Displays a confirmation message with the deleted treatment's name
+
+If the pet is not found or the index is invalid, the command prints an appropriate error message.
+
+#### Design Considerations
+
+Alternative 1 (current choice): Use index-based deletion.
+
+Pros:
+* Always deletes exactly one specific treatment.
+* Easier for user to type out.
+
+Cons:
+* Requires users to know or look up the index.
+
+Alternative 2: Use treatment name for deletion.
+
+Pros:
+* More intuitive for users who remember treatment names.
+
+Cons:
+* Ambiguous when multiple treatments have similar names.
+* Requires additional confirmation steps.
+
 ### Feature: Find Treatment
 The FindCommand allows users to search for treatments across all pets by matching a keyword against treatment names. 
 The search is case-insensitive and uses substring matching.
@@ -175,64 +234,6 @@ When the command is executed:
 5. For each pet, the command iterates through its treatments 
 6. Each treatment's date is checked against the date range (inclusive)
 7. Matching treatments are collected and displayed to the user
-
-### Feature: Add Treatment
-The diagram below shows how the AddTreatmentCommand class interacts with other components in the system.
-
-![AddTreatmentCommand-AddTreatmentCommand_Class_Diagram.png](Diagrams/AddTreatmentCommand-AddTreatmentCommand_Class_Diagram.png)
-
-The design follows a command-based architecture, where each command is encapsulated in its own class implementing the 
-Command interface. AddTreatmentCommand depends on the PetList object, which stores all registered pets. Each Pet object 
-maintains a list of Treatment objects.
-
-When executed, the command:
-
-1. Parses user input to extract the pet name (`n/`), treatment name (`t/`), and date (`d/`)
-2. Retrieves the corresponding Pet object from the PetList using `getPetByName()`
-3. Validates the date format using `LocalDate.parse()`
-4. Creates a new Treatment object with the validated parameters 
-5. Adds the treatment to the pet's treatment list via `addTreatment()`
-6. Displays a confirmation message or error if validation fails
-
-The command validates all inputs before modifying the pet's treatment list. If the pet is not found or the date format 
-is invalid, appropriate error messages are displayed.
-
-### Feature: Delete Treatment
-The figure below shows how the DeleteTreatmentCommand interacts with other key classes in the system.
-
-![DeleteTreatmentCommand-DeleteTreatmentCommand_Class_Diagram.png](Diagrams/DeleteTreatmentCommand-DeleteTreatmentCommand_Class_Diagram.png)
-
-The DeleteTreatmentCommand follows a command-based architecture, where each command is encapsulated in its own class 
-implementing the Command interface.
-
-When the command is executed:
-1. User input is parsed to extract the pet's name (`n/`) and treatment index (`i/`)
-2. Command retrieves the corresponding Pet object from the PetList using `getPetByName()`
-3. Validates that the index is within valid bounds 
-4. Converts the 1-based user index to 0-based array index 
-5. Removes the treatment from the pet's list using `removeTreatment()`
-6. Displays a confirmation message with the deleted treatment's name
-
-If the pet is not found or the index is invalid, the command prints an appropriate error message.
-
-#### Design Considerations
-
-Alternative 1 (current choice): Use index-based deletion.
-Pros: 
-* Always deletes exactly one specific treatment. 
-* Easier for user to type out.
-
-Cons: 
-* Requires users to know or look up the index.
-
-Alternative 2: Use treatment name for deletion.
-
-Pros: 
-* More intuitive for users who remember treatment names.
-
-Cons: 
-* Ambiguous when multiple treatments have similar names. 
-* Requires additional confirmation steps.
 
 ### Feature: Mark a treatment as done
 ![MarkTreatmentCommand Class Diagram](diagrams/MarkTreatmentCommand_Class_Diagram.png)
@@ -293,9 +294,6 @@ unmark n/Milo i/2
 
 **Logging**
 - Same as `mark`.
-
-### Feature: Filter Treatment by Date
-{add details here}
 
 ### Feature: List All Treatments across all pets
 #### Design

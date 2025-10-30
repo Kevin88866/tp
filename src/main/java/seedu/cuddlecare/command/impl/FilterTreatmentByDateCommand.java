@@ -9,6 +9,7 @@ import seedu.cuddlecare.ui.Ui;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -24,6 +25,16 @@ import java.util.logging.Level;
 public class FilterTreatmentByDateCommand implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(FilterTreatmentByDateCommand.class.getName());
+
+
+    // @@author HarshitSrivastavaHS
+    private static final String SYNTAX = "treatment-date from/DATE to/DATE";
+    private static final String SHORT_DESCRIPTION = "Filters treatments by date range";
+    private static final String LONG_DESCRIPTION = "Displays all treatments across " +
+            "all pets that fall within the specified date " +
+            "range (inclusive of both start and end dates).";
+    private static final List<String> CATEGORIES = List.of("Treatment");
+    // @@author
 
     /**
      * A list of all pets.
@@ -85,6 +96,28 @@ public class FilterTreatmentByDateCommand implements Command {
         }
     }
 
+    // @@author HarshitSrivastavaHS
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
+    }
+    // @@author
+
     /**
      * Filters treatments across all pets within the specified date range.
      * <p>
@@ -108,9 +141,5 @@ public class FilterTreatmentByDateCommand implements Command {
             }
         }
         return filteredList;
-    }
-
-    private String getSyntax() {
-        return "treatment-date from/DATE to/DATE";
     }
 }

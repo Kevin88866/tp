@@ -8,6 +8,7 @@ import seedu.cuddlecare.command.Command;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +31,12 @@ public class OverdueTreatmentsCommand implements Command {
     private static final Logger LOGGER = Logger.getLogger(OverdueTreatmentsCommand.class.getName());
 
     private static final String SYNTAX = "overdue-treatments [n/PET_NAME]";
+    private static final String SHORT_DESCRIPTION = "Lists overdue treatments for pets";
+    private static final String LONG_DESCRIPTION = "Displays all treatments that are overdue for pets. " +
+            "You can optionally provide a pet name to view overdue treatments" +
+            " for a specific pet only. A treatment is considered overdue" +
+            " if it is not completed and its scheduled date is before today.";
+    private static final List<String> CATEGORIES = List.of("Treatment");
 
     private final PetList pets;
 
@@ -74,6 +81,7 @@ public class OverdueTreatmentsCommand implements Command {
      *
      * @param args the command arguments
      */
+    @Override
     public void exec(String args) {
         assert args != null : "args cannot be null";
 
@@ -97,6 +105,26 @@ public class OverdueTreatmentsCommand implements Command {
         Map<Pet, ArrayList<Treatment>> overdueTreatments = getOverdueTreatments(targetPet, presentDate);
 
         printOverdueTreatments(overdueTreatments, pet, presentDate);
+    }
+
+    @Override
+    public String getSyntax() {
+        return SYNTAX;
+    }
+
+    @Override
+    public String getLongDescription() {
+        return LONG_DESCRIPTION;
+    }
+
+    @Override
+    public String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    @Override
+    public List<String> getCategory() {
+        return CATEGORIES;
     }
 
     private Map<Pet, ArrayList<Treatment>> getOverdueTreatments(Stream<Pet> targetPet, LocalDate presentDate) {
