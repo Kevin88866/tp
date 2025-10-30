@@ -337,9 +337,10 @@ list-all-treatments
 
 **Notes**
 * If no treatments: `No treatments logged.` will be displayed.
+
 ---
 
-### List a Pet's Treatments — `list-treatments n/PET_NAME`
+### List a Pet's Treatments — `list-treatments`
 Lists all treatments specific to a pet.
 
 **Format**
@@ -361,10 +362,11 @@ snoopy has no logged treatments.
 **Notes**
 * If no treatments: `<PET_NAME> has no logged treatments.` will be displayed.
 * If pet is not found: `Pet not found: <PET_NAME>` will be displayed.
-* Pet name is not case-sensitive!
+* Pet name is not case-sensitive.
+
 ---
 
-### Summary of completed treatments — `summary from/FROM_DATE to/TO_DATE`
+### Summary of completed treatments — `summary`
 Displays a summary of all completed treatments within a specific date range.
 
 **Format**
