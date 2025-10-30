@@ -330,7 +330,7 @@ list-all-treatments
 
 ---
 
-### List a Pet's Treatments — `list-treatments n/PET_NAME`
+### List a Pet's Treatments — `list-treatments`
 Lists all treatments specific to a pet.
 
 **Format**
