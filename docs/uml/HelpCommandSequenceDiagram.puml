@@ -1,5 +1,7 @@
 @startuml
 
+title HelpCommand Sequence Diagram
+
 participant ":CuddleCare" as CuddleCare
 participant ":HelpCommand" as Help
 participant "<<class>>\nUi" as Ui

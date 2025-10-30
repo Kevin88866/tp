@@ -390,7 +390,38 @@ group-treatments-by-type
 ### Feature: Summary
 {add details here}
 
-### Feature: Help to view all commands
+### Feature: Help Command
+![HelpCommand Class Diagram](diagrams/HelpCommand_Class_Diagram.png)  
+The HelpCommand provides users with guidance on available commands in the application. It can either display all commands grouped by category or show detailed information for a specific command using the optional `c/COMMAND_NAME` argument.
+
+This feature follows the **Command Pattern**, encapsulating all help-related logic in its own class that implements the `Command` interface. The HelpCommand depends on a map of all commands (`Map<String, Command>`) that is set via `setCommands(Map)`.
+
+**Execution flow**:
+![HelpCommand Sequence Diagram](diagrams/HelpCommand_Sequence_Diagram.png)
+1. The command is executed via `exec(String args)`.
+2. Parses optional argument `c/COMMAND_NAME` to determine if help for a specific command is requested.
+3. Validates the argument:
+    - If the syntax is invalid, prints the help command syntax.
+    - If a specific command is requested but not found, prints an error message.
+4. If a valid command name is provided, prints detailed information including:
+    - Command name
+    - Category
+    - Long description
+    - Syntax
+5. If no command name is provided, prints all commands grouped by their category, respecting a predefined order (`General`, `Pet`, `Treatment`) and sorting remaining categories alphabetically.
+
+**Design Considerations**:
+
+- Uses **Dependency Injection** to receive the `commandsMap`, making it testable.
+- Categorizes commands dynamically using streams and collectors.
+- Supports optional arguments via a tag-based parsing mechanism (`c/COMMAND_NAME`).
+- Logs command execution, invalid syntax, and missing commands for monitoring.
+
+**Logging**:
+
+- `INFO` on command execution, printing all commands or specific command.
+- `INFO` on invalid syntax or missing command.
+- Maintains clear separation of concerns between argument parsing, categorization, and printing.
 
 ### Feature: Exit
 {add details here}
