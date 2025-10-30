@@ -1,11 +1,12 @@
 @startuml
 title ListPetsCommand Sequence Diagram
 actor User
-participant CuddleCare
-participant Parser
-participant CommandWithArguments as CWA
-participant ListPetsCommand as LPC
-participant PetList
+participant ":CuddleCare" as CuddleCare
+participant ":Parser" as Parser
+participant ":CommandWithArguments" as CWA
+participant ":ListPetsCommand" as LPC
+participant ":PetList" as PetList
+participant ":Ui" as Ui
 
 User -> CuddleCare : "list pets"
 activate CuddleCare
@@ -27,9 +28,10 @@ alt empty
 else non-empty
   LPC --> CWA : "Here are your pets..."
 end
+  LPC --> Ui : prints
 deactivate LPC
 CWA --> CuddleCare : return
 deactivate CWA
-CuddleCare --> User : prints
+Ui --> User : prints
 deactivate CuddleCare
 @enduml
