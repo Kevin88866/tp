@@ -4,6 +4,7 @@ import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
 import seedu.cuddlecare.command.Command;
+import seedu.cuddlecare.ui.Ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,9 +85,9 @@ public class FindTreatmentCommand implements Command {
                 return;
             }
 
-            System.out.println("Found " + matchingTreatments.size() +
+            Ui.printHeader("Found " + matchingTreatments.size() +
                     " treatment(s) containing: \"" + keyword + "\"");
-            matchingTreatments.forEach(System.out::println);
+            Ui.printList(matchingTreatments);
 
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Unexpected error during find treatment execution", e);
