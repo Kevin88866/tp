@@ -387,8 +387,6 @@ summary from/FROM_DATE to/TO_DATE
 
 ---
 
----
-
 ### Overdue Treatments — `overdue-treatments`
 Lists all overdue treatments for pets.
 
