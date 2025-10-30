@@ -13,6 +13,49 @@ The Architecture Diagram below explains the high-level design of CuddleCare.
 
 ![Architecture-CuddleCare_Architecture.png](Diagrams/Architecture-CuddleCare_Architecture.png)
 
+**Main Components:**
+
+`CuddleCare` is the entry point of the application.
+- Initializes all components
+- Receives user input from `Ui` and coordinates with `Parser` to create commands
+- Executes commands and manages interactions between components
+- At shutdown, triggers data storage through `Storage`
+
+`Ui`: Handles all user interactions
+- Reads user input from the command-line interface
+- Displays output messages, results, and error messages to the user
+
+`Parser`: Parses user input into executable commands
+- Interprets command strings and extracts parameters
+- Creates appropriate `Command` objects based on the command type
+- Returns the command object to `CuddleCare` for execution
+
+`Command`: Executes logic
+- Interface implemented by all command classes (e.g., `AddPetCommand`, `DeleteTreatmentCommand`)
+- Each command updates the `Model` with new data
+- Prints results and messages via `Ui`
+
+`Model`: Holds application data in memory. Some examples:
+- `PetList`: Contains all pets
+- `Pet`: Represents individual pets with name, species, and age
+- `Treatment`: Represents medical treatments with name, date, and notes
+
+`Storage`: Manages data
+- Saves application data
+- Loads existing data when the application starts
+
+**How the architecture components interact:**
+
+The sequence of interactions for a typical command (e.g., `add-pet n/Milo s/Dog a/3`) is:
+1. User enters command through `Ui`
+2. `Ui` passes the input to `CuddleCare`
+3. `CuddleCare` sends input to `Parser` for interpretation
+4. `Parser` creates and returns appropriate `Command` object
+5. `CuddleCare` executes the `Command`
+6. `Command` updates `Model` with new data
+7. `Command` prints success/error message via `Ui`
+8. `CuddleCare` triggers `Storage` to save changes
+
 ### Feature: Add Pet
 The diagram below shows how the `AddPetCommand` class interacts with other
 components in the system.
