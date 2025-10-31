@@ -10,7 +10,7 @@ The app aims to make pet care organized and stress-free, combining structured da
 
 ## Summary of Contributions
 
-[:link: View my contributions on RepoSense](https://nus-cs2113-ay2526s1.github.io/tp-dashboard/?search=HarshitSrivastavaHS&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByAuthors&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&filteredFileName=)
+[View my code contributions on RepoSense](https://nus-cs2113-ay2526s1.github.io/tp-dashboard/?search=HarshitSrivastavaHS&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByAuthors&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&filteredFileName=)
 
 ### **1. System Architecture Foundations**
 
