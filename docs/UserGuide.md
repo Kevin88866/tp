@@ -525,8 +525,8 @@ bye
 * Mark a Treatment as Done `mark n/PET_NAME i/INDEX`
 * Unmark a Treatment `unmark n/PET_NAME i/INDEX`
 * Group Treatments by Type `group-treatments [n/PET_NAME]`
-* Filter Treatments by Date `filter-treatment from/FROM_DATE to/TO_DATE`
-* Find Treatment `find-treatment KEYWORD`
+* Filter Treatments by Date `treatment-date from/FROM_DATE to/TO_DATE`
+* Find Treatment `find KEYWORD`
 * List All Treatments `list-all-treatments`
 * List a Pet's Treatments `list-treatments n/PET_NAME`
 * Completed Treatment Summary `summary from/FROM_DATE to/TO_DATE`
