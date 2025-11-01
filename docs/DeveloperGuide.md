@@ -706,7 +706,7 @@ organized and ensuring pets stay healthy and happy.
 
 **Delete a pet**
 1. `add-pet n/Milo s/Dog a/2`
-1. `list-pet` - verify it was added
+1. `list-pets` - verify it was added
 1. `delete-pet n/Milo`
 1. `list-pets` - verify it's deleted
 
