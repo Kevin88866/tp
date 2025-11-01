@@ -1,9 +1,5 @@
 # User Guide
 
-## Introduction
-
-{Give a product intro}
-
 ## Quick Start
 
 - **Java**: Ensure Java 17+.
@@ -69,9 +65,6 @@ Here are your pets:
 - Output uses **1-based index**.
 - Command word is **`list-pets`** (with a dash).
 
-**Screenshot**
-![List Pets](./docs/diagrams/ug-list-pets.png)
-
 ---
 
 ### Edit Pet — `edit-pet`
@@ -98,8 +91,37 @@ edit-pet n/Luna s/Cat a/3
 - If no optional field is provided, command is invalid (nothing to change).
 - Usage help (on invalid input): `Usage: edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]`.
 
-**Screenshot**
-![Edit Pet (before/after)](./docs/diagrams/ug-edit-pet-before-after.png)
+---
+
+### Delete Pet — `delete-pet`
+Deletes a pet from the tracker by **name**.
+
+**Format**
+
+delete-pet n/PET_NAME
+
+* **n/** *(required)*: the name of the pet to delete
+
+**Examples**
+
+    delete-pet n/Peanut
+    Successfully removed Peanut (Golden Retriever, 7) from the list.
+
+    delete-pet n/Unknown
+    No Pet named "Unknown" exists
+
+
+**Notes**
+* The pet name must **match exactly** (case-insensitive) with an existing pet in the tracker.
+* If no `n/` flag is provided or syntax is malformed:
+
+Invalid Syntax: delete-pet n/<pet name>
+
+* If the pet cannot be found, an error message is displayed.
+* If deletion fails unexpectedly, the following message appears:
+```
+Something went wrong. Could not delete the pet
+```
 
 ---
 
@@ -176,9 +198,6 @@ Index: 2
 - If pet not found / index invalid: an error message is shown.
 - Marking toggles the status in subsequent listings as `[X]` (done).
 
-**Screenshot**
-![Mark](./docs/diagrams/ug-mark.png)
-
 ---
 
 ### Unmark a Treatment — `unmark`
@@ -197,9 +216,6 @@ Pet: Milo
 Index: 2
 ```
 - On malformed args or non-integer index, usage help is shown: `Usage: unmark n/PET_NAME i/INDEX`.
-
-**Screenshot**
-![Unmark](./docs/diagrams/ug-unmark.png)
 
 ---
 
@@ -229,9 +245,6 @@ group-treatments n/PET_NAME
 - If pet not found: `No such pet: <name>`.
 - If pet has no treatments: `No treatments for <name> to group.`
 
-**Screenshot**
-![Group by Type (per pet)](./docs/diagrams/ug-group-by-type-pet.png)
-
 ### Across all pets
 **Format**
 ```
@@ -248,9 +261,6 @@ group-treatments
 == Vaccine ==
 1. Milo: [ ] Vaccine A on 2024-01-10
 ```
-
-**Screenshot**
-![Group by Type (all pets)](./docs/diagrams/ug-group-by-type-all.png)
 
 ---
 
@@ -327,9 +337,10 @@ list-all-treatments
 
 **Notes**
 * If no treatments: `No treatments logged.` will be displayed.
+
 ---
 
-### List a Pet's Treatments — `list-treatments n/PET_NAME`
+### List a Pet's Treatments — `list-treatments`
 Lists all treatments specific to a pet.
 
 **Format**
@@ -351,10 +362,11 @@ snoopy has no logged treatments.
 **Notes**
 * If no treatments: `<PET_NAME> has no logged treatments.` will be displayed.
 * If pet is not found: `Pet not found: <PET_NAME>` will be displayed.
-* Pet name is not case-sensitive!
+* Pet name is not case-sensitive.
+
 ---
 
-### Summary of completed treatments — `summary from/FROM_DATE to/TO_DATE`
+### Summary of completed treatments — `summary`
 Displays a summary of all completed treatments within a specific date range.
 
 **Format**
@@ -377,19 +389,148 @@ summary from/FROM_DATE to/TO_DATE
 
 ---
 
-## FAQ
+### Overdue Treatments — `overdue-treatments`
+Lists all overdue treatments for pets.
 
-**Q**: How do I transfer my data to another computer? 
+**Format**
 
-**A**: {your answer here}
+overdue-treatments [n/PET_NAME]
+
+
+* **n/PET_NAME** *(optional)* — filters overdue treatments for a specific pet.  
+  If omitted, the command displays overdue treatments for **all pets**.
+
+**Description**
+Displays all treatments that are **overdue**, i.e. those that:
+* Are **not marked as completed**, and
+* Have a **scheduled date before today**.
+
+If no pets have overdue treatments, a message confirming that is displayed.
+
+---
+
+**Examples**
+
+    overdue-treatments
+    Overdue Treatments:
+    Bella: "Vaccination" was due on 2023-10-10 (overdue for 5 days)
+    Luna: "Check-up" was due on 2023-10-09 (overdue for 6 days)
+
+    overdue-treatments n/Bella
+    Overdue Treatments for Bella:
+    "Vaccination" was due on 2023-10-10 (overdue for 5 days)
+
+    overdue-treatments n/Max
+    No pet found with the name: Max
+
+    overdue-treatments n/
+    Invalid arguments provided.
+    Syntax: overdue-treatments [n/PET_NAME]
+
+
+---
+
+**Notes**
+* A treatment is **overdue** only if:
+    - It is **not completed** (`isCompleted = false`)
+    - Its **date is before today** (`t.getDate().isBefore(LocalDate.now())`)
+* The command automatically calculates how many days each treatment is overdue.
+* Works for either:
+    - **All pets** (`overdue-treatments`)
+    - **A specific pet** (`overdue-treatments n/<pet name>`)
+* Displays friendly messages when:
+    - No pets exist in the system
+    - The selected pet has no overdue treatments
+    - An invalid or non-existent pet name is provided
+
+---
+
+### Help — `help`
+Displays information about available commands in the **CuddleCare** application.
+
+**Format**
+
+help [c/COMMAND_NAME]
+
+* **c/COMMAND_NAME** *(optional)*: shows detailed information about a specific command.
+
+**Examples**
+
+    help
+    Here is the list of all commands supported by the application:
+
+    General
+    bye: Exits the application
+    help: Displays All Commands
+
+    Pet
+    add-pet: Adds a new pet to the tracker
+    delete-pet: Deletes a pet from the application by name
+
+    Run "help [c/COMMAND_NAME]" to find out more about a command.
+
+    help c/delete-pet
+    Command Name: delete-pet
+    Category: Pet
+    Description: Removes a pet from the PetList based on its name.
+    Syntax: delete-pet n/<pet name>
+
+    *[t/tag] means tag is an optional argument.
+
+
+**Notes**
+* Running `help` without arguments lists **all commands**, grouped by category.
+* Using the `c/` tag shows **detailed information** for a specific command.
+* If an invalid tag or command name is used:
+
+```
+Invalid Syntax.
+help [c/COMMAND_NAME]
+```
+or
+```
+Command "xyz" not found. Run "help" for a list of all available commands.
+```
+
+---
+
+### Bye Command - `bye`
+Exits the **CuddleCare** application safely.
+
+**Format**
+```
+bye
+```
+
+
+**Example**
+
+    bye
+    Bye bye, Have a wonderful day ahead :)
+
+
+**Notes**
+* This command **terminates the program** immediately after displaying the farewell message.
+* It does **not accept any arguments** — typing anything after `bye` (e.g., `bye now`) will be treated as invalid input.
+* All data up to the last valid command is already saved automatically before exit.
+
+---
 
 ## Command Summary
 
 * List Pets `list-pets`
 * Edit Pet `edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]`
+* Add Treatment `add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE [note/NOTE]`
+* Delete Treatment `delete-treatment n/PET_NAME i/INDEX`
 * Mark a Treatment as Done `mark n/PET_NAME i/INDEX`
 * Unmark a Treatment `unmark n/PET_NAME i/INDEX`
 * Group Treatments by Type `group-treatments [n/PET_NAME]`
+* Filter Treatments by Date `filter-treatment from/FROM_DATE to/TO_DATE`
+* Find Treatment `find-treatment KEYWORD`
 * List All Treatments `list-all-treatments`
 * List a Pet's Treatments `list-treatments n/PET_NAME`
 * Completed Treatment Summary `summary from/FROM_DATE to/TO_DATE`
+* Help `help [c/COMMAND_NAME]`
+* Delete pet `delete-pet n/PET_NAME`
+* Overdue Treatments `overdue [n/PET_NAME]`
+* Exit `bye`
