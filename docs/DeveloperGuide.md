@@ -720,8 +720,8 @@ organized and ensuring pets stay healthy and happy.
 1. `add-treatment n/Milo t/Checkup d/2025-10-08`
 1. `add-treatment n/Milo t/Something d/2026-10-07`
 1. `overdue-treatments` - verify only the first two treatments are shown
-1. `mark n/Milo i/0`
-1. `overdue-treatments` - verify only the first treatment is shown
+1. `mark n/Milo i/1`
+1. `overdue-treatments` - verify only the "Checkup" treatment is shown
 
 **Bye Command**
 1. Type `bye` in the CLI
