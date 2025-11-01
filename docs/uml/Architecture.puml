@@ -16,7 +16,7 @@ rectangle CuddleCare_System {
     component Storage
 }
 
-storage "data.txt"
+storage "cuddlecare_save.txt"
 
 User -down-> Ui : Input actions
 Ui -up-> User : Display output
@@ -32,7 +32,7 @@ CuddleCare -right-> Storage : Read/Write
 Command -up-> Ui : Print output
 Command -down-> Model : Update data
 
-Storage -down-> "data.txt" : Write
-"data.txt" -up-> Storage : Read
+Storage -down-> "cuddlecare_save.txt" : Write
+"cuddlecare_save.txt" -up-> Storage : Read
 
 @enduml
