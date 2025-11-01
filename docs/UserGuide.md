@@ -264,12 +264,12 @@ group-treatments
 
 ---
 
-### Filter Treatment by Date — `filter-treatment`
+### Filter Treatment by Date — `treatment-date`
 Displays all treatments that fall within a specified date range across all pets.
 
 **Format**
 ```
-filter-treatment from/FROM_DATE to/TO_DATE
+treatment-date from/FROM_DATE to/TO_DATE
 ```
 * from/ (required): start date in yyyy-MM-dd format 
 * to/ (required): end date in yyyy-MM-dd format 
@@ -277,7 +277,7 @@ filter-treatment from/FROM_DATE to/TO_DATE
 
 **Example**
 ```
-> filter-treatment from/2025-11-01 to/2025-11-30
+> treatment-date from/2025-11-01 to/2025-11-30
 Treatments between 2025-11-01 and 2025-11-30:
 1. Annual Vaccine (Luna) - 2025-11-15
 2. Dental Checkup (Milo) - 2025-11-22
@@ -289,26 +289,26 @@ If no treatments in range: `No treatments found between <FROM_DATE> and <START_D
 * Start date must be before or equal to end date. 
 * If start date is after end date: `Error: Start date cannot be after end date.`
 * If date format is invalid: `Invalid date format. Please use yyyy-MM-dd format.`
-* On missing parameters: `Invalid input. Usage: filter-treatment start/START_DATE end/END_DATE.`
+* On missing parameters: `Invalid input. Usage: treatment-date start/START_DATE end/END_DATE.`
 
 ---
 
-### Find Treatment — `find-treatment`
+### Find Treatment — `find`
 Searches for treatments across all pets by keyword. The search is case-insensitive and uses substring matching.
 
 **Format**
 ```
-find-treatment KEYWORD
+find KEYWORD
 ```
 
 **Example**
 ```
-> find-treatment vaccine
+> find vaccine
 Found 2 treatments containing 'vaccine':
 1. Rabies Vaccine (Milo) - 2025-10-10
 2. Annual Vaccine (Luna) - 2025-11-15
 
-> find-treatment checkup
+> find checkup
 Found 1 treatments containing 'checkup':
 1. Regular Checkup (Milo) - 2025-09-20
 ```
