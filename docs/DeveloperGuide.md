@@ -286,7 +286,7 @@ Key operations:
 * `Pet#getTreatments()` — Gets the treatment list for each pet.
 * String comparison using `toLowerCase()` and `contains()` for matching.
 
-Command format: `find-treatment KEYWORD`
+Command format: `find KEYWORD`
 
 When the command is executed:
 
@@ -319,7 +319,7 @@ The implementation involves the following operations:
 * `Treatment#getDate()` — Retrieves the treatment date for comparison.
 * Date comparison using `LocalDate#isAfter()` and `LocalDate#isBefore()`.
 
-Command format: `filter-treatment start/START_DATE end/END_DATE`
+Command format: `treatment-date from/START_DATE to/END_DATE`
 
 When the command is executed:
 
