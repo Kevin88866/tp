@@ -725,5 +725,5 @@ organized and ensuring pets stay healthy and happy.
 
 **Bye Command**
 1. Type `bye` in the CLI
-1. The Application outputs: `Bye bye, Have a wonderful day ahead :)
+1. The Application outputs: `Bye bye, Have a wonderful day ahead :)`
 1. Application terminates.
