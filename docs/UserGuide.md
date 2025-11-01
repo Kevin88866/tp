@@ -11,9 +11,7 @@ Hello! Welcome to CuddleCare.
 >
 ```
 
-## Features 
-
----
+## Features
 
 ### Add Pet — `add-pet`
 Adds a new pet to the tracker.
