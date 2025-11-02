@@ -65,12 +65,19 @@ public class AddTreatmentCommand implements Command {
             String note = null;
             LocalDate date = null;
 
-            // Parse note first
             int noteIndex = args.indexOf("note/");
             if (noteIndex != -1) {
                 note = args.substring(noteIndex + 5).trim();
+
+                // Check if note/ is present but empty, throw error
+                if (note.isEmpty()) {
+                    throw new IllegalArgumentException("Error: Note cannot be empty when 'note/' is provided. " +
+                            "Either provide a note or omit 'note/' entirely.");
+                }
+
                 args = args.substring(0, noteIndex).trim();
             }
+
 
             String[] parts = args.split("(?=n/|t/|d/)");
 
