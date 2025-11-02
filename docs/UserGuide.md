@@ -397,7 +397,7 @@ Found 1 treatments containing 'checkup':
 
 ### List All Treatments — `list-all-treatments`
 
-Lists all treatments.
+Lists all treatments across all pets in ascending order.
 
 **Format**
 
@@ -443,6 +443,7 @@ snoopy has no logged treatments.
 
 **Notes**
 
+* The treatments listed are in the order it was added, with the latest addition at the bottom of the list.
 * If no treatments: `<PET_NAME> has no logged treatments.` will be displayed.
 * If pet is not found: `Pet not found: <PET_NAME>` will be displayed.
 * Pet name is not case-sensitive.
