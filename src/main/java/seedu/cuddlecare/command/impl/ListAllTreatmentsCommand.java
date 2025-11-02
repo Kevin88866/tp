@@ -54,7 +54,7 @@ public class ListAllTreatmentsCommand implements Command {
     public void exec(String args) {
         if (!args.isEmpty()) {
             LOGGER.log(Level.WARNING, "Invalid format.");
-            System.out.println("Invalid format. There should be no extra details after the command.");
+            Ui.println("Invalid format. There should be no extra details after the command.");
             return;
         }
         ArrayList<String> sortedTreatments = (ArrayList<String>) pets.stream()
@@ -66,7 +66,7 @@ public class ListAllTreatmentsCommand implements Command {
 
         if (sortedTreatments.isEmpty()) {
             LOGGER.log(Level.WARNING, "No treatments logged.");
-            System.out.println("No treatments logged.");
+            Ui.println("No treatments logged.");
             return;
         }
 

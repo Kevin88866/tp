@@ -21,6 +21,7 @@ import seedu.cuddlecare.command.impl.HelpCommand;
 import seedu.cuddlecare.config.LoggingConfigurator;
 import seedu.cuddlecare.parser.Parser;
 import seedu.cuddlecare.storage.Storage;
+import seedu.cuddlecare.ui.Ui;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -84,18 +85,11 @@ public class CuddleCare {
         LoggingConfigurator.setup();
         LOGGER.log(Level.INFO, "CuddleCare application started");
         initialiseCommands();
-        greet();
+        Ui.printGreetMessage();
         storage.load();
         startApplicationLoop();
     }
 
-    /**
-     * Prints a greeting message to the user.
-     */
-    void greet() {
-        System.out.println("Hello! Welcome to CuddleCare.");
-        LOGGER.log(Level.INFO, "Greeted the user");
-    }
 
     /**
      * Starts the main application loop.
@@ -104,31 +98,24 @@ public class CuddleCare {
      */
     void startApplicationLoop() {
         Scanner sc = new Scanner(System.in);
-        printInputPrompt();
+        Ui.printInputPrompt();
         while (sc.hasNextLine()) {
             String input = sc.nextLine();
             assert input != null : "Input cannot be null";
             Command command = parser.parse(input);
             if (command == null) {
                 LOGGER.log(Level.WARNING, "Received invalid or empty input");
-                printInputPrompt();
+                Ui.printInputPrompt();
                 continue;
             }
             LOGGER.log(Level.INFO, "Executing command: " + command.getClass().getSimpleName());
             command.exec("");
             storage.save();
-            printInputPrompt();
+            Ui.printInputPrompt();
         }
 
         sc.close();
         LOGGER.log(Level.INFO, "Scanner closed, application loop ended");
-    }
-
-    /**
-     * Prints the input prompt to the user.
-     */
-    void printInputPrompt() {
-        System.out.print(PROMPT_SYMBOL);
     }
 
     /**
