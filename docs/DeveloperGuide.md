@@ -1,12 +1,44 @@
 # Developer Guide
 
+- [Acknowledgements](#acknowledgements)
+- [Design](#design)
+    - [Architecture](#architecture)
+- [Implementation](#implementation)
+    - [Feature: Add Pet](#feature-add-pet)
+    - [Feature: Delete Pet](#feature-delete-pet)
+    - [Feature: Edit Pet](#feature-edit-pet)
+    - [Feature: List Pets](#feature-list-pets)
+    - [Feature: Add Treatment](#feature-add-treatment)
+    - [Feature: Delete Treatment](#feature-delete-treatment)
+    - [Feature: Find Treatment](#feature-find-treatment)
+    - [Feature: Filter Treatments By Date](#feature-filter-treatments-by-date)
+    - [Feature: Mark a Treatment as Done](#feature-mark-a-treatment-as-done)
+    - [Feature: Mark a Treatment as Not Done](#feature-mark-a-treatment-as-not-done)
+    - [Feature: List All Treatments across all Pets](#feature-list-all-treatments-across-all-pets)
+    - [Feature: List All Treatments of a Pet](#feature-list-all-treatments-of-a-pet)
+    - [Feature: Summary of Completed Treatments](#feature-summary-of-completed-treatments)
+    - [Feature: Group Treatments by Type](#feature-group-treatments-by-type)
+    - [Feature: Overdue Treatments Command](#feature-overdue-treatments-command)
+    - [Feature: Help Command](#feature-help-command)
+    - [Feature: Bye Command](#feature-bye-command)
+- [Appendix: Requirements](#appendix-requirements)
+    - [Product scope](#product-scope)
+    - [User stories](#user-stories)
+    - [Non-Functional Requirements](#non-functional-requirements)
+    - [Glossary](#glossary)
+- [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
+
+***
+
 ## Acknowledgements
 
+***
 This Developer Guide was inspired by
 the [AddressBook-Level3 (AB3) Developer Guide](https://se-education.org/addressbook-level3/DeveloperGuide.html)
 
+## Design
+
 ***
-## Design & implementation
 
 ### Architecture
 
@@ -17,37 +49,44 @@ The Architecture Diagram below explains the high-level design of CuddleCare.
 **Main Components:**
 
 `CuddleCare` is the entry point of the application.
+
 - Initializes all components
 - Receives user input from `Ui` and coordinates with `Parser` to create commands
 - Executes commands and manages interactions between components
 - At shutdown, triggers data storage through `Storage`
 
 `Ui`: Handles all user interactions
+
 - Reads user input from the command-line interface
 - Displays output messages, results, and error messages to the user
 
 `Parser`: Parses user input into executable commands
+
 - Interprets command strings and extracts parameters
 - Creates appropriate `Command` objects based on the command type
 - Returns the command object to `CuddleCare` for execution
 
 `Command`: Executes logic
+
 - Interface implemented by all command classes (e.g., `AddPetCommand`, `DeleteTreatmentCommand`)
 - Each command updates the `Model` with new data
 - Prints results and messages via `Ui`
 
 `Model`: Holds application data in memory. Some examples:
+
 - `PetList`: Contains all pets
 - `Pet`: Represents individual pets with name, species, and age
 - `Treatment`: Represents medical treatments with name, date, and notes
 
 `Storage`: Manages data
+
 - Saves application data
 - Loads existing data when the application starts
 
 **How the architecture components interact:**
 
 The sequence of interactions for a typical command (e.g., `add-pet n/Milo s/Dog a/3`) is:
+
 1. User enters command through `Ui`
 2. `Ui` passes the input to `CuddleCare`
 3. `CuddleCare` sends input to `Parser` for interpretation
@@ -57,9 +96,9 @@ The sequence of interactions for a typical command (e.g., `add-pet n/Milo s/Dog 
 7. `Command` prints success/error message via `Ui`
 8. `CuddleCare` triggers `Storage` to save changes
 
+## Implementation
 
 ***
-
 
 ### Feature: Add Pet
 
@@ -90,6 +129,7 @@ The `AddPetCommand` ensures that only valid and unique pets are added to the
 pet list. It emphasizes input validation, duplicate prevention, and
 error handling, while maintaining logging for debugging/monitoring execution.
 ***
+
 ### Feature: Delete Pet
 
 This feature is built using the Command Pattern. This design decouples the invoker
@@ -520,13 +560,19 @@ group-treatments-by-type
 ***
 
 ### Feature: Overdue Treatments Command
-![OverdueTreatmentsCommand Class Diagram](diagrams/OverdueTreatmentsCommand_Class_Diagram.png)
-The `OverdueTreatmentsCommand` displays all treatments that are overdue for pets. It can show overdue treatments for a specific pet if the pet name is provided, or for all pets if no name is given. A treatment is considered overdue if it is **not completed** and its scheduled date is **before today**.
 
-This command follows the **Command Pattern**, encapsulating all logic related to listing overdue treatments in a dedicated class implementing the `Command` interface. It depends on a `PetList` instance, injected via its constructor, and optionally allows a custom date for testing purposes.
+![OverdueTreatmentsCommand Class Diagram](diagrams/OverdueTreatmentsCommand_Class_Diagram.png)
+The `OverdueTreatmentsCommand` displays all treatments that are overdue for pets. It can show overdue treatments for a
+specific pet if the pet name is provided, or for all pets if no name is given. A treatment is considered overdue if it
+is **not completed** and its scheduled date is **before today**.
+
+This command follows the **Command Pattern**, encapsulating all logic related to listing overdue treatments in a
+dedicated class implementing the `Command` interface. It depends on a `PetList` instance, injected via its constructor,
+and optionally allows a custom date for testing purposes.
 
 **Execution flow**:
 ![OverdueTreatmentsCommand Sequence Diagram](diagrams/OverdueTreatmentsCommand_Sequence_Diagram.png)
+
 1. The command is executed via `exec(String args)`.
 2. Parses optional argument `n/PET_NAME` to determine if the user wants overdue treatments for a specific pet.
 3. Validates the argument:
@@ -547,7 +593,8 @@ This command follows the **Command Pattern**, encapsulating all logic related to
 
 - Supports both **all pets** and **single pet** modes using streams.
 - Uses **Dependency Injection** for `PetList` and optional test date.
-- Separates filtering logic (`getOverdueTreatmentsForPet`) from printing logic (`printOverdueTreatments`) for clarity and testability.
+- Separates filtering logic (`getOverdueTreatmentsForPet`) from printing logic (`printOverdueTreatments`) for clarity
+  and testability.
 - Handles empty pet list and missing pet gracefully.
 - Logs execution steps, invalid inputs, and command success for monitoring.
 
@@ -561,13 +608,19 @@ This command follows the **Command Pattern**, encapsulating all logic related to
 ***
 
 ### Feature: Help Command
-![HelpCommand Class Diagram](diagrams/HelpCommand_Class_Diagram.png)  
-The HelpCommand provides users with guidance on available commands in the application. It can either display all commands grouped by category or show detailed information for a specific command using the optional `c/COMMAND_NAME` argument.
 
-This feature follows the **Command Pattern**, encapsulating all help-related logic in its own class that implements the `Command` interface. The HelpCommand depends on a map of all commands (`Map<String, Command>`) that is set via `setCommands(Map)`.
+![HelpCommand Class Diagram](diagrams/HelpCommand_Class_Diagram.png)  
+The HelpCommand provides users with guidance on available commands in the application. It can either display all
+commands grouped by category or show detailed information for a specific command using the optional `c/COMMAND_NAME`
+argument.
+
+This feature follows the **Command Pattern**, encapsulating all help-related logic in its own class that implements the
+`Command` interface. The HelpCommand depends on a map of all commands (`Map<String, Command>`) that is set via
+`setCommands(Map)`.
 
 **Execution flow**:
 ![HelpCommand Sequence Diagram](diagrams/HelpCommand_Sequence_Diagram.png)
+
 1. The command is executed via `exec(String args)`.
 2. Parses optional argument `c/COMMAND_NAME` to determine if help for a specific command is requested.
 3. Validates the argument:
@@ -578,7 +631,8 @@ This feature follows the **Command Pattern**, encapsulating all help-related log
     - Category
     - Long description
     - Syntax
-5. If no command name is provided, prints all commands grouped by their category, respecting a predefined order (`General`, `Pet`, `Treatment`) and sorting remaining categories alphabetically.
+5. If no command name is provided, prints all commands grouped by their category, respecting a predefined order (
+   `General`, `Pet`, `Treatment`) and sorting remaining categories alphabetically.
 
 **Design Considerations**:
 
@@ -596,13 +650,17 @@ This feature follows the **Command Pattern**, encapsulating all help-related log
 ***
 
 ### Feature: Bye Command
-![ByeCommand Class Diagram](diagrams/ByeCommand_Class_Diagram.png)
-The `ByeCommand` allows users to **exit the application** gracefully. When executed, it prints a farewell message and terminates the program.
 
-This command follows the **Command Pattern**, encapsulating the exit behavior in a dedicated class implementing the `Command` interface. It does not require any dependencies or arguments.
+![ByeCommand Class Diagram](diagrams/ByeCommand_Class_Diagram.png)
+The `ByeCommand` allows users to **exit the application** gracefully. When executed, it prints a farewell message and
+terminates the program.
+
+This command follows the **Command Pattern**, encapsulating the exit behavior in a dedicated class implementing the
+`Command` interface. It does not require any dependencies or arguments.
 
 **Execution flow**:
 ![ByeCommand Sequence Diagram](diagrams/ByeCommand_Sequence_Diagram.png)
+
 1. The command is executed via `exec(String args)`.
 2. Prints a farewell message to the console: `Bye bye, Have a wonderful day ahead :)`
 3. Terminates the application using `System.exit(0)`.
@@ -618,112 +676,159 @@ This command follows the **Command Pattern**, encapsulating the exit behavior in
 
 - N/A — the command immediately exits the application after printing the message.
 
-
 ***
 
-## Product scope
+## Appendix: Requirements
 
-### Target user profile
+### Product scope
+
+#### Target user profile
 
 Tech Savvy, young adults with pets
 
 Young adults who are comfortable with technology, enjoy using CLI, and are dedicated pet owners looking for efficient
 ways to monitor and manage their pets’ daily care and well-being.
 
-### Value proposition
+#### Value proposition
 
 Tracks pets’ daily routines, medications, and health. Provides reminders and activity logs locally, keeping pet care
 organized and ensuring pets stay healthy and happy.
 
-## User Stories
+### User Stories
 
-| Version | As a ... | I want to ...                                                                              | So that I can ...                                                   |
-|---------|----------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
-| v1.0    | user     | add a new pet with its name, species, and age                                              | I can start tracking its health routines                            |
-| v1.0    | user     | view a list of all my pets                                                                 | I can quickly confirm which ones are being tracked                  |
-| v1.0    | user     | delete a pet                                                                               | I can remove records for pets I no longer need to track             |
-| v1.0    | user     | add a treatment record for a pet with a type and date (e.g., “rabies vaccine, 2025-09-04”) | I can log when it happened                                          |
-| v1.0    | user     | view all treatments for a specific pet                                                     | I can see its full health history in one place                      |
-| v1.0    | user     | list all treatments across pets sorted by date                                             | I can see a unified timeline                                        |
-| v1.0    | user     | mark a treatment as completed                                                              | I can keep track of which treatments have already been done         |
-| v2.0    | user     | group treatments by type in the output (e.g., all vaccines together)                       | I can analyze care patterns across pets                             |
-| v2.0    | user     | edit a pet’s basic details                                                                 | I can update information if it changes (e.g., age, name correction) |
-| v2.0    | user     | search for treatments                                                                      | I can easily find specific treatment records                        |
-| v2.0    | user     | filter treatments by date range                                                            | I can review what happened during a specific period                 |
-| v2.0    | user     | attach a note to a treatment entry                                                         | I can log extra details (e.g., vet name, reaction, dosage)          |
-| v2.0    | user     | run a command to see overdue treatments                                                    | I know which ones I haven’t completed yet                           |
-| v2.0    | user     | view a summary of treatments completed in a chosen time range (e.g., last 30 days)         | I can quickly review recent care                                    |
-| v2.0    | user     | save data in the app                                                                       | I don't have to add it everytime i open it                          |
+| Version | As a ... | I want to ...                                                                              | So that I can ...                                             |
+|---------|----------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| v1.0    | user     | add a new pet with its name, species, and age                                              | manage and record its treatments later on                     |
+| v1.0    | user     | view a list of all my pets                                                                 | quickly confirm which ones are being tracked                  |
+| v1.0    | user     | delete a pet                                                                               | remove records for pets I no longer need to track             |
+| v1.0    | user     | add a treatment record for a pet with a type and date (e.g., “rabies vaccine, 2025-09-04”) | log when it happened                                          |
+| v1.0    | user     | view all treatments for a specific pet                                                     | see its full health history in one place                      |
+| v1.0    | user     | list all treatments across pets sorted by date                                             | see a unified timeline                                        |
+| v1.0    | user     | mark a treatment as completed                                                              | keep track of which treatments have already been done         |
+| v2.0    | user     | group treatments by type in the output (e.g., all vaccines together)                       | analyze care patterns across pets                             |
+| v2.0    | user     | edit a pet’s basic details                                                                 | update information if it changes (e.g., age, name correction) |
+| v2.0    | user     | search for treatments                                                                      | easily find specific treatment records                        |
+| v2.0    | user     | filter treatments by date range                                                            | review what happened during a specific period                 |
+| v2.0    | user     | attach a note to a treatment entry                                                         | log extra details (e.g., vet name, reaction, dosage)          |
+| v2.0    | user     | run a command to see overdue treatments                                                    | know which ones I haven’t completed yet                       |
+| v2.0    | user     | view a summary of treatments completed in a chosen time range (e.g., last 30 days)         | quickly review recent care                                    |
+| v2.0    | user     | save data in the app                                                                       | don't have to add it everytime i open it                      |
 
-## Non-Functional Requirements
+### Non-Functional Requirements
 
 1. The application should work on any mainstream OS as long as it has Java 17 installed
 
-## Glossary
+### Glossary
 
 * *Mainstream OS* - Windows, Linux, MacOS
+* *Pet* - An individual animal added by the user
+* *Treatment* - A health-related action or procedure scheduled or completed for a pet
+* *Species* - Describes the type of animal associated with each pet entry
 
-## Instructions for manual testing
+## Appendix: Instructions for manual testing
 
-**List Pets: list all pets**
+***
 
-1. `list-pets`
+**Listing Pets**
 
-**Edit pet: rename and age**
+1. Listing all pets
+    - Prerequisites: At least one pet has been added using the `add-pet` command.
+    - Test case: `list-pets`
+        - Expected: All pets in the system are listed with their name, species, and age.
 
-1. `add-pet n/Milo s/Dog a/3`
-2. `edit-pet n/Milo nn/Millie a/4`
-3. `list-pets` → verify updated name/age.
+**Editing a Pet**
 
-**Mark → Unmark**
+1. Renaming and Updating age
+    - Prerequisites: A Pet named `Milo` exists, added using `add-pet n/Milo s/Dog a/3`
+    - Test case: `edit-pet n/Milo nn/Millie a/4`
+        - Expected: Pet `Milo` is renamed to `Millie`, and age is updated to 4. (Use `list-pets` to verify details are
+          updated.)
+    - Other incorrect edit commands to try: `edit-pet`, `edit-pet n/Milo nn/`
 
-1. `add-treatment n/Millie t/"Vaccine A" d/2024-01-10`
-2. `list-treatments n/Millie` → note index
-3. `mark n/Millie i/<index>` → verify `[X]`
-4. `unmark n/Millie i/<index>` → verify `[ ]`
+**Marking and Unmarking Treatments**
 
-**Group by type (per pet & all)**
+1. Marking a treatment as completed
+    - Prerequisites: A pet `Millie` with at least one treatment (e.g.,
+      `add-treatment n/Millie t/"Vaccine A" d/2024-01-10`).
+    - Test case: `mark n/Millie i/1`
+        - Expected: Treatment at index 1 is marked as completed and displayed with `[X]`.
+    - Other incorrect mark commands to try: `mark`, `mark n/Millie`
 
-1. Add mixed treatments (e.g., Vaccine A / Checkup).
-2. `group-treatments n/Millie` → check order & headers.
-3. `group-treatments` → verify cross-pet listing & sort.
 
-**List All Treatments**
+2. Unmarking a completed treatment
+    - Prerequisites: A pet `Millie` with at least one completed treatment
+    - Test case: `unmark n/Millie i/1`
+        - Expected: Treatment at index 1 is unmarked and displayed with `[ ]`.
+    - Other incorrect unmark commands to try: `unmark`, `unmark i/x`
 
-1. Add pets and treatments
-2. `list-all-treatments` → verify treatments are sorted in ascending order by date
+**Grouping Treatments**
 
-**List Pet Treatments**
+1. Grouping Treatments by type for a pet
+    - Prerequisites: A pet `Millie` with multiple treatments of varying types (e.g., Vaccine, Checkup).
+    - Test case: `group-treatments n/Millie`
+        - Expected: Treatments for `Millie` are grouped and displayed under headers by type.
 
-1. Add pet and treatments
-2. `list-treatments n/Millie` → verify that all treatments listed are tagged with "Millie"
 
-**Summary**
+2. Grouping Treatments by type across all pets
+    - Prerequisites: More than 1 pet added in the list and multiple treatments of varying types for each pet in the
+      list.
+    - Test case: `group-treatments`
+        - Expected: All treatments across pets are listed, grouped by type and sorted by date in ascending order
 
-1. Add pet and treatments
-2. Mark some treatments
-3. `Summary from/2024-01-10 to/2025-01-10` → verify that all completed treatments within the date range are listed
+**Listing All Treatments**
 
-**Delete a pet**
-1. `add-pet n/Milo s/Dog a/2`
-1. `list-pets` - verify it was added
-1. `delete-pet n/Milo`
-1. `list-pets` - verify it's deleted
+1. Listing all treatments in the system
+    - Prerequisites: Multiple pets and treatments exits.
+    - Test case: `list-all-treatments`
+        - Expected: All treatments are displayed in ascending order by date.
 
-**View all commands**
-1. `help` - shows all commands available in the application
-1. `help c/add-pet` - shows more details about the add-pet command, including syntax
+**Listing a Pet's Treatments**
 
-**View overdue treatments**
-1. `add-pet n/Milo s/Dog a/3`
-1. `add-treatment n/Milo t/Vaccine d/2025-10-05`
-1. `add-treatment n/Milo t/Checkup d/2025-10-08`
-1. `add-treatment n/Milo t/Something d/2026-10-07`
-1. `overdue-treatments` - verify only the first two treatments are shown
-1. `mark n/Milo i/1`
-1. `overdue-treatments` - verify only the "Checkup" treatment is shown
+1. Listing all treatments for a specific pet
+    - Prerequisites: Pet `Millie` exists with at least one treatment.
+    - Test case: `list-treatments n/Millie`
+        - Expected: All treatments tagged under `Millie` are listed with correct details.
 
-**Bye Command**
-1. Type `bye` in the CLI
-1. The Application outputs: `Bye bye, Have a wonderful day ahead :)`
-1. Application terminates.
+**Summarising Treatments**
+
+1. Viewing summary of completed treatments within a date range
+    - Prerequisites: At least one pet exists with multiple treatments, some of which are marked as completed.
+    - Test case: `summary from/2025-01-01 to/2025-12-30`
+        - Expected: Only treatments marked as completed within the specified date range are listed.
+    - Other incorrect summary commands to try: `summary`, `summary from/2025-10-10`
+
+**Deleting a pet**
+
+1. Deleting an existing pet
+    - Prerequisites: Pet `Millie` exists.
+    - Test case: `delete-pet n/Millie`
+        - Expected: Pet `Millie` is deleted. Success Message displayed. (Use `list-pets` to verify pet `Millie` is no
+          longer in the pet list.
+    - Other incorrect delete commands to try: `delete-pet`
+
+**Viewing Commands**
+
+1. Viewing available commands and syntax
+    - Prerequisites: Application is running.
+    - Test case: `help`
+        - Expected: A list of all available commands is displayed.
+    - Test case: `help c/add-pet`
+        - Expected: Detailed syntax and description for `add-pet` command are shown.
+
+**Viewing Overdue Treatments**
+
+1. Displaying overdue treatments
+    - Prerequisites: Pet `Millie` exists with multiple treatments, some overdue and some upcoming (e.g.,
+      `add-treatment n/Millie t/Vaccine d/2025-10-05`,  `add-treatment n/Millie t/Checkup d/2025-10-08`,
+      `add-treatment n/Millie t/Something d/2026-10-07`).
+    - Test case: overdue-treatments
+        - Expected: Only pending treatments with past dates are displayed
+    - Test case: `mark n/Millie i/1` then `overdue-treatments`
+        - Expected: Marked treatments are excluded from the overdue list.
+
+**Exiting the Application**
+
+1. Using the bye command
+    - Prerequisites: Application is running.
+    - Test case: `bye`
+        - Expected: Application displays `Bye bye, Have a wonderful day ahead :)` and terminates successfully.
