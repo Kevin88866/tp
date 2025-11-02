@@ -49,8 +49,9 @@ Contributed: [Code Dashboard](https://nus-cs2113-ay2526s1.github.io/tp-dashboard
 ### Enhancements to Existing Features
 
 - Added a Ui class to centralize and format all user-facing outputs. 
-- Added a note attribute to the Add Treatment feature for including remarks or details about each treatment. 
+[PR: #114](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/114)
 - Created a DateUtils class to handle date parsing and validation for commands using date inputs. 
+[PR: #81](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/81)
 
 ### Documentation
 
