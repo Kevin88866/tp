@@ -125,7 +125,7 @@ public class Storage {
         }
 
         try {
-            age = Integer.parseInt(parts[2].trim());
+            age = Math.abs(Integer.parseInt(parts[2].trim()));
         } catch (NumberFormatException e) {
             LOGGER.log(Level.WARNING, "Invalid age for pet " + name);
             return;
