@@ -44,13 +44,6 @@ public class Ui {
     }
 
     /**
-     * Prints a message to indicate PetList is empty.
-     */
-    public static void printEmptyPetListMessage() {
-        System.out.println("No pets found.");
-    }
-
-    /**
      * Prints a header message to the user.
      *
      * @param header the header message to be printed

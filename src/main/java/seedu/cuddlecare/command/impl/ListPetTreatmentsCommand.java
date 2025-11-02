@@ -64,7 +64,7 @@ public class ListPetTreatmentsCommand implements Command {
             petName = args.substring(2).trim();
         } else {
             LOGGER.log(Level.WARNING, "Invalid format input.");
-            System.out.println("Invalid input. Usage: list-treatments n/PET_NAME");
+            Ui.printInvalidInputMessage(getSyntax());
             return;
         }
 

@@ -70,7 +70,7 @@ public class SummaryCommand implements Command {
         if (filteredList.isEmpty()) {
             LOGGER.log(Level.INFO, "No treatments found in date range {0} to {1}",
                     new Object[]{fromDate, toDate});
-            System.out.println("No treatments found from " + fromDate + " to " + toDate + ".");
+            Ui.println("No treatments found from " + fromDate + " to " + toDate + ".");
             return;
         }
 

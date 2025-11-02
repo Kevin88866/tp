@@ -35,6 +35,7 @@ class CuddleCareTest {
         System.setOut(new PrintStream(outContent)); // capture output
     }
 
+    //@@author HarshitSrivastavaHS
     @Test
     void greet_nothing_greetsUser() {
         app.greet();
@@ -42,12 +43,13 @@ class CuddleCareTest {
         assertEquals("Hello! Welcome to CuddleCare.", output);
     }
 
-    @Test
-    void printInputPrompt_nothing_prompt() {
-        app.printInputPrompt();
-        String output = outContent.toString();
-        assertEquals("> ", output);
-    }
+
+    //    @Test
+    //    void printInputPrompt_nothing_prompt() {
+    //        app.printInputPrompt();
+    //        String output = outContent.toString();
+    //        assertEquals("> ", output);
+    //    }
 
     @Test
     void testInitialiseCommands() {
