@@ -110,8 +110,8 @@ public class Storage {
             return;
         }
 
-        String name = parts[0].toLowerCase().trim();
-        String species = parts[1].toLowerCase().trim();
+        String name = parts[0].replaceAll("[^a-zA-Z\\- ]", "").toLowerCase().trim();
+        String species = parts[1].replaceAll("[^a-zA-Z\\- ]", "").toLowerCase().trim();
         int age;
 
         if (name.isEmpty()) {
@@ -135,6 +135,10 @@ public class Storage {
             LOGGER.log(Level.WARNING, "Pet already added: "+name);
             return;
         }
+
+        name = name.substring(0, Math.min(name.length(), 20));
+        age = Math.min(age, 200);
+        species = species.substring(0, Math.min(species.length(), 30));
 
         Pet pet = new Pet(name, species, age);
         pets.add(pet);
@@ -203,11 +207,6 @@ public class Storage {
      */
     private void loadTreatments(Map<String, Pet> petMap, Map<String,
             ArrayList<Treatment>> treatmentsMap) {
-
-        for (Map.Entry<String, Pet> entry: petMap.entrySet()) {
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue());
-        }
 
         for (Map.Entry<String, ArrayList<Treatment>> entry: treatmentsMap.entrySet()) {
             Pet pet = petMap.get(entry.getKey());
