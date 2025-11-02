@@ -161,8 +161,8 @@ public class Storage {
             return;
         }
 
-        String petName = parts[0].toLowerCase().trim();
-        String treatmentName = parts[1].toLowerCase().trim();
+        String petName = parts[0].replaceAll("[^a-zA-Z\\- ]", "").toLowerCase().trim();
+        String treatmentName = parts[1].replaceAll("[^a-zA-Z\\- ]", "").toLowerCase().trim();
         LocalDate date;
 
         if (petName.isEmpty()) {
@@ -181,6 +181,12 @@ public class Storage {
             LOGGER.log(Level.WARNING, "Invalid date for treatment " + treatmentName);
             return;
         }
+
+        petName = petName.substring(0, Math.min(petName.length(), 20));
+        treatmentName = treatmentName.substring(0, Math.min(treatmentName.length(), 50));
+
+        LocalDate maxFutureDate = LocalDate.now().plusYears(100);
+        date = date.isAfter(maxFutureDate) ? maxFutureDate : date;
 
         boolean isComplete = Boolean.parseBoolean(parts[3].trim());
         String note = (parts.length >= 5) ? parts[4].trim() : "";
