@@ -262,7 +262,7 @@ group-treatments
 
 ---
 
-### Filter Treatment by Date — `treatment-date`
+### Filter Treatments by Date — `treatment-date`
 Displays all treatments that fall within a specified date range across all pets.
 
 **Format**
@@ -291,7 +291,7 @@ If no treatments in range: `No treatments found between <FROM_DATE> and <START_D
 
 ---
 
-### Find Treatment — `find`
+### Find Treatments — `find`
 Searches for treatments across all pets by keyword. The search is case-insensitive and uses substring matching.
 
 **Format**
@@ -530,6 +530,10 @@ bye
 
 **Q**: Can I add two pets with the same name?  
 **A**: No. Each pet name must be unique.
+
+**Q**: Can I use flags as pet names, species, treatment names or other inputs?
+**A**: No. Avoid using characters like `n/`, `s/`, `t/`, `d/`, `note/` in names.`/` is used to separate command 
+parameters. Any text followed by `/` is interpreted as a command tag.
 
 **Q**: What does [X] mean beside a treatment?
 **A**: [X] means the treatment is completed.
