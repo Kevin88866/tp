@@ -43,11 +43,6 @@ public class CuddleCare {
     private static final Logger LOGGER = Logger.getLogger(CuddleCare.class.getName());
 
     /**
-     * Symbol used to prompt user input.
-     */
-    private static final String PROMPT_SYMBOL = "> ";
-
-    /**
      * Parser used to convert user input into commands.
      */
     private final Parser parser;
@@ -85,11 +80,18 @@ public class CuddleCare {
         LoggingConfigurator.setup();
         LOGGER.log(Level.INFO, "CuddleCare application started");
         initialiseCommands();
-        Ui.printGreetMessage();
+        greet();
         storage.load();
         startApplicationLoop();
     }
 
+    /**
+     * Prints a greeting message to the user.
+     */
+    void greet() {
+        Ui.printGreetMessage();
+        LOGGER.log(Level.INFO, "Greeted the user");
+    }
 
     /**
      * Starts the main application loop.
