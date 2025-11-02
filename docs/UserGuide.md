@@ -15,8 +15,8 @@ care routine is overlooked.
     - [Mark a Treatment as Done — `mark`](#mark-a-treatment-as-done--mark)
     - [Unmark a Treatment — `unmark`](#unmark-a-treatment--unmark)
     - [Group Treatments by Type — `group-treatments`](#group-treatments-by-type--group-treatments)
-    - [Filter Treatment by Date — `treatment-date`](#filter-treatment-by-date--treatment-date)
-    - [Find Treatment — `find`](#find-treatment--find)
+    - [Filter Treatments by Date — `treatment-date`](#filter-treatments-by-date--treatment-date)
+    - [Find Treatments — `find`](#find-treatments--find)
     - [List All Treatments — `list-all-treatments`](#list-all-treatments--list-all-treatments)
     - [List a Pet's Treatments — `list-treatments`](#list-a-pets-treatments--list-treatments)
     - [View Summary of Completed Treatments — `summary`](#view-summary-of-completed-treatments--summary)
@@ -652,7 +652,7 @@ the same.
 * Unmark a Treatment `unmark n/PET_NAME i/INDEX`
 * Group Treatments by Type `group-treatments [n/PET_NAME]`
 * Filter Treatments by Date `treatment-date from/FROM_DATE to/TO_DATE`
-* Find Treatment `find KEYWORD`
+* Find Treatments `find KEYWORD`
 * List All Treatments `list-all-treatments`
 * List a Pet's Treatments `list-treatments n/PET_NAME`
 * Completed Treatment Summary `summary from/FROM_DATE to/TO_DATE`
