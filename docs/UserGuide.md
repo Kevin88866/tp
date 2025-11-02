@@ -11,9 +11,7 @@ Hello! Welcome to CuddleCare.
 >
 ```
 
-## Features 
-
----
+## Features
 
 ### Add Pet — `add-pet`
 Adds a new pet to the tracker.
@@ -264,12 +262,12 @@ group-treatments
 
 ---
 
-### Filter Treatment by Date — `filter-treatment`
+### Filter Treatment by Date — `treatment-date`
 Displays all treatments that fall within a specified date range across all pets.
 
 **Format**
 ```
-filter-treatment from/FROM_DATE to/TO_DATE
+treatment-date from/FROM_DATE to/TO_DATE
 ```
 * from/ (required): start date in yyyy-MM-dd format 
 * to/ (required): end date in yyyy-MM-dd format 
@@ -277,7 +275,7 @@ filter-treatment from/FROM_DATE to/TO_DATE
 
 **Example**
 ```
-> filter-treatment from/2025-11-01 to/2025-11-30
+> treatment-date from/2025-11-01 to/2025-11-30
 Treatments between 2025-11-01 and 2025-11-30:
 1. Annual Vaccine (Luna) - 2025-11-15
 2. Dental Checkup (Milo) - 2025-11-22
@@ -289,26 +287,26 @@ If no treatments in range: `No treatments found between <FROM_DATE> and <START_D
 * Start date must be before or equal to end date. 
 * If start date is after end date: `Error: Start date cannot be after end date.`
 * If date format is invalid: `Invalid date format. Please use yyyy-MM-dd format.`
-* On missing parameters: `Invalid input. Usage: filter-treatment start/START_DATE end/END_DATE.`
+* On missing parameters: `Invalid input. Usage: treatment-date start/START_DATE end/END_DATE.`
 
 ---
 
-### Find Treatment — `find-treatment`
+### Find Treatment — `find`
 Searches for treatments across all pets by keyword. The search is case-insensitive and uses substring matching.
 
 **Format**
 ```
-find-treatment KEYWORD
+find KEYWORD
 ```
 
 **Example**
 ```
-> find-treatment vaccine
+> find vaccine
 Found 2 treatments containing 'vaccine':
 1. Rabies Vaccine (Milo) - 2025-10-10
 2. Annual Vaccine (Luna) - 2025-11-15
 
-> find-treatment checkup
+> find checkup
 Found 1 treatments containing 'checkup':
 1. Regular Checkup (Milo) - 2025-09-20
 ```
@@ -407,18 +405,17 @@ Displays all treatments that are **overdue**, i.e. those that:
 
 If no pets have overdue treatments, a message confirming that is displayed.
 
----
 
 **Examples**
 
-    overdue-treatments
+    > overdue-treatments
     Overdue Treatments:
-    Bella: "Vaccination" was due on 2023-10-10 (overdue for 5 days)
-    Luna: "Check-up" was due on 2023-10-09 (overdue for 6 days)
+        Bella: "Vaccination" was due on 2023-10-10 (overdue for 5 days)
+        Luna: "Check-up" was due on 2023-10-09 (overdue for 6 days)
 
     overdue-treatments n/Bella
     Overdue Treatments for Bella:
-    "Vaccination" was due on 2023-10-10 (overdue for 5 days)
+        "Vaccination" was due on 2023-10-10 (overdue for 5 days)
 
     overdue-treatments n/Max
     No pet found with the name: Max
@@ -427,8 +424,6 @@ If no pets have overdue treatments, a message confirming that is displayed.
     Invalid arguments provided.
     Syntax: overdue-treatments [n/PET_NAME]
 
-
----
 
 **Notes**
 * A treatment is **overdue** only if:
@@ -456,26 +451,33 @@ help [c/COMMAND_NAME]
 
 **Examples**
 
-    help
+    > help
     Here is the list of all commands supported by the application:
-
     General
-    bye: Exits the application
-    help: Displays All Commands
+        bye: Exits the application
+        help: Displays All Commands
 
     Pet
-    add-pet: Adds a new pet to the tracker
-    delete-pet: Deletes a pet from the application by name
+        add-pet: Adds a new pet
+        delete-pet: Deletes a pet from the application by name
+        edit-pet: Edits a pet's name, species, and/or age.
+        list-pets: Lists all pets in the application.
+
+    Treatment
+        add-treatment: Adds a treatment record for a pet
+        delete-treatment: Deletes a treatment for a specific pet
+        find: Finds treatments containing a keyword
+        group-treatments: Groups treatments by type
+        list-all-treatments: Lists all treatments across all pets
+        list-treatments: Lists all treatments for a pet
+        mark: Marks a treatment as completed for a pet.
+        overdue-treatments: Lists overdue treatments for pets
+        summary: Displays a summary of completed treatments.
+        treatment-date: Filters treatments by date range
+        unmark: Unmarks a treatment (sets it as not completed) for a pet.
 
     Run "help [c/COMMAND_NAME]" to find out more about a command.
 
-    help c/delete-pet
-    Command Name: delete-pet
-    Category: Pet
-    Description: Removes a pet from the PetList based on its name.
-    Syntax: delete-pet n/<pet name>
-
-    *[t/tag] means tag is an optional argument.
 
 
 **Notes**
@@ -505,14 +507,41 @@ bye
 
 **Example**
 
-    bye
+    > bye
     Bye bye, Have a wonderful day ahead :)
 
 
 **Notes**
 * This command **terminates the program** immediately after displaying the farewell message.
-* It does **not accept any arguments** — typing anything after `bye` (e.g., `bye now`) will be treated as invalid input.
+* It does **not accept any arguments** — typing anything after `bye` (e.g., `bye now`) is ignored.
 * All data up to the last valid command is already saved automatically before exit.
+
+---
+
+## FAQ
+**Q**: What is the format for the dates?  
+**A**: All commands which require date use this format: `YYYY-MM-DD`, example: `2025-10-31`
+
+**Q**: Do I have to write tags in the same order as mentioned in the command syntax?  
+**A**: No. Tags can be used in any order.  Example: `add-pet n/Milo s/Cat a/2` and `add-pet s/Cat a/2 n/Milo` both work the same.
+
+**Q**: Are pet names case-sensitive?  
+**A**: No. `milo` and `Milo` refer to the same pet.
+
+**Q**: Can I add two pets with the same name?  
+**A**: No. Each pet name must be unique.
+
+**Q**: What does [X] mean beside a treatment?
+**A**: [X] means the treatment is completed.
+[ ] means it is pending.
+
+**Q**: Will my data be saved automatically?
+**A**: Yes. All valid commands are saved immediately, even before exiting.
+
+**Q**: How do I clear all data at once without deleting one by one?  
+**A**: Head over to `/data/` and delete the `cuddlecare_save.txt` file.  
+> **⚠️️ CAUTION:** Deleting the save file will permanently erase all application data.
+
 
 ---
 
@@ -525,8 +554,8 @@ bye
 * Mark a Treatment as Done `mark n/PET_NAME i/INDEX`
 * Unmark a Treatment `unmark n/PET_NAME i/INDEX`
 * Group Treatments by Type `group-treatments [n/PET_NAME]`
-* Filter Treatments by Date `filter-treatment from/FROM_DATE to/TO_DATE`
-* Find Treatment `find-treatment KEYWORD`
+* Filter Treatments by Date `treatment-date from/FROM_DATE to/TO_DATE`
+* Find Treatment `find KEYWORD`
 * List All Treatments `list-all-treatments`
 * List a Pet's Treatments `list-treatments n/PET_NAME`
 * Completed Treatment Summary `summary from/FROM_DATE to/TO_DATE`
