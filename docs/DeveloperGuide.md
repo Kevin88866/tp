@@ -21,6 +21,7 @@
     - [Feature: Overdue Treatments Command](#feature-overdue-treatments-command)
     - [Feature: Help Command](#feature-help-command)
     - [Feature: Bye Command](#feature-bye-command)
+    - [Feature: Data Storage](#feature-saving-data-to-a-file-and-loading)
 - [Appendix: Requirements](#appendix-requirements)
     - [Product scope](#product-scope)
     - [User stories](#user-stories)
@@ -698,6 +699,108 @@ This command follows the **Command Pattern**, encapsulating the exit behavior in
 **Logging**:
 
 - N/A — the command immediately exits the application after printing the message.
+
+***
+
+### Feature: Saving Data to a file and loading
+
+![Storage Class Diagram](diagrams/StorageClass_Class_Diagram.png)
+
+The `Storage` class is responsible for **persisting all Pet and Treatment data** to
+a file and **loading it back** into the application at startup. It ensures that data
+in memory (`PetList`) is synchronized with the on-disk save file.
+
+**Responsibilities**
+
+- Load pets and treatments from a save file at application startup (`load()`)
+- Save pets and treatments back to the save file after every successful command (`save()`)
+- Validate and sanitize data while reading from the save file
+- Handle file I/O errors and log warnings or errors
+
+**Key Components**
+
+- `filePath`: location of the save file
+- `pets`: reference to the `PetList` object that stores all pets
+- Logger: logs `INFO`, `WARNING`, and `SEVERE` messages during load/save
+
+**Interactions**
+
+1. `CuddleCare` (or main program) calls `Storage.load()` → populates `PetList`.
+2. Commands modifying pets/treatments call `Storage.save()` → writes current state to file.
+3. `Storage` directly manipulates `Pet` and `Treatment` objects.
+
+**Implementation Details**
+
+* Loading Data (`load()`)
+  1. Check if the save file exists; if not, log `INFO` and skip loading.
+  2. Read all lines from the file into a list.
+  3. Separate the data into two sections:
+      - `# Pets` → lines representing pets
+      - `# Treatments` → lines representing treatments
+  4. **Process Pets** (`processPet()`):
+      - Split line by `|` into name, species, age
+      - **Sanitize:**
+          - Remove non-alphabetic characters in name/species
+          - Trim whitespace
+          - Limit length (name ≤ 20, species ≤ 30)
+      - **Validate:**
+          - Non-empty name and species
+          - Age is numeric and ≤ 200 (and is changed to 200 if age is over 200)
+      - Add to `PetList` and `petMap` for reference
+      - Log warnings for malformed lines or duplicates
+  5. **Process Treatments** (`processTreatment()`):
+      - Split line into `petName | treatmentName | date | completed | note`
+      - Sanitize name and treatment
+      - **Validate:**
+          - Non-empty pet name and treatment name
+          - Date is parseable; if invalid, skip
+          - Date clamped between `MAX_TREATMENT_PAST_YEAR` and `MAX_TREATMENT_FUTURE_YEAR`
+      - Store in a temporary `treatmentsMap` until all pets are loaded
+  6. **Assign Treatments** (`loadTreatments()`):
+      - Match treatments to their pets using `petMap`
+      - Skip duplicates
+      - Log warnings for treatments referencing missing pets
+
+* Saving Data (`save()`)
+
+  1. Ensure the parent directory of the save file exists (`createSaveDirectory()`)
+  2. Write the pet section:
+      ```
+      # Pets
+      name | species | age
+     ```
+  3. Write the treatment section:
+      ```
+      # Treatments
+      petName | treatmentName | date | completed | note
+     ```
+  4. Use FileWriter with UTF-8 encoding
+  5. Log success or errors
+
+**Validation & Sanitization**
+
+* Pet:
+  1. Name: trimmed, alphabetic only, max 20 chars
+  2. Species: trimmed, alphabetic only, max 30 chars 
+  3. Age: numeric, absolute value, max 200
+* Treatment:
+  1. Name: trimmed, alphabetic only, max 50 chars
+  2. Date: parsed to LocalDate, clamped to ±100 years
+  3. Completed: boolean parsed safely 
+  4. Note: optional
+
+* Duplicates are skipped, with a WARNING logged
+
+**Error Handling**
+* Missing file → log INFO, continue with empty data
+* Malformed lines → log WARNING, skip
+* IOException during read/write → log SEVERE, print error to console
+
+**Design Considerations**
+* Atomicity: Writes are done in a single operation per section, reducing risk of partial saves.
+* Decoupling: Storage interacts directly with PetList but doesn’t implement any business logic.
+* Extensibility: Could be extended for other formats (JSON/XML) without changing how CuddleCare uses it.
+* Logging: Provides traceable feedback for debugging invalid data entries.
 
 ***
 
