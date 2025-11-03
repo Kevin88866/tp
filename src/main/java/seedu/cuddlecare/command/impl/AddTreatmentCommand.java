@@ -33,6 +33,7 @@ public class AddTreatmentCommand implements Command {
 
     private static final int MAX_TREATMENT_NAME_LENGTH = 50;
     private static final int MAX_FUTURE_YEARS = 100;
+    private static final int MAX_PAST_YEARS = 10;
     private static final String NAME_PATTERN = "[a-zA-Z\\- ]+";
 
     /**
@@ -187,7 +188,15 @@ public class AddTreatmentCommand implements Command {
      * @throws IllegalArgumentException if date is too far in the future
      */
     private void validateTreatmentDate(LocalDate date) {
+        LocalDate minPastDate = LocalDate.now().minusYears(MAX_PAST_YEARS);
         LocalDate maxFutureDate = LocalDate.now().plusYears(MAX_FUTURE_YEARS);
+
+        if (date.isBefore(minPastDate)) {
+            throw new IllegalArgumentException(
+                    "Error: Treatment date cannot be more than " + MAX_PAST_YEARS +
+                            " years in the past. " +
+                            "Provided date: " + date + ", Minimum allowed: " + minPastDate);
+        }
 
         if (date.isAfter(maxFutureDate)) {
             throw new IllegalArgumentException(
