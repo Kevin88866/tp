@@ -88,6 +88,19 @@ public class HelpCommand implements Command {
         }
     }
 
+    /**
+     * Checks whether this {@code HelpCommand} currently has access to a valid map of commands.
+     * <p>
+     * This method is primarily intended for testing or validation purposes to confirm that
+     * {@link #setCommands(Map)} was called successfully before execution.
+     *
+     * @return {@code true} if the internal commands map is non-null and not empty; {@code false} otherwise
+     */
+    public boolean hasCommands() {
+        return commandsMap != null && !commandsMap.isEmpty();
+    }
+
+
     // @@author HarshitSrivastavaHS
     @Override
     public String getSyntax() {
