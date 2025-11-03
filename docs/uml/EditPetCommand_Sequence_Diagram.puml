@@ -36,9 +36,11 @@ else found
 end
   EPC -> Ui : prints
 deactivate EPC
+activate Ui
 CWA --> CuddleCare : return
 deactivate CWA
 deactivate CuddleCare
 Ui --> User : prints
+deactivate Ui
 
 @enduml
