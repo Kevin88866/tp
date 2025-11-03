@@ -28,7 +28,7 @@ PetList --> Command: Pet
 deactivate PetList
 
 alt Pet not found
-    Command --> User: "Pet not found: Milo"
+    Command --> CuddleCare: "Pet not found: Milo"
 
 else Pet found
     Command -> Pet: getTreatments()
@@ -37,19 +37,19 @@ else Pet found
     deactivate Pet
 
     alt No treatments logged
-        Command --> User: "Milo has no logged treatments."
+        Command --> CuddleCare: "Milo has no logged treatments."
 
     else Treatments found
         Command -> Ui: printHeader(...)
         activate Ui
-        Ui --> User: "Milo's treatment history:"
-        deactivate Ui
+        return "Milo's treatment history:"
         Command -> Ui: printList(treatments)
         activate Ui
-        Ui --> User: shows Milo's treatment list
-        deactivate Ui
-        deactivate Command
+        return shows Milo's treatment list
     end
 end
+
+return
+return
         deactivate CuddleCare
 @enduml

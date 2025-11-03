@@ -94,8 +94,8 @@ public class EditPetCommandTest {
         cmd.exec("n/Milo a/x");
 
         String s = out.toString();
-        Assertions.assertTrue(s.contains("Age must be a valid number"),
-                "Expected 'Age must be a valid number' message.\n" + s);
+        Assertions.assertTrue(s.contains("Usage: edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]"),
+                "Expected usage message for invalid age.\n" + s);
     }
 
     @Test

@@ -249,12 +249,36 @@ maintains a list of Treatment objects.
 
 When executed, the command:
 
-1. Parses user input to extract the pet name (`n/`), treatment name (`t/`), and date (`d/`)
-2. Retrieves the corresponding Pet object from the PetList using `getPetByName()`
-3. Validates the date format using `LocalDate.parse()`
-4. Creates a new Treatment object with the validated parameters
-5. Adds the treatment to the pet's treatment list via `addTreatment()`
-6. Displays a confirmation message or error if validation fails
+1. **Parse Note**
+    - Extracts everything after `note/`
+    - Validates that note is not empty if `note/` tag is provided
+
+2. **Parse Required Parameters**
+    - Extracts pet name (`n/`), treatment name (`t/`), and date (`d/`)
+    - Validates treatment name against `NAME_PATTERN` and length constraint
+    - Parses and validates date format using `LocalDate.parse()`
+
+3. **Validate Date Range**
+    - Checks date is not more than 10 years in the past
+    - Checks date is not more than 100 years in the future
+
+4. **Retrieve Pet**
+    - Fetches corresponding Pet object from PetList using `getPetByName()`
+    - Throws error if pet not found
+
+5. **Check for Duplicates**
+    - Compares new treatment against existing treatments (name + date)
+    - Rejects if duplicate found
+
+6. **Add Treatment**
+    - Creates new Treatment object with validated parameters
+    - Adds treatment to pet's treatment list via `addTreatment()`
+    - Displays confirmation message
+
+7. **Error Handling**
+    - Catches `IllegalArgumentException` for validation failures
+    - Catches `DateTimeParseException` for invalid date format
+    - Displays appropriate error messages via `System.out.println()`
 
 The command validates all inputs before modifying the pet's treatment list. If the pet is not found or the date format
 is invalid, appropriate error messages are displayed.
@@ -521,37 +545,36 @@ The sequence diagram is given below to show the execution of the summary command
 
 **Purpose**: Group treatments by **type** across the dataset, then print each group with its members.
 
-**Command word**: `group-treatments-by-type`
+**Command word**: `group-treatments`
 
 **Format**
 
 ```
-group-treatments-by-type
+group-treatments [n/PET_NAME]
 ```
-
-*(If your parser supports `n/PET_NAME`, the command may accept `group-treatments-by-type n/NAME` to scope by a single
-pet; otherwise it groups across all pets.)*
 
 **Examples**
 
 ```
-group-treatments-by-type
+group-treatments [n/Milo]
 ```
 
 **Success behaviour**
 
 - Flattens `(pet, treatment)` rows across `PetList`, then buckets by type using `extractType(treatment)`.
-- Prints each type header followed by entries: `(petName, treatmentName, date, completed)`.
+- Prints each type header `== Type ==` followed by entries.
 
 **Failure cases & messages**
 
 - No treatments anywhere: `No treatments logged.`
 
 **Notes**
-
-- A simple default for `extractType` is to use `Treatment#getName()` as the key, or the first token before a colon/space
-  if you want coarse types.
-- Sorting of buckets/rows is cosmetic and optional.
+- Grouping uses **literal string matching**.  
+  Avoid quotation marks in treatment names — for example,  
+  `"Vaccination A"` will be treated as a **different group** from `Vaccination A`.
+- The grouping key is derived from the **first token** of each treatment name  
+  (e.g. `"Vaccine A"` → `Vaccine`; tokens are split by space or colon).
+- type is case-insensitive, in this case, `VACCINATION` = `vaccination`
 
 **Logging**
 
@@ -749,7 +772,7 @@ organized and ensuring pets stay healthy and happy.
 
 1. Marking a treatment as completed
     - Prerequisites: A pet `Millie` with at least one treatment (e.g.,
-      `add-treatment n/Millie t/"Vaccine A" d/2024-01-10`).
+      `add-treatment n/Millie t/Vaccine A d/2024-01-10`).
     - Test case: `mark n/Millie i/1`
         - Expected: Treatment at index 1 is marked as completed and displayed with `[X]`.
     - Other incorrect mark commands to try: `mark`, `mark n/Millie`

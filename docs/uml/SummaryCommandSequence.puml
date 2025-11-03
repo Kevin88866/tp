@@ -29,10 +29,11 @@ deactivate DateUtils
 
 Command -> DateUtils: isDateValid(fromDate, toDate, syntax)
 activate DateUtils
-opt Invalid date range (from > to)
-    DateUtils --> User: "Error: Start date cannot be after end date."
-    DateUtils --> Command: boolean
-    deactivate DateUtils
+return boolean
+
+opt Invalid date range
+    Command --> CuddleCare: Error Message
+
 end
 
 Command -> Command: filterTreatments(fromDate, toDate)
@@ -42,17 +43,15 @@ deactivate Command
 
 
 alt No treatments found
-    Command --> User: "No treatments found from/2025-10-10 to/2025-12-12."
+    Command --> CuddleCare: "No treatments found from/2025-10-10 to/2025-12-12."
 else Treatments found
     Command -> Ui: printHeader("Treatment Summary from: ... to: ...")
     activate Ui
-    Ui --> User: "Treatment Summary from: ... to: ..."
-    deactivate Ui
+    return "Treatment Summary from: ... to: ..."
     Command -> Ui: printList(filteredList)
     activate Ui
-    Ui --> User: displays completed treatments summary
-    deactivate Ui
-    deactivate Command
+    return displays completed treatments summary
 end
-    deactivate CuddleCare
+return
+return
 @enduml

@@ -25,7 +25,9 @@ public class AddPetCommand implements Command {
     private static final String LONG_DESCRIPTION = "Adds a new pet to the application " +
             "with the specified name, species, and age. " +
             "All fields are required, and the command ensures " +
-            "the pet is recorded for future operations.";
+            "the pet is recorded for future operations. " +
+            "Pet name can be max 20characters long, pet species can be max " +
+            "30characters long, and age of the pet can be max 200years";;
     private static final List<String> CATEGORIES = List.of("Pet");
     // @@author
 

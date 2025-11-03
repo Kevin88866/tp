@@ -30,7 +30,9 @@ public class EditPetCommand implements Command {
     private static final String SHORT_DESCRIPTION = "Edits a pet's name, species, and/or age.";
     private static final String LONG_DESCRIPTION = "Updates the details of an existing pet in the list." +
             " Specify the pet to edit using n/OLD_NAME. Optionally" +
-            " provide nn/NEW_NAME, s/SPECIES, and/or a/AGE to update one or more fields.";
+            " provide nn/NEW_NAME, s/SPECIES, and/or a/AGE to update one or more fields. " +
+            "Pet name can be max 20characters long, pet species can be max " +
+            "30characters long, and age of the pet can be max 200years";
     private static final List<String> CATEGORIES = List.of("Pet");
     // @@author
 
