@@ -29,13 +29,16 @@ alt not found
   EPC --> CWA : "Pet not found"
 else found
   EPC -> Pet : setAge(4) [maybe setName/setSpecies]
+  activate Pet
   Pet --> EPC : ok
+  deactivate Pet
   EPC --> CWA : success
 end
-  EPC --> Ui : prints
+  EPC -> Ui : prints
 deactivate EPC
 CWA --> CuddleCare : return
 deactivate CWA
-Ui --> User : prints
 deactivate CuddleCare
+Ui --> User : prints
+
 @enduml

@@ -29,13 +29,17 @@ alt not found
   MTC --> CWA : "No such pet"
 else found
   MTC -> Pet : getTreatments()[index-1].setCompleted(true)
+  activate Pet
   Pet --> MTC : ok
+  deactivate Pet
   MTC --> CWA : "Marked."
 end
-  MTC --> Ui : prints
+  MTC -> Ui : prints
 deactivate MTC
+activate Ui
 CWA --> CuddleCare : return
 deactivate CWA
-Ui --> User : prints
 deactivate CuddleCare
+Ui --> User : prints
+deactivate Ui
 @enduml

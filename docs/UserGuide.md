@@ -244,9 +244,7 @@ mark n/PET_NAME i/INDEX
 
 ```
 > mark n/Milo i/2
-Marked as done
-Pet: Milo
-Index: 2
+Marked "<treatment>" on "<date>" as done for "Milo"
 ```
 
 - On malformed args or non-integer index, usage help is shown: `Usage: mark n/PET_NAME i/INDEX`.
@@ -269,9 +267,7 @@ unmark n/PET_NAME i/INDEX
 
 ```
 > unmark n/Milo i/2
-Unmarked
-Pet: Milo
-Index: 2
+Unmarked "<treatment>" on "<date>" as done for "<pet>"
 ```
 
 - On malformed args or non-integer index, usage help is shown: `Usage: unmark n/PET_NAME i/INDEX`.

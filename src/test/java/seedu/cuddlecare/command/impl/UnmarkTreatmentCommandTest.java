@@ -39,10 +39,15 @@ public class UnmarkTreatmentCommandTest {
         pets = new PetList();
 
         milo = new Pet("Milo", "Dog", 2);
+
         milo.addTreatment(new Treatment("Surgery", null, LocalDate.parse("2025-10-01")));
         milo.addTreatment(new Treatment("Stitches Removal", null, LocalDate.parse("2025-10-10")));
 
         pets.add(milo);
+
+        Command mark = new MarkTreatmentCommand(pets);
+        mark.exec("n/Milo i/1");
+        mark.exec("n/Milo i/2");
     }
 
     @BeforeAll
@@ -74,7 +79,8 @@ public class UnmarkTreatmentCommandTest {
 
         String s = out.toString();
         Assertions.assertTrue(s.contains("Unmarked"), "Expected success phrase missing.\n" + s);
-        Assertions.assertTrue(s.contains("Pet: Milo"), "Expected pet name missing.\n" + s);
+        Assertions.assertTrue(s.contains("Surgery"), "Expected species missing.\n" + s);
+        Assertions.assertTrue(s.contains("Milo"), "Expected pet name missing.\n" + s);
     }
 
     /**

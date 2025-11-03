@@ -29,6 +29,9 @@ alt filter provided (n/PET_NAME)
     GTC --> CWA : "No such pet"
   else pet found
     GTC -> GTC : process rows (flatten + group by type)
+    activate GTC
+    GTC --> GTC : done
+    deactivate GTC
   end
 else no filter
   GTC -> PetList : toList()
@@ -36,6 +39,9 @@ else no filter
   PetList --> GTC : List<Pet>
   deactivate PetList
   GTC -> GTC : process rows (flatten + group by type)
+  activate GTC
+  GTC --> GTC : done
+  deactivate GTC
 end
 
 alt no treatments
@@ -43,11 +49,12 @@ alt no treatments
 else grouped results
   GTC --> CWA : print groups by type
 end
-
-  GTC --> Ui : prints
+GTC -> Ui : prints
 deactivate GTC
+activate Ui
 CWA --> CuddleCare : return
 deactivate CWA
-Ui --> User : prints
 deactivate CuddleCare
+Ui --> User : prints
+deactivate Ui
 @enduml

@@ -521,37 +521,36 @@ The sequence diagram is given below to show the execution of the summary command
 
 **Purpose**: Group treatments by **type** across the dataset, then print each group with its members.
 
-**Command word**: `group-treatments-by-type`
+**Command word**: `group-treatments`
 
 **Format**
 
 ```
-group-treatments-by-type
+group-treatments [n/PET_NAME]
 ```
-
-*(If your parser supports `n/PET_NAME`, the command may accept `group-treatments-by-type n/NAME` to scope by a single
-pet; otherwise it groups across all pets.)*
 
 **Examples**
 
 ```
-group-treatments-by-type
+group-treatments [n/Milo]
 ```
 
 **Success behaviour**
 
 - Flattens `(pet, treatment)` rows across `PetList`, then buckets by type using `extractType(treatment)`.
-- Prints each type header followed by entries: `(petName, treatmentName, date, completed)`.
+- Prints each type header `== Type ==` followed by entries.
 
 **Failure cases & messages**
 
 - No treatments anywhere: `No treatments logged.`
 
 **Notes**
-
-- A simple default for `extractType` is to use `Treatment#getName()` as the key, or the first token before a colon/space
-  if you want coarse types.
-- Sorting of buckets/rows is cosmetic and optional.
+- Grouping uses **literal string matching**.  
+  Avoid quotation marks in treatment names — for example,  
+  `"Vaccination A"` will be treated as a **different group** from `Vaccination A`.
+- The grouping key is derived from the **first token** of each treatment name  
+  (e.g. `"Vaccine A"` → `Vaccine`; tokens are split by space or colon).
+- type is case-insensitive, in this case, `VACCINATION` = `vaccination`
 
 **Logging**
 
@@ -749,7 +748,7 @@ organized and ensuring pets stay healthy and happy.
 
 1. Marking a treatment as completed
     - Prerequisites: A pet `Millie` with at least one treatment (e.g.,
-      `add-treatment n/Millie t/"Vaccine A" d/2024-01-10`).
+      `add-treatment n/Millie t/Vaccine A d/2024-01-10`).
     - Test case: `mark n/Millie i/1`
         - Expected: Treatment at index 1 is marked as completed and displayed with `[X]`.
     - Other incorrect mark commands to try: `mark`, `mark n/Millie`

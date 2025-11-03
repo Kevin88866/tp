@@ -85,10 +85,13 @@ public class MarkTreatmentCommand implements Command {
         }
 
         Treatment t = treatments.get(idx);
+        if (t.isCompleted()) {
+            Ui.println("The treatment is already marked.");
+            LOGGER.info(() -> "Mark: treatment already marked for " + petName + " i/" + index1Based);
+            return;
+        }
         t.setCompleted(true);
-        Ui.println("Marked as done");
-        Ui.println("Pet: " + petName);
-        Ui.println("Index: " + index1Based);
+        Ui.println("Marked " + t.getName() + " on " + t.getDate() + " as done for " + petName);
         LOGGER.info(() -> "Marked: " + petName + " i/" + index1Based + " \"" + t.getName() + "\"");
     }
 

@@ -2,6 +2,7 @@ package seedu.cuddlecare.command.impl;
 
 import seedu.cuddlecare.parser.GroupTreatmentsByTypeParser;
 import seedu.cuddlecare.parser.args.GroupTreatmentsByTypeArgs;
+import seedu.cuddlecare.ui.args.GroupTreatmentsByTypeArg;
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.Treatment;
@@ -111,8 +112,9 @@ public class GroupTreatmentsByTypeCommand implements Command {
             return;
         }
 
-        Map<String, List<Row>> groups = buildGroups(List.of(pet));
-        printGroups(groups, pet.getName() + "'s treatments grouped by type:");
+        Map<String, List<GroupTreatmentsByTypeArg.Row>> groups = buildGroups(List.of(pet));
+        Ui.printGroups(groups, pet.getName() + "'s treatments grouped by type:");
+        LOGGER.log(Level.INFO, "Printed {0} group(s) by type", groups.size());
     }
 
     private void hasAnyTreatments() {
@@ -129,45 +131,33 @@ public class GroupTreatmentsByTypeCommand implements Command {
             return;
         }
 
-        Map<String, List<Row>> groups = buildGroups(pets.toList());
-        printGroups(groups, "Treatments grouped by type:");
+        Map<String, List<GroupTreatmentsByTypeArg.Row>> groups = buildGroups(pets.toList());
+        Ui.printGroups(groups, "Treatments grouped by type:");
+        LOGGER.log(Level.INFO, "Printed {0} group(s) by type", groups.size());
     }
 
-    private Map<String, List<Row>> buildGroups(List<Pet> scope) {
-        Map<String, List<Row>> tmp = new LinkedHashMap<>();
+    private Map<String, List<GroupTreatmentsByTypeArg.Row>> buildGroups(List<Pet> scope) {
+        Map<String, List<GroupTreatmentsByTypeArg.Row>> tmp = new LinkedHashMap<>();
 
         for (Pet pet : scope) {
             for (Treatment t : pet.getTreatments()) {
                 String type = extractType(t);
-                tmp.computeIfAbsent(type, k -> new ArrayList<>()).add(new Row(pet, t));
+                tmp.computeIfAbsent(type, k -> new ArrayList<>()).add(new GroupTreatmentsByTypeArg.Row(pet, t));
             }
         }
 
         List<String> sortedTypes = new ArrayList<>(tmp.keySet());
         sortedTypes.sort(String.CASE_INSENSITIVE_ORDER);
 
-        Map<String, List<Row>> result = new LinkedHashMap<>();
+        Map<String, List<GroupTreatmentsByTypeArg.Row>> result = new LinkedHashMap<>();
         for (String type : sortedTypes) {
-            List<Row> rows = tmp.get(type);
+            List<GroupTreatmentsByTypeArg.Row> rows = tmp.get(type);
             rows.sort(Comparator.comparing(r -> extractDate(r.t)));
             result.put(type, rows);
         }
         return result;
     }
 
-    private void printGroups(Map<String, List<Row>> groups, String header) {
-        Ui.printHeader(header);
-        for (Map.Entry<String, List<Row>> e : groups.entrySet()) {
-            String type = e.getKey();
-            List<Row> rows = e.getValue();
-            Ui.println("== " + type + " ==");
-            int idx = 1;
-            for (Row r : rows) {
-                Ui.println((idx++) + ". " + r.pet.getName() + ": " + r.t);
-            }
-        }
-        LOGGER.log(Level.INFO, "Printed {0} group(s) by type", groups.size());
-    }
 
     // GroupTreatmentsByTypeCommand.java
     private static String extractType(Treatment t) {
@@ -175,7 +165,7 @@ public class GroupTreatmentsByTypeCommand implements Command {
         if (name == null || name.isBlank()) {
             return "Unknown";
         }
-        String[] parts = name.trim().split("\\s+", 2);
+        String[] parts = name.trim().toLowerCase().split("\\s+", 2);
         return parts[0];
     }
 
@@ -183,12 +173,4 @@ public class GroupTreatmentsByTypeCommand implements Command {
         return t.getDate();
     }
 
-    private static final class Row {
-        final Pet pet;
-        final Treatment t;
-        Row(Pet pet, Treatment t) {
-            this.pet = pet;
-            this.t = t;
-        }
-    }
 }

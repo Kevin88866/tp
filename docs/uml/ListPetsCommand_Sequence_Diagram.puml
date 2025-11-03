@@ -28,10 +28,14 @@ alt empty
 else non-empty
   LPC --> CWA : "Here are your pets..."
 end
-  LPC --> Ui : prints
-deactivate LPC
+  LPC -> Ui : prints
+  deactivate LPC
+  activate Ui
+
 CWA --> CuddleCare : return
 deactivate CWA
-Ui --> User : prints
 deactivate CuddleCare
+Ui --> User : prints
+deactivate Ui
+
 @enduml

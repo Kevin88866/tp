@@ -29,13 +29,18 @@ alt not found
   UTC --> CWA : "No such pet"
 else found
   UTC -> Pet : getTreatments()[index-1].setCompleted(false)
+  activate Pet
   Pet --> UTC : ok
+  deactivate Pet
   UTC --> CWA : "Unmarked."
 end
-  UTC --> Ui : prints
+  UTC -> Ui : prints
 deactivate UTC
+activate Ui
 CWA --> CuddleCare : return
 deactivate CWA
-Ui --> User : prints
+
 deactivate CuddleCare
+Ui --> User : prints
+deactivate Ui
 @enduml
