@@ -75,9 +75,10 @@ public class AddPetCommand implements Command {
                 }
             }
 
-            if (name == null || species == null || age < 0) {
+            if (name == null || name.isEmpty() || species == null ||
+                    species.isEmpty() || age < 0 || age > 100) {
                 LOGGER.log(Level.WARNING, "Invalid input. Missing/invalid fields.");
-                System.out.println("Invalid input. Please try again.");
+                System.out.println("Invalid Syntax: " + SYNTAX + " (range: 0-100)");
                 return;
             }
 

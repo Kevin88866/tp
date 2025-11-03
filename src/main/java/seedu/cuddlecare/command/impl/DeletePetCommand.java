@@ -26,7 +26,7 @@ public class DeletePetCommand implements Command {
     private static final Logger LOGGER = Logger.getLogger(DeletePetCommand.class.getName());
 
 
-    private static final String SYNTAX = "delete-pet n/<pet name>";
+    private static final String SYNTAX = "delete-pet n/PET_NAME";
     private static final String SHORT_DESCRIPTION = "Deletes a pet from the application by name";
     private static final String LONG_DESCRIPTION = "Removes a pet from the PetList " +
             "based on its name. If the pet exists, it will be " +
@@ -81,7 +81,7 @@ public class DeletePetCommand implements Command {
 
         if (pet == null) {
             System.out.printf("No Pet named \"%s\" exists%n", petName);
-            LOGGER.log(Level.WARNING, "Invalid Pet Name: "+petName);
+            LOGGER.log(Level.WARNING, "Invalid Pet Name: " + petName);
             return;
         }
 
