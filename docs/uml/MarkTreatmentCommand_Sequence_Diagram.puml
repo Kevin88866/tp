@@ -28,8 +28,7 @@ deactivate PetList
 alt not found
   MTC -> Ui : print("No such pet")
   activate Ui
-  Ui --> User : displays message
-  Ui --> MTC : done
+  Ui --> MTC : displays message
   deactivate Ui
 else found
   MTC -> Pet : getTreatments()[index-1].setCompleted(true)
@@ -38,8 +37,7 @@ else found
   deactivate Pet
   MTC -> Ui : print("Marked.")
   activate Ui
-  Ui --> User : displays confirmation
-  Ui --> MTC : done
+  Ui --> MTC : displays message
   deactivate Ui
 end
 
@@ -47,5 +45,6 @@ MTC --> CWA : return
 deactivate MTC
 CWA --> CuddleCare : return
 deactivate CWA
+CuddleCare --> User : return
 deactivate CuddleCare
 @enduml

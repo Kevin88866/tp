@@ -28,8 +28,7 @@ deactivate PetList
 alt not found
   UTC -> Ui : print("No such pet")
   activate Ui
-  Ui --> User : displays message
-  Ui --> UTC : done
+  Ui --> UTC : displays message
   deactivate Ui
 else found
   UTC -> Pet : getTreatments()[index-1].setCompleted(false)
@@ -38,8 +37,7 @@ else found
   deactivate Pet
   UTC -> Ui : print("Unmarked.")
   activate Ui
-  Ui --> User : displays confirmation
-  Ui --> UTC : done
+  Ui --> UTC : displays message
   deactivate Ui
 end
 
@@ -47,5 +45,6 @@ UTC --> CWA : return
 deactivate UTC
 CWA --> CuddleCare : return
 deactivate CWA
+CuddleCare --> User : return
 deactivate CuddleCare
 @enduml

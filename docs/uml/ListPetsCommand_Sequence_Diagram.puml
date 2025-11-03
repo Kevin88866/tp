@@ -27,14 +27,12 @@ deactivate PetList
 alt empty
   LPC -> Ui : print("No pets found.")
   activate Ui
-  Ui --> User : displays message
-  Ui --> LPC : done
+  Ui --> LPC : displays message
   deactivate Ui
 else non-empty
   LPC -> Ui : print("Here are your pets...")
   activate Ui
-  Ui --> User : displays pet list
-  Ui --> LPC : done
+  Ui --> LPC : displays message
   deactivate Ui
 end
 
@@ -42,5 +40,6 @@ LPC --> CWA : return
 deactivate LPC
 CWA --> CuddleCare : return
 deactivate CWA
+CuddleCare --> User : return
 deactivate CuddleCare
 @enduml

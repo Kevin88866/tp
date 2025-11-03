@@ -28,8 +28,7 @@ alt filter provided (n/PET_NAME)
   alt pet not found
     GTC -> Ui : print("No such pet")
     activate Ui
-    Ui --> User : displays message
-    Ui --> GTC : done
+    Ui --> GTC : displays message
     deactivate Ui
   else pet found
     GTC -> GTC : process rows (flatten + group by type)
@@ -51,14 +50,12 @@ end
 alt no treatments
   GTC -> Ui : print("No treatments logged")
   activate Ui
-  Ui --> User : displays message
-  Ui --> GTC : done
+  Ui --> GTC : displays message
   deactivate Ui
 else grouped results
   GTC -> Ui : print("Grouped results by type")
   activate Ui
-  Ui --> User : displays grouped treatments
-  Ui --> GTC : done
+  Ui --> GTC : displays message
   deactivate Ui
 end
 
@@ -66,5 +63,6 @@ GTC --> CWA : return
 deactivate GTC
 CWA --> CuddleCare : return
 deactivate CWA
+CuddleCare --> User : return
 deactivate CuddleCare
 @enduml
