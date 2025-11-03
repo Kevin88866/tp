@@ -86,7 +86,10 @@ public class Ui {
 
     public static void printEditPetUsage() {
         System.out.println("Usage: edit-pet n/OLD_NAME [nn/NEW_NAME] [s/SPECIES] [a/AGE]");
+        System.out.println("Names/species: letters, spaces and '-' only.");
+        System.out.println("NEW_NAME max 20 chars, SPECIES max 30 chars, AGE between 0 and 200 (inclusive).");
     }
+
 
     public static void printGroups(Map<String, List<GroupTreatmentsByTypeArg.Row>> groups, String header) {
         Ui.printHeader(header);

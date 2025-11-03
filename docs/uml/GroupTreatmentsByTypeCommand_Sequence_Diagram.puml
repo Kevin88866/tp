@@ -6,7 +6,7 @@ participant ":Parser" as Parser
 participant ":CommandWithArguments" as CWA
 participant ":GroupTreatmentsByTypeCommand" as GTC
 participant ":PetList" as PetList
-participant ":Ui" as Ui
+participant "<<class>>\nUi" as Ui
 
 User -> CuddleCare : group-treatments-by-type [args]
 activate CuddleCare
@@ -26,7 +26,11 @@ alt filter provided (n/PET_NAME)
   PetList --> GTC : Pet / null
   deactivate PetList
   alt pet not found
-    GTC --> CWA : "No such pet"
+    GTC -> Ui : print("No such pet")
+    activate Ui
+    Ui --> User : displays message
+    Ui --> GTC : done
+    deactivate Ui
   else pet found
     GTC -> GTC : process rows (flatten + group by type)
     activate GTC
@@ -45,16 +49,22 @@ else no filter
 end
 
 alt no treatments
-  GTC --> CWA : "No treatments logged"
+  GTC -> Ui : print("No treatments logged")
+  activate Ui
+  Ui --> User : displays message
+  Ui --> GTC : done
+  deactivate Ui
 else grouped results
-  GTC --> CWA : print groups by type
+  GTC -> Ui : print("Grouped results by type")
+  activate Ui
+  Ui --> User : displays grouped treatments
+  Ui --> GTC : done
+  deactivate Ui
 end
-GTC -> Ui : prints
+
+GTC --> CWA : return
 deactivate GTC
-activate Ui
 CWA --> CuddleCare : return
 deactivate CWA
 deactivate CuddleCare
-Ui --> User : prints
-deactivate Ui
 @enduml

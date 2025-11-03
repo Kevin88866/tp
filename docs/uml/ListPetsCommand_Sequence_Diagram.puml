@@ -6,7 +6,7 @@ participant ":Parser" as Parser
 participant ":CommandWithArguments" as CWA
 participant ":ListPetsCommand" as LPC
 participant ":PetList" as PetList
-participant ":Ui" as Ui
+participant "<<class>>\nUi" as Ui
 
 User -> CuddleCare : "list pets"
 activate CuddleCare
@@ -23,19 +23,24 @@ LPC -> PetList : size()
 activate PetList
 PetList --> LPC : n
 deactivate PetList
-alt empty
-  LPC --> CWA : "No pets found."
-else non-empty
-  LPC --> CWA : "Here are your pets..."
-end
-  LPC -> Ui : prints
-  deactivate LPC
-  activate Ui
 
+alt empty
+  LPC -> Ui : print("No pets found.")
+  activate Ui
+  Ui --> User : displays message
+  Ui --> LPC : done
+  deactivate Ui
+else non-empty
+  LPC -> Ui : print("Here are your pets...")
+  activate Ui
+  Ui --> User : displays pet list
+  Ui --> LPC : done
+  deactivate Ui
+end
+
+LPC --> CWA : return
+deactivate LPC
 CWA --> CuddleCare : return
 deactivate CWA
 deactivate CuddleCare
-Ui --> User : prints
-deactivate Ui
-
 @enduml

@@ -7,7 +7,7 @@ participant ":CommandWithArguments" as CWA
 participant ":UnmarkTreatmentCommand" as UTC
 participant ":PetList" as PetList
 participant ":Pet" as Pet
-participant ":Ui" as Ui
+participant "<<class>>\nUi" as Ui
 
 User -> CuddleCare : unmark n/Milo i/2
 activate CuddleCare
@@ -26,21 +26,26 @@ PetList --> UTC : Pet/null
 deactivate PetList
 
 alt not found
-  UTC --> CWA : "No such pet"
+  UTC -> Ui : print("No such pet")
+  activate Ui
+  Ui --> User : displays message
+  Ui --> UTC : done
+  deactivate Ui
 else found
   UTC -> Pet : getTreatments()[index-1].setCompleted(false)
   activate Pet
   Pet --> UTC : ok
   deactivate Pet
-  UTC --> CWA : "Unmarked."
+  UTC -> Ui : print("Unmarked.")
+  activate Ui
+  Ui --> User : displays confirmation
+  Ui --> UTC : done
+  deactivate Ui
 end
-  UTC -> Ui : prints
+
+UTC --> CWA : return
 deactivate UTC
-activate Ui
 CWA --> CuddleCare : return
 deactivate CWA
-
 deactivate CuddleCare
-Ui --> User : prints
-deactivate Ui
 @enduml

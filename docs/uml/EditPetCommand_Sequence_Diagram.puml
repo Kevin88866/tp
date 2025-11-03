@@ -7,7 +7,7 @@ participant ":CommandWithArguments" as CWA
 participant ":EditPetCommand" as EPC
 participant ":PetList" as PetList
 participant ":Pet" as Pet
-participant ":Ui" as Ui
+participant "<<class>>\nUi" as Ui
 
 User -> CuddleCare : edit-pet n/Milo a/4
 activate CuddleCare
@@ -22,25 +22,30 @@ CWA -> EPC : exec(...)
 activate EPC
 EPC -> PetList : getPetByName("Milo")
 activate PetList
-PetList --> EPC : Pet/null
+PetList --> EPC : Pet / null
 deactivate PetList
 
-alt not found
-  EPC --> CWA : "Pet not found"
-else found
+alt pet not found
+  EPC -> Ui : print("Pet not found")
+  activate Ui
+  Ui --> User : prints
+  Ui --> EPC : done
+  deactivate Ui
+else pet found
   EPC -> Pet : setAge(4) [maybe setName/setSpecies]
   activate Pet
   Pet --> EPC : ok
   deactivate Pet
-  EPC --> CWA : success
+  EPC -> Ui : print("success")
+  activate Ui
+  Ui --> User : prints
+  Ui --> EPC : done
+  deactivate Ui
 end
-  EPC -> Ui : prints
+
+EPC --> CWA : return
 deactivate EPC
-activate Ui
 CWA --> CuddleCare : return
 deactivate CWA
 deactivate CuddleCare
-Ui --> User : prints
-deactivate Ui
-
 @enduml
