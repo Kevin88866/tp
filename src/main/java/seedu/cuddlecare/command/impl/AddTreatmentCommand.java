@@ -65,12 +65,19 @@ public class AddTreatmentCommand implements Command {
             String note = null;
             LocalDate date = null;
 
-            // Parse note first
             int noteIndex = args.indexOf("note/");
             if (noteIndex != -1) {
                 note = args.substring(noteIndex + 5).trim();
+
+                // Check if note/ is present but empty, throw error
+                if (note.isEmpty()) {
+                    throw new IllegalArgumentException("Error: Note cannot be empty when 'note/' is provided. " +
+                            "Either provide a note or omit 'note/' entirely.");
+                }
+
                 args = args.substring(0, noteIndex).trim();
             }
+
 
             String[] parts = args.split("(?=n/|t/|d/)");
 
@@ -176,13 +183,43 @@ public class AddTreatmentCommand implements Command {
     }
 
     /**
+     * Checks if a duplicate treatment already exists for the pet.
+     *
+     * @param pet the pet to check
+     * @param treatmentName the treatment name
+     * @param date the treatment date
+     * @return true if duplicate exists, false otherwise
+     */
+    private boolean isDuplicateTreatment(Pet pet, String treatmentName, LocalDate date) {
+        for (Treatment treatment : pet.getTreatments()) {
+            if (treatment.getName().equalsIgnoreCase(treatmentName) &&
+                    treatment.getDate().equals(date)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Adds a treatment to the specified pet.
+     * Checks for duplicates before adding.
      *
      * @param pet the pet to add the treatment to
      * @param treatmentName the treatment name
+     * @param note the treatment note
      * @param date the treatment date
+     * @throws IllegalArgumentException if duplicate treatment exists
      */
     private void addTreatmentToPet(Pet pet, String treatmentName, String note, LocalDate date) {
+        // Check for duplicate before adding
+        if (isDuplicateTreatment(pet, treatmentName, date)) {
+            LOGGER.log(Level.INFO, "Duplicate treatment '{0}' on {1} for {2}",
+                    new Object[]{treatmentName, date, pet.getName()});
+            throw new IllegalArgumentException(
+                    "Duplicate treatment: \"" + treatmentName + "\" on " + date +
+                            " already exists for " + pet.getName() + ".");
+        }
+
         Treatment newTreatment = new Treatment(treatmentName, note, date);
         pet.addTreatment(newTreatment);
         LOGGER.log(Level.INFO, "Added treatment '{0}' for {1} on {2}",

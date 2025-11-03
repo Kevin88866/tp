@@ -1,8 +1,11 @@
 package seedu.cuddlecare.command.impl;
 
 import seedu.cuddlecare.command.Command;
+import seedu.cuddlecare.ui.Ui;
 
 import java.util.List;
+
+//@@author HarshitSrivastavaHS
 
 /**
  * A command that exits the application.
@@ -27,7 +30,7 @@ public class ByeCommand implements Command {
      * @param args ignored; ByeCommand does not use any arguments
      */
     public void exec(String args) {
-        System.out.println("Bye bye, Have a wonderful day ahead :)");
+        Ui.printByeMessage();
         System.exit(0);
     }
 
