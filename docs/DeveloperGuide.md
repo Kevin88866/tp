@@ -249,12 +249,36 @@ maintains a list of Treatment objects.
 
 When executed, the command:
 
-1. Parses user input to extract the pet name (`n/`), treatment name (`t/`), and date (`d/`)
-2. Retrieves the corresponding Pet object from the PetList using `getPetByName()`
-3. Validates the date format using `LocalDate.parse()`
-4. Creates a new Treatment object with the validated parameters
-5. Adds the treatment to the pet's treatment list via `addTreatment()`
-6. Displays a confirmation message or error if validation fails
+1. **Parse Note**
+    - Extracts everything after `note/`
+    - Validates that note is not empty if `note/` tag is provided
+
+2. **Parse Required Parameters**
+    - Extracts pet name (`n/`), treatment name (`t/`), and date (`d/`)
+    - Validates treatment name against `NAME_PATTERN` and length constraint
+    - Parses and validates date format using `LocalDate.parse()`
+
+3. **Validate Date Range**
+    - Checks date is not more than 10 years in the past
+    - Checks date is not more than 100 years in the future
+
+4. **Retrieve Pet**
+    - Fetches corresponding Pet object from PetList using `getPetByName()`
+    - Throws error if pet not found
+
+5. **Check for Duplicates**
+    - Compares new treatment against existing treatments (name + date)
+    - Rejects if duplicate found
+
+6. **Add Treatment**
+    - Creates new Treatment object with validated parameters
+    - Adds treatment to pet's treatment list via `addTreatment()`
+    - Displays confirmation message
+
+7. **Error Handling**
+    - Catches `IllegalArgumentException` for validation failures
+    - Catches `DateTimeParseException` for invalid date format
+    - Displays appropriate error messages via `System.out.println()`
 
 The command validates all inputs before modifying the pet's treatment list. If the pet is not found or the date format
 is invalid, appropriate error messages are displayed.

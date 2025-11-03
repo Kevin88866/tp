@@ -179,7 +179,10 @@ add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE [note/NOTE]
 
 * n/ (required): name of the pet
 * t/ (required): name of the treatment
+  * Maximum 50 characters.
+  * Only letters, hyphens, and spaces allowed.
 * d/ (required): date in yyyy-MM-dd format
+  * Between 10 years in the past and 100 years in the future from the day of.
 * note/ (optional): additional notes about the treatment
 
 **Example**
@@ -196,7 +199,7 @@ Note: Dr. Smith, $200
 **Notes**
 
 * Date must be in yyyy-MM-dd format (e.g., 2025-10-06).
-* If pet not found: Pet not found: <name>.
+* If pet not found: `Pet not found: <name>.`
 * If date is invalid: `Invalid date format. Please use yyyy-MM-dd format (e.g., 2024-12-25).`
 * On missing required fields: `Invalid input. Usage: add-treatment n/PET_NAME t/TREATMENT_NAME d/DATE note/{NOTE}.`
 
