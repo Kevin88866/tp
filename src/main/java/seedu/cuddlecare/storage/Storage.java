@@ -3,15 +3,18 @@ package seedu.cuddlecare.storage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
@@ -23,6 +26,11 @@ public class Storage {
      * Logger instance for this class.
      */
     private static final Logger LOGGER = Logger.getLogger(Storage.class.getName());
+    private static final int MAX_PET_NAME_LENGTH = 20;
+    private static final int MAX_PET_SPECIE_LENGTH = 30;
+    private static final int MAX_TREATMENT_NAME_LENGTH = 50;
+    private static final int MAX_FUTURE_YEAR = 100;
+    private static final int MAX_PET_AGE = 200;
 
     /**
      * Save file location.
@@ -54,13 +62,19 @@ public class Storage {
         }
 
         try {
-            List<String> lines = Files.readAllLines(Paths.get(filePath));
+            List<String> lines = Files.readAllLines(Paths.get(filePath), StandardCharsets.UTF_8);
             Map<String, Pet> petMap = new HashMap<>();
+            Map<String, ArrayList<Treatment>> treatmentsMap = new HashMap<>();
             boolean isReadingPets = true;
 
             for (String line : lines) {
                 line = line.trim();
-                if (line.isEmpty() || line.equalsIgnoreCase("# Pets")) {
+                if (line.isEmpty()) {
+                    continue;
+                }
+
+                if (line.equalsIgnoreCase("# Pets")) {
+                    isReadingPets = true;
                     continue;
                 }
 
@@ -69,13 +83,16 @@ public class Storage {
                     continue;
                 }
 
-                String[] parts = line.split("\\|");
                 if (isReadingPets) {
+                    String[] parts = line.split("\\|");
                     processPet(parts, petMap);
                 } else {
-                    processTreatment(parts, petMap);
+                    String[] parts = line.split("\\|", 5);
+                    processTreatment(parts, treatmentsMap);
                 }
             }
+
+            loadTreatments(petMap, treatmentsMap);
 
             LOGGER.log(Level.INFO, "Data successfully loaded from " + filePath);
         } catch (IOException e) {
@@ -93,19 +110,40 @@ public class Storage {
      */
     private void processPet(String[] parts, Map<String, Pet> petMap) {
         if (parts.length < 3) {
+            LOGGER.log(Level.WARNING, "Unrecognized or malformed " +
+                    "line: " + String.join(" | ", parts));
             return;
         }
 
-        String name = parts[0].trim();
-        String species = parts[1].trim();
+        String name = parts[0].replaceAll("[^a-zA-Z\\- ]", "").toLowerCase().trim();
+        String species = parts[1].replaceAll("[^a-zA-Z\\- ]", "").toLowerCase().trim();
         int age;
 
+        if (name.isEmpty()) {
+            LOGGER.log(Level.WARNING, "Invalid pet name -> blank");
+            return;
+        }
+
+        if (species.isEmpty()) {
+            LOGGER.log(Level.WARNING, "Invalid pet species -> blank");
+            return;
+        }
+
         try {
-            age = Integer.parseInt(parts[2].trim());
+            age = Math.abs(Integer.parseInt(parts[2].trim()));
         } catch (NumberFormatException e) {
             LOGGER.log(Level.WARNING, "Invalid age for pet " + name);
             return;
         }
+
+        if (petMap.containsKey(name)) {
+            LOGGER.log(Level.WARNING, "Pet already added: "+name);
+            return;
+        }
+
+        name = name.substring(0, Math.min(name.length(), MAX_PET_NAME_LENGTH));
+        age = Math.min(age, MAX_PET_AGE);
+        species = species.substring(0, Math.min(species.length(), MAX_PET_SPECIE_LENGTH));
 
         Pet pet = new Pet(name, species, age);
         pets.add(pet);
@@ -113,20 +151,34 @@ public class Storage {
     }
 
     /**
-     * Processes each line from the save file that contains
-     * information about each treatment and assigns it to
-     * the corresponding pet.
-     * @param parts each part of the line in the save file
-     * @param petMap the name of the pet to its Pet object
+     * Parses a line from the save file representing a treatment and stores it
+     * in a temporary map until all pets have been processed.
+     *
+     * @param parts          the split components of the line
+     *                       (format: petName | treatmentName | date | completed | note)
+     * @param treatmentsMap  a map linking lowercase pet names to their list of {@link Treatment} objects
      */
-    private void processTreatment(String[] parts, Map<String, Pet> petMap) {
+    private void processTreatment(String[] parts,
+                                  Map<String, ArrayList<Treatment>> treatmentsMap) {
         if (parts.length < 4) {
+            LOGGER.log(Level.WARNING, "Malformed Treatment " +
+                    "-> Ignoring: "+String.join(" | ", parts));
             return;
         }
 
-        String petName = parts[0].trim();
-        String treatmentName = parts[1].trim();
+        String petName = parts[0].replaceAll("[^a-zA-Z\\- ]", "").toLowerCase().trim();
+        String treatmentName = parts[1].replaceAll("[^a-zA-Z\\- ]", "").toLowerCase().trim();
         LocalDate date;
+
+        if (petName.isEmpty()) {
+            LOGGER.log(Level.WARNING, "PetName cannot be empty for the provided treatment");
+            return;
+        }
+
+        if (treatmentName.isEmpty()) {
+            LOGGER.log(Level.WARNING, "Treatment name cannot be empty");
+            return;
+        }
 
         try {
             date = LocalDate.parse(parts[2].trim());
@@ -135,18 +187,58 @@ public class Storage {
             return;
         }
 
+        petName = petName.substring(0, Math.min(petName.length(), MAX_PET_NAME_LENGTH));
+        treatmentName = treatmentName.substring(0, Math.min(treatmentName.length(), MAX_TREATMENT_NAME_LENGTH));
+
+        LocalDate maxFutureDate = LocalDate.now().plusYears(MAX_FUTURE_YEAR);
+        date = date.isAfter(maxFutureDate) ? maxFutureDate : date;
+
         boolean isComplete = Boolean.parseBoolean(parts[3].trim());
         String note = (parts.length >= 5) ? parts[4].trim() : "";
 
-        Pet pet = petMap.get(petName);
-        if (pet == null) {
-            LOGGER.log(Level.WARNING, "Pet not found for treatment " + treatmentName);
-            return;
-        }
-
         Treatment t = new Treatment(treatmentName, note, date);
         t.setCompleted(isComplete);
-        pet.addTreatment(t);
+
+        if (treatmentsMap.containsKey(petName)) {
+            treatmentsMap.get(petName).add(t);
+        } else {
+            ArrayList<Treatment> newList = new ArrayList<>();
+            newList.add(t);
+            treatmentsMap.put(petName, newList);
+        }
+    }
+
+    /**
+     * Assigns treatments from the temporary map to their corresponding pets.
+     * Logs a warning for treatments whose referenced pet does not exist
+     * or if the treatment is a duplicate.
+     *
+     * @param petMap        map of lowercase pet names to their corresponding {@link Pet} objects
+     * @param treatmentsMap map of lowercase pet names to their list of {@link Treatment} objects
+     */
+    private void loadTreatments(Map<String, Pet> petMap, Map<String,
+            ArrayList<Treatment>> treatmentsMap) {
+
+        for (Map.Entry<String, ArrayList<Treatment>> entry: treatmentsMap.entrySet()) {
+            Pet pet = petMap.get(entry.getKey());
+            if (pet == null) {
+                String treatmentNames = entry.getValue().stream()
+                        .map(Treatment::getName)
+                        .collect(Collectors.joining(", "));
+                LOGGER.log(Level.WARNING, String.format(
+                        "Pet '%s' not found for treatments: %s",
+                        entry.getKey(), treatmentNames));
+                continue;
+            }
+
+            for (Treatment treatment: entry.getValue()) {
+                if (pet.isDuplicateTreatment(treatment)) {
+                    LOGGER.log(Level.WARNING, String.format("Duplicate Treatment '%s' for pet '%s'", treatment, pet));
+                    continue;
+                }
+                pet.addTreatment(treatment);
+            }
+        }
     }
 
     /**
@@ -156,7 +248,7 @@ public class Storage {
     public void save() {
         try {
             createSaveDirectory();
-            FileWriter writer = new FileWriter(filePath);
+            FileWriter writer = new FileWriter(filePath, StandardCharsets.UTF_8);
             
             savePets(writer);
             saveTreatments(writer);

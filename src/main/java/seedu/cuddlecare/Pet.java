@@ -52,19 +52,43 @@ public class Pet {
         return treatments;
     }
 
-    /** Updates the pet's name. */
+    /**
+     * Updates the pet's name.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /** Updates the pet's species. */
+    /**
+     * Updates the pet's species.
+     */
     public void setSpecies(String species) {
         this.species = species;
     }
 
-    /** Updates the pet's age. */
+    /**
+     * Updates the pet's age.
+     */
     public void setAge(int age) {
         this.age = age;
+    }
+
+    /**
+     * Checks whether a given treatment is a duplicate of any existing treatment
+     * in the pet's treatment list. A treatment is considered a duplicate if
+     * it has the same name (case-insensitive) and the same date as an existing treatment.
+     *
+     * @param newTreatment the {@link Treatment} to check for duplication
+     * @return true if a duplicate treatment exists, false otherwise
+     */
+    public boolean isDuplicateTreatment(Treatment newTreatment) {
+        for (Treatment treatment: treatments) {
+            if (treatment.getName().equalsIgnoreCase(newTreatment.getName()) &&
+                treatment.getDate().equals(newTreatment.getDate())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
