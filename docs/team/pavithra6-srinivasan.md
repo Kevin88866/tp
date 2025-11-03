@@ -21,9 +21,13 @@ This feature is essential for pet owners to maintain treatments records for each
 them to record important details such as doctor names, medications, or costs.
 
 Highlights:
-* Implements robust input validation for dates using LocalDate.parse()
-* Supports multi-line notes with special characters 
-* Provides clear error messages for invalid inputs 
+* Robust Input Validation:
+  * Treatment names limited to 50 characters with regex pattern validation (`[a-zA-Z\\- ]+`)
+  * Date validation ensures entries are within 10 years past to 100 years future (110-year window)
+  * Empty optional parameter detection (prevents note/ with no value)
+* Duplicate Prevention: Prevents adding identical treatment name and date for the same pet 
+* Multi-line Note Support: Handles special characters and preserves formatting
+* Integrated with `Ui` class for consistent error messaging
 
 _PR_: [#23](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/23)
 
@@ -33,7 +37,7 @@ What it does:
 Removes a treatment record from a pet's history by index.
 
 Justification: 
-Users need the ability to remove incorrect or duplicate treatment entries.
+Users need the ability to remove incorrect or unwanted treatment entries to maintain data accuracy.
 
 Highlights:
 * Uses 1-based indexing for user-friendliness 
@@ -42,7 +46,7 @@ Highlights:
 
 _PR_: [#31](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/31)
 
-#### 3. Find Treatment by Phrase Feature
+#### 3. Find Treatments by Phrase Feature
    
 What it does: 
 Searches for treatments across all pets using case-insensitive substring matching.
@@ -53,7 +57,10 @@ multiple pets.
 
 Highlights:
 * Displays results with pet names and dates for easy reference 
-* Handles edge cases such as empty keywords and no matches gracefully
+* Edge Case Handling:
+  * Empty keyword validation 
+  * No matches found messaging 
+  * Handles pets with no treatments
 
 _PR_: [#71](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/71)
 
@@ -92,9 +99,11 @@ Sections Added:
 * Implementation details for Add Treatment, Delete Treatment, Find Treatment and Filter Treatments by Date features.
 * Design considerations and alternative approaches
 * Added class diagrams for add and delete treatment features
-* Added sequence diagrams for find treatment and filter treatment by date features
+* Added sequence diagrams for find treatments and filter treatments by date features
 
 #### Project Management
 * Reviewed pull requests from team members (#116)
+* Ensured code quality standards and UML diagram consistency
+
 #### Contributions to Team-Based Tasks
 * Reviewed pull requests from team members
