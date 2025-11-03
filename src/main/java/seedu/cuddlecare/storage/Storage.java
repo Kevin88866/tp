@@ -26,6 +26,11 @@ public class Storage {
      * Logger instance for this class.
      */
     private static final Logger LOGGER = Logger.getLogger(Storage.class.getName());
+    private static final int MAX_PET_NAME_LENGTH = 20;
+    private static final int MAX_PET_SPECIE_LENGTH = 30;
+    private static final int MAX_TREATMENT_NAME_LENGTH = 50;
+    private static final int MAX_FUTURE_YEAR = 100;
+    private static final int MAX_PET_AGE = 200;
 
     /**
      * Save file location.
@@ -136,9 +141,9 @@ public class Storage {
             return;
         }
 
-        name = name.substring(0, Math.min(name.length(), 20));
-        age = Math.min(age, 200);
-        species = species.substring(0, Math.min(species.length(), 30));
+        name = name.substring(0, Math.min(name.length(), MAX_PET_NAME_LENGTH));
+        age = Math.min(age, MAX_PET_AGE);
+        species = species.substring(0, Math.min(species.length(), MAX_PET_SPECIE_LENGTH));
 
         Pet pet = new Pet(name, species, age);
         pets.add(pet);
@@ -182,10 +187,10 @@ public class Storage {
             return;
         }
 
-        petName = petName.substring(0, Math.min(petName.length(), 20));
-        treatmentName = treatmentName.substring(0, Math.min(treatmentName.length(), 50));
+        petName = petName.substring(0, Math.min(petName.length(), MAX_PET_NAME_LENGTH));
+        treatmentName = treatmentName.substring(0, Math.min(treatmentName.length(), MAX_TREATMENT_NAME_LENGTH));
 
-        LocalDate maxFutureDate = LocalDate.now().plusYears(100);
+        LocalDate maxFutureDate = LocalDate.now().plusYears(MAX_FUTURE_YEAR);
         date = date.isAfter(maxFutureDate) ? maxFutureDate : date;
 
         boolean isComplete = Boolean.parseBoolean(parts[3].trim());
