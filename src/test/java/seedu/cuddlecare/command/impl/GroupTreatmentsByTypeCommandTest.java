@@ -69,9 +69,9 @@ public class GroupTreatmentsByTypeCommandTest {
 
         Assertions.assertTrue(s.contains("Treatments grouped by type:"), "Missing header.\n" + s);
 
-        int iCheckup = s.indexOf("== Checkup ==");
-        int iDeworm  = s.indexOf("== Deworm ==");
-        int iVaccine = s.indexOf("== Vaccine ==");
+        int iCheckup = s.indexOf("== checkup ==");
+        int iDeworm  = s.indexOf("== deworm ==");
+        int iVaccine = s.indexOf("== vaccine ==");
 
         Assertions.assertTrue(iCheckup >= 0, "Missing Checkup group.\n" + s);
         Assertions.assertTrue(iDeworm  >= 0, "Missing Deworm group.\n" + s);

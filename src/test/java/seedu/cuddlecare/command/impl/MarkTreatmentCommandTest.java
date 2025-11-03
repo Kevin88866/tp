@@ -76,8 +76,9 @@ public class MarkTreatmentCommandTest {
         cmd.exec("n/Milo i/2");
 
         String s = out.toString();
-        Assertions.assertTrue(s.contains("Marked as done"), "Expected success phrase missing.\n" + s);
-        Assertions.assertTrue(s.contains("Pet: Milo"), "Expected pet name missing.\n" + s);
+        Assertions.assertTrue(s.contains("Marked"), "Expected success phrase missing.\n" + s);
+        Assertions.assertTrue(s.contains("Checkup"), "Expected species missing.\n" + s);
+        Assertions.assertTrue(s.contains("Milo"), "Expected pet name missing.\n" + s);
     }
 
     /**
