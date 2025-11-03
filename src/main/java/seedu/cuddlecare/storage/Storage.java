@@ -29,7 +29,8 @@ public class Storage {
     private static final int MAX_PET_NAME_LENGTH = 20;
     private static final int MAX_PET_SPECIE_LENGTH = 30;
     private static final int MAX_TREATMENT_NAME_LENGTH = 50;
-    private static final int MAX_FUTURE_YEAR = 100;
+    private static final int MAX_TREATMENT_FUTURE_YEAR = 100;
+    private static final int MAX_TREATMENT_PAST_YEAR = 110;
     private static final int MAX_PET_AGE = 200;
 
     /**
@@ -190,8 +191,10 @@ public class Storage {
         petName = petName.substring(0, Math.min(petName.length(), MAX_PET_NAME_LENGTH));
         treatmentName = treatmentName.substring(0, Math.min(treatmentName.length(), MAX_TREATMENT_NAME_LENGTH));
 
-        LocalDate maxFutureDate = LocalDate.now().plusYears(MAX_FUTURE_YEAR);
+        LocalDate maxFutureDate = LocalDate.now().plusYears(MAX_TREATMENT_FUTURE_YEAR);
+        LocalDate maxPastDate = LocalDate.now().plusYears(MAX_TREATMENT_PAST_YEAR);
         date = date.isAfter(maxFutureDate) ? maxFutureDate : date;
+        date = date.isBefore(maxPastDate) ? maxPastDate : date;
 
         boolean isComplete = Boolean.parseBoolean(parts[3].trim());
         String note = (parts.length >= 5) ? parts[4].trim() : "";
