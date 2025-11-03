@@ -192,7 +192,7 @@ public class Storage {
         treatmentName = treatmentName.substring(0, Math.min(treatmentName.length(), MAX_TREATMENT_NAME_LENGTH));
 
         LocalDate maxFutureDate = LocalDate.now().plusYears(MAX_TREATMENT_FUTURE_YEAR);
-        LocalDate maxPastDate = LocalDate.now().plusYears(MAX_TREATMENT_PAST_YEAR);
+        LocalDate maxPastDate = LocalDate.now().minusYears(MAX_TREATMENT_PAST_YEAR);
         date = date.isAfter(maxFutureDate) ? maxFutureDate : date;
         date = date.isBefore(maxPastDate) ? maxPastDate : date;
 
