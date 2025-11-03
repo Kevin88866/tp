@@ -31,6 +31,10 @@ public class AddTreatmentCommand implements Command {
     private static final List<String> CATEGORIES = List.of("Treatment");
     // @@author
 
+    private static final int MAX_TREATMENT_NAME_LENGTH = 50;
+    private static final int MAX_FUTURE_YEARS = 100;
+    private static final String NAME_PATTERN = "[a-zA-Z\\- ]+";
+
     /**
      * A list of all pets.
      */
@@ -89,6 +93,7 @@ public class AddTreatmentCommand implements Command {
                 } else if (part.startsWith("d/")) {
                     String dateString = extractValue(part, "d/", "Date");
                     date = LocalDate.parse(dateString);
+                    validateTreatmentDate(date);
                 }
             }
             validateRequiredParameters(petName, treatmentName, date);
@@ -136,7 +141,7 @@ public class AddTreatmentCommand implements Command {
      * @param prefix the parameter prefix (e.g., "n/", "t/")
      * @param fieldName the name of the field for error messages
      * @return the extracted value
-     * @throws IllegalArgumentException if the value is empty
+     * @throws IllegalArgumentException if the value is empty or invalid
      */
     private String extractValue(String part, String prefix, String fieldName) {
         String value = part.substring(prefix.length()).trim();
@@ -145,7 +150,51 @@ public class AddTreatmentCommand implements Command {
             throw new IllegalArgumentException("Error: " + fieldName + " cannot be empty.");
         }
 
+        // Validate treatment name specifically
+        if (prefix.equals("t/")) {
+            validateTreatmentName(value);
+        }
+
         return value;
+    }
+
+    /**
+     * Validates the treatment name according to business rules.
+     *
+     * @param treatmentName the treatment name to validate
+     * @throws IllegalArgumentException if validation fails
+     */
+    private void validateTreatmentName(String treatmentName) {
+        // Check length
+        if (treatmentName.length() > MAX_TREATMENT_NAME_LENGTH) {
+            throw new IllegalArgumentException(
+                    "Error: Treatment name cannot exceed " + MAX_TREATMENT_NAME_LENGTH + " characters. " +
+                            "Current length: " + treatmentName.length());
+        }
+
+        // Check for valid characters
+        if (!treatmentName.matches(NAME_PATTERN)) {
+            throw new IllegalArgumentException(
+                    "Error: Treatment name can only contain letters (A-Z, a-z), hyphens (-), and spaces. " +
+                            "Invalid characters found in: \"" + treatmentName + "\"");
+        }
+    }
+
+    /**
+     * Validates that the treatment date is not more than 100 years in the future.
+     *
+     * @param date the date to validate
+     * @throws IllegalArgumentException if date is too far in the future
+     */
+    private void validateTreatmentDate(LocalDate date) {
+        LocalDate maxFutureDate = LocalDate.now().plusYears(MAX_FUTURE_YEARS);
+
+        if (date.isAfter(maxFutureDate)) {
+            throw new IllegalArgumentException(
+                    "Error: Treatment date cannot be more than " + MAX_FUTURE_YEARS +
+                            " years in the future. " +
+                            "Provided date: " + date + ", Maximum allowed: " + maxFutureDate);
+        }
     }
 
     /**
@@ -160,8 +209,8 @@ public class AddTreatmentCommand implements Command {
         if (petName == null || treatmentName == null || date == null) {
             LOGGER.log(Level.INFO, "Missing required parameters - petName: {0}, treatmentName: {1}, date: {2}",
                     new Object[]{petName, treatmentName, date});
-            Ui.printInvalidInputMessage(SYNTAX);  // ✅ Use Ui method
-            throw new IllegalArgumentException();  // Remove message from exception
+            Ui.printInvalidInputMessage(SYNTAX);
+            throw new IllegalArgumentException();
         }
     }
 
