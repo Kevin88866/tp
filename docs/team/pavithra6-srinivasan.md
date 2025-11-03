@@ -16,7 +16,6 @@ Code Contributed: [Code Dashboard](https://nus-cs2113-ay2526s1.github.io/tp-dash
 What it does: 
 Allows users to add treatment records to a pet with treatment name, date, and optional notes.
 
-Justification: 
 This feature is essential for pet owners to maintain treatments records for each pet. The optional note field allows 
 them to record important details such as doctor names, medications, or costs.
 
@@ -26,8 +25,6 @@ Highlights:
   * Date validation ensures entries are within 10 years past to 100 years future (110-year window)
   * Empty optional parameter detection (prevents note/ with no value)
 * Duplicate Prevention: Prevents adding identical treatment name and date for the same pet 
-* Multi-line Note Support: Handles special characters and preserves formatting
-* Integrated with `Ui` class for consistent error messaging
 
 _PR_: [#23](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/23)
 
@@ -36,7 +33,6 @@ _PR_: [#23](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/23)
 What it does: 
 Removes a treatment record from a pet's history by index.
 
-Justification: 
 Users need the ability to remove incorrect or unwanted treatment entries to maintain data accuracy.
 
 Highlights:
@@ -51,7 +47,6 @@ _PR_: [#31](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/31)
 What it does: 
 Searches for treatments across all pets using case-insensitive substring matching.
 
-Justification:  
 Pet owners often need to quickly locate all instances of a particular treatment type (e.g., all vaccinations) across 
 multiple pets.
 
@@ -69,13 +64,11 @@ _PR_: [#71](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/71)
 What it does: 
 Displays all treatments within a specified date range across all pets.
 
-Justification: 
 Essential for reviewing recent treatments, generating reports, or planning follow-up appointments.
 
 Highlights:
 * Inclusive date range (includes both start and end dates) matches user expectations 
 * Validates that start date is not after end date 
-* Provides clear error messages for invalid date formats or ranges
 
 _PR_: [#74](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/74)
 
@@ -85,6 +78,13 @@ Added JUnit testing for following features
 * `DeleteTreatmentCommandTest`
 * `FilterTreatmentByDateCommandTest`
 * `FindTreatmentCommandTest`
+
+#### Project Management
+* Reviewed pull requests from team members [#116](https://github.com/AY2526S1-CS2113-T11-4/tp/pull/116)
+* Ensured code quality standards and UML diagram consistency
+
+#### Contributions to Team-Based Tasks
+* Reviewed pull requests from team members
 
 #### Documentation
 #### User Guide
@@ -100,10 +100,3 @@ Sections Added:
 * Design considerations and alternative approaches
 * Added class diagrams for add and delete treatment features
 * Added sequence diagrams for find treatments and filter treatments by date features
-
-#### Project Management
-* Reviewed pull requests from team members (#116)
-* Ensured code quality standards and UML diagram consistency
-
-#### Contributions to Team-Based Tasks
-* Reviewed pull requests from team members
