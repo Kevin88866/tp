@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -43,7 +44,7 @@ public class HelpCommandTest {
     }
 
     @Test
-    public void testExec_noArgumentsProvided_allCommandsPrintedInCategoryOrder() {
+    public void exec_noArgumentsProvided_allCommandsPrintedInCategoryOrder() {
         Map<String, Command> commands = new HashMap<>();
         commands.put("add-pet", new AddPetCommand(new PetList()));
         commands.put("mark", new MarkTreatmentCommand(new PetList()));
@@ -69,7 +70,7 @@ public class HelpCommandTest {
     }
 
     @Test
-    public void testExec_commandNameProvided_specificCommandHelpPrinted() {
+    public void exec_commandNameProvided_specificCommandHelpPrinted() {
         Map<String, Command> commands = new HashMap<>();
         commands.put("add-pet", new AddPetCommand(new PetList()));
         commands.put("mark", new MarkTreatmentCommand(new PetList()));
@@ -89,7 +90,7 @@ public class HelpCommandTest {
     }
 
     @Test
-    public void testExec_invalidCommandName_printCommandMessage() {
+    public void exec_invalidCommandName_printCommandMessage() {
         Map<String, Command> commands = new HashMap<>();
         commands.put("help", new HelpCommand());
         helpCommand.setCommands(commands);
@@ -101,7 +102,7 @@ public class HelpCommandTest {
     }
 
     @Test
-    public void testExec_invalidSyntax_invalidSyntaxMessage() {
+    public void exec_invalidSyntax_invalidSyntaxMessage() {
         Map<String, Command> commands = new HashMap<>();
         commands.put("help", new HelpCommand());
         helpCommand.setCommands(commands);
@@ -114,8 +115,22 @@ public class HelpCommandTest {
     }
 
     @Test
-    public void testExec_noCommandsSet_throwsAssertionError() {
+    public void exec_noCommandsSet_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> helpCommand.setCommands(null));
+    }
+
+    @Test
+    public void hasCommands_noCommands_returnsFalse() {
+        assertFalse(helpCommand.hasCommands());
+    }
+
+    @Test
+    public void hasCommands_commandsAdded_returnsTrue() {
+        Map<String, Command> commands = new HashMap<>();
+        commands.put("help", new HelpCommand());
+        helpCommand.setCommands(commands);
+
+        assertTrue(helpCommand.hasCommands());
     }
 
     @AfterEach

@@ -40,6 +40,24 @@ public class CommandWithArguments implements Command {
     }
 
     /**
+     * Returns the underlying {@link Command}.
+     *
+     * @return the wrapped command
+     */
+    public Command getCommand() {
+        return command;
+    }
+
+    /**
+     * Returns the arguments associated with the command.
+     *
+     * @return the stored arguments string
+     */
+    public String getArgs() {
+        return args;
+    }
+
+    /**
      * Executes the underlying command using the stored arguments.
      * <p>
      * The {@code exec} parameter is ignored because arguments

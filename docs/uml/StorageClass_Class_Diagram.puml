@@ -1,0 +1,57 @@
+@startuml
+title Storage Class Diagram
+skinparam classAttributeIconSize 0
+hide circle
+
+class Storage {
+    - filePath : String
+    - {static} LOGGER : Logger
+    - {static} MAX_PET_NAME_LENGTH : int
+    - {static} MAX_PET_SPECIE_LENGTH : int
+    - {static} MAX_TREATMENT_NAME_LENGTH : int
+    - {static} MAX_TREATMENT_FUTURE_YEAR : int
+    - {static} MAX_TREATMENT_PAST_YEAR : int
+    - {static} MAX_PET_AGE : int
+
+    + Storage(filePath : String, pets : PetList)
+    + save() : void
+    - processPet() : void
+    - processTreatment() : void
+    - loadTreatments() : void
+    + load() : void
+    - savePets() : void
+    - saveTreatments() : void
+    - createSaveDirectory() : void
+}
+
+class PetList {
+    + PetList()
+    + add(pet : Pet) : boolean
+}
+
+class Pet {
+    - name : String
+    - species : String
+    - age : int
+
+    + Pet(name : String, species : String, age : int)
+    + isDuplicateTreatment(newTreatment : Treatment) : boolean
+    + addTreatment(treatment : Treatment) : void
+}
+
+class Treatment {
+    - name : String
+    - note : String
+    - date : LocalDate
+    - completed : boolean
+
+    + Treatment(name : String, note : String, Date : LocalDate)
+    + setCompleted(completed : boolean) : void
+}
+
+Storage -> PetList : has >
+PetList *-- Pet : has >
+Pet *-left- Treatment : has >
+Storage ..> Pet
+Storage ..> Treatment
+@enduml
