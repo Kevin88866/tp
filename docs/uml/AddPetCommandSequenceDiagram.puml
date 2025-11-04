@@ -5,7 +5,7 @@ participant ":CuddleCare" as CuddleCare
 participant ":AddPetCommand" as AddPetCommand
 participant ":PetList" as PetList
 participant ":Pet" as Pet
-participant ":Ui" as Ui
+participant "<<class>>\nUi" as Ui
 
 activate CuddleCare
 
@@ -25,9 +25,10 @@ note right: Returns error message if invalid\nnull if valid
 return validation : String
 
 alt validation != null
-    AddPetCommand -> Ui : printInvalidInputMessage(SYNTAX)
+    AddPetCommand ->> Ui : printInvalidInputMessage(SYNTAX)
     activate Ui
-    return message : String
+    return
+    AddPetCommand --> CuddleCare
 else valid input
     ' Create Pet object
     AddPetCommand -> Pet** : new(name, species, age)

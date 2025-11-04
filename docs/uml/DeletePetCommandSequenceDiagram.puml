@@ -4,7 +4,7 @@ title DeletePetCommand Sequence Diagram
 participant ":CuddleCare" as CuddleCare
 participant ":DeletePetCommand" as DeletePetCommand
 participant ":PetList" as PetList
-participant ":Ui" as Ui
+participant "<<class>>\nUi" as Ui
 
 activate CuddleCare
 
@@ -24,9 +24,10 @@ return petName : String
 
 ' if input was invalid
 alt petName == null ||petName.isEmpty()
-    DeletePetCommand -> Ui : printInvalidInputMessage(SYNTAX)
+    DeletePetCommand ->> Ui : printInvalidInputMessage(SYNTAX)
     activate Ui
-    return message : String
+    return
+    DeletePetCommand --> CuddleCare
 
 else else
     DeletePetCommand -> PetList : getPetByName(petName)
