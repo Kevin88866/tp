@@ -66,6 +66,11 @@ A pet with that name already exists.
 **Notes**
 
 * Name and species can be 1 or more words.
+* Name cannot be longer than 20 chars.
+* Species cannot be longer than 30 chars.
+* Age cannot be more than 200 years old.
+* Name and species cannot include anything except: A-Z, a-z,
+  hyphen and space
 * Each pet's name must be unique or user will have to re-enter
   (as seen above).
 * Age must be a number and is in units of years.
