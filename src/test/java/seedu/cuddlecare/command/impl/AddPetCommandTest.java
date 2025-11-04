@@ -99,7 +99,7 @@ public class AddPetCommandTest {
 
         command.exec("n/Fluffy");
         assertEquals(0, petList.size());
-        assertTrue(outContent.toString().contains("Invalid Syntax: " + syntax));
+        assertTrue(outContent.toString().contains("Invalid input. Usage: " + syntax));
     }
 
     @Test

@@ -3,6 +3,7 @@ package seedu.cuddlecare.command.impl;
 import seedu.cuddlecare.Pet;
 import seedu.cuddlecare.PetList;
 import seedu.cuddlecare.command.Command;
+import seedu.cuddlecare.ui.Ui;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -72,7 +73,7 @@ public class DeletePetCommand implements Command {
         String petName = getPetName(args);
 
         if (petName == null || petName.isEmpty()) {
-            System.out.printf("Invalid Syntax: %s%n", SYNTAX);
+            Ui.printInvalidInputMessage(SYNTAX);
             LOGGER.log(Level.WARNING, "Invalid Command Syntax");
             return;
         }
