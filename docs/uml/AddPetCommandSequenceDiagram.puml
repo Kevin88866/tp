@@ -25,7 +25,7 @@ note right: Returns error message if invalid\nnull if valid
 return validation : String
 
 alt validation != null
-    AddPetCommand ->> Ui : printInvalidInputMessage(SYNTAX)
+    AddPetCommand -> Ui : printInvalidInputMessage(SYNTAX)
     activate Ui
     return
     AddPetCommand --> CuddleCare
