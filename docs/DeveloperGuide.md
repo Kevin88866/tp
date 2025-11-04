@@ -213,7 +213,7 @@ edit-pet n/Tama a/12
 
 **Purpose**: Display all pets maintained in memory.
 
-**Command word**: `list pets`
+**Command word**: `list-pets`
 
 **Format**
 
