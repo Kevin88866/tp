@@ -24,7 +24,7 @@ return petName : String
 
 ' if input was invalid
 alt petName == null ||petName.isEmpty()
-    DeletePetCommand ->> Ui : printInvalidInputMessage(SYNTAX)
+    DeletePetCommand -> Ui : printInvalidInputMessage(SYNTAX)
     activate Ui
     return
     DeletePetCommand --> CuddleCare
